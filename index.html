@@ -12,7 +12,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Design System (With Logo)
+   S'B পাঠশালা — Design System (Final Complete Version)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -90,7 +90,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   padding: 1rem 0; gap: var(--space-4);
 }
 .brand { display: flex; align-items: center; gap: 12px; line-height: 1.1; cursor: pointer; }
-.brand-logo { width: 45px; height: 45px; object-fit: contain; } /* লোগোর সাইজ */
+.brand-logo { width: 45px; height: 45px; object-fit: contain; }
 .brand-text { display: flex; flex-direction: column; }
 .brand-bn { font-family: var(--font-bn-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-primary); }
 .brand-en { font-family: var(--font-en-serif); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-ink-soft); }
@@ -105,16 +105,85 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .hero-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-6); align-items: center; }
 .hero-eyebrow { font-family: var(--font-bn-sans); font-size: 0.9rem; letter-spacing: 0.1em; color: var(--color-accent); margin-bottom: var(--space-3); text-transform: uppercase; }
 .hero-title { font-family: var(--font-bn-serif); font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.15; color: var(--color-primary); margin-bottom: var(--space-4); }
-.hero-title em { font-style: italic; color: var(--color-accent); font-family: var(--font-en-serif); font-weight: 400; }
+
+/* "পৃথিবী" Font Style */
+.hero-title em { 
+  font-style: normal; 
+  color: var(--color-accent); 
+  font-family: var(--font-bn-serif); 
+  font-weight: 400; 
+  position: relative;
+  display: inline-block;
+}
+.hero-title em::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(184, 134, 11, 0.3);
+  z-index: -1;
+}
+
 .hero-subtitle { font-family: var(--font-bn-sans); font-size: 1.1rem; color: var(--color-ink-soft); margin-bottom: var(--space-3); max-width: 480px; }
 .hero-tagline-en { font-family: var(--font-en-serif); font-style: italic; font-size: 1.15rem; color: var(--color-gold); margin-bottom: var(--space-5); }
 .hero-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-.hero-visual { display: flex; justify-content: center; align-items: center; min-height: 400px; }
-.book-stack { position: relative; width: 280px; height: 380px; }
-.book-card { position: absolute; width: 220px; height: 320px; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); }
-.book-card-1 { background: var(--color-primary); top: 0; left: 30px; transform: rotate(-6deg); }
-.book-card-2 { background: var(--color-accent); top: 40px; left: 0; transform: rotate(4deg); }
-.book-card-3 { background: var(--color-gold); top: 30px; left: 60px; transform: rotate(-2deg); }
+
+/* UPDATED: 3D Book Stack in Hero (Only Images, No Text) */
+.hero-visual { display: flex; justify-content: center; align-items: center; min-height: 400px; position: relative; }
+.book-stack { 
+  position: relative; 
+  width: 350px; 
+  height: 450px; 
+  perspective: 1200px; 
+}
+.book-card {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  border-radius: 2px 6px 6px 2px;
+  box-shadow: -10px 10px 25px rgba(0,0,0,0.25), inset 3px 0 5px rgba(255,255,255,0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-left: 4px solid rgba(0,0,0,0.3); 
+  transform-style: preserve-3d;
+  overflow: hidden; 
+  background: var(--color-bg-alt);
+}
+
+/* শুধুমাত্র ছবি থাকবে, কোনো লেখা নেই */
+.book-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ৩টি বইয়ের 3D পজিশন */
+.book-card-1 { 
+  top: 80px;
+  left: 20px;
+  transform: rotateY(-15deg) rotateZ(-10deg);
+  z-index: 1;
+}
+.book-card-2 { 
+  top: 10px;
+  left: 80px;
+  transform: rotateY(-15deg) rotateZ(5deg);
+  z-index: 2;
+}
+.book-card-3 { 
+  top: 100px;
+  left: 140px;
+  transform: rotateY(-15deg) rotateZ(-2deg);
+  z-index: 3;
+}
+
+/* Hover Effect */
+.hero-visual:hover .book-card-1 { transform: rotateY(-15deg) rotateZ(-15deg) translateX(-20px) translateY(10px); }
+.hero-visual:hover .book-card-2 { transform: rotateY(-15deg) rotateZ(8deg) translateY(-10px); }
+.hero-visual:hover .book-card-3 { transform: rotateY(-15deg) rotateZ(-2deg) translateX(20px) translateY(5px); box-shadow: -15px 15px 35px rgba(0,0,0,0.35), inset 3px 0 5px rgba(255,255,255,0.2); }
+
 
 /* Sections */
 .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-5); }
@@ -123,7 +192,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .section-link:hover { text-decoration: underline; }
 .featured-books { padding: var(--space-7) 0; }
 
-/* Book Grid & 3D Covers */
+/* Book Grid & 3D Covers (Catalog - অক্ষত আছে) */
 .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-5); }
 .book-tile { transition: transform 0.3s ease; cursor: pointer; }
 .book-cover {
@@ -287,6 +356,11 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .plan-name { font-family: var(--font-bn-sans); font-size: 1rem; color: var(--color-ink-soft); margin-bottom: var(--space-2); }
 .plan-price { font-family: var(--font-bn-sans); font-size: 2.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-1); }
 .plan-price span { font-size: 1rem; font-weight: 400; color: var(--color-ink-soft); }
+
+/* ডিসকাউন্ট প্রাইস স্টাইল */
+.plan-price-old { font-family: var(--font-bn-sans); font-size: 1.1rem; text-decoration: line-through; color: #888; margin-right: 8px; }
+.plan-discount-badge { display: inline-block; background: rgba(184, 134, 11, 0.15); color: var(--color-gold); font-family: var(--font-bn-sans); font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: bold; margin-left: 5px; vertical-align: middle; }
+
 .plan-features { margin: var(--space-4) 0 var(--space-5); }
 .plan-features li { font-family: var(--font-bn-sans); font-size: 0.9rem; padding: 0.4rem 0; color: var(--color-ink-soft); }
 
@@ -355,7 +429,8 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 /* Responsive */
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-visual { min-height: 280px; order: -1; }
+  .hero-visual { min-height: 300px; margin-top: 2rem; }
+  .book-stack { transform: scale(0.9); }
   .subscription-inner { grid-template-columns: 1fr; }
   .book-detail-grid { grid-template-columns: 1fr; }
   .book-detail-cover { max-width: 280px; margin: 0 auto; }
@@ -405,6 +480,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
     <div class="container hero-inner">
       <div class="hero-text">
         <p class="hero-eyebrow">বইয়ের পাতায় খুঁজে নিন</p>
+        <!-- Updated Font Style Here -->
         <h1 class="hero-title">নতুন এক <em>পৃথিবী</em></h1>
         <p class="hero-subtitle">হাজারো বাংলা বই, একটি সাবস্ক্রিপশনে। পড়ুন যেকোনো সময়, যেকোনো ডিভাইসে।</p>
         <p class="hero-tagline-en">Discover a New World Between the Pages.</p>
@@ -413,11 +489,19 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
           <button class="btn btn-outline btn-lg" onclick="showPage('subscription')">সাবস্ক্রিপশন নিন</button>
         </div>
       </div>
+      
+      <!-- 3D Books in Hero (Only Images) -->
       <div class="hero-visual" aria-hidden="true">
         <div class="book-stack">
-          <div class="book-card book-card-1"></div>
-          <div class="book-card book-card-2"></div>
-          <div class="book-card book-card-3"></div>
+          <div class="book-card book-card-1">
+            <img src="devdas.jpg" alt="Book 1" />
+          </div>
+          <div class="book-card book-card-2">
+            <img src="pather-panchali.jpg" alt="Book 2" />
+          </div>
+          <div class="book-card book-card-3">
+            <img src="sesher-kobita.jpg" alt="Book 3" />
+          </div>
         </div>
       </div>
     </div>
@@ -571,14 +655,18 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       </div>
       <div class="plan-card featured">
         <p class="plan-name">বার্ষিক</p>
-        <p class="plan-price">৳ ১,৯৯৯<span>/বছর</span></p>
+        <div style="display: flex; align-items: baseline; margin-bottom: var(--space-1);">
+          <span class="plan-price-old">৳ ১,৯৯৯</span>
+          <span class="plan-price">৳ ১,৪৯৯<span>/বছর</span></span>
+          <span class="plan-discount-badge">২৫% ছাড়</span>
+        </div>
         <ul class="plan-features">
           <li>✓ সব মাসিক সুবিধা</li>
-          <li>✓ ২ মাস ফ্রি (১৭% সাশ্রয়)</li>
+          <li>✓ ৩ মাস ফ্রি (২৫% সাশ্রয়)</li>
           <li>✓ ডিজিটাল লাইব্রেরি অ্যাক্সেস</li>
           <li>✓ অগ্রাধিকার সহায়তা</li>
         </ul>
-        <button class="btn btn-primary btn-block" onclick="subscribe('বার্ষিক', 1999)">শুরু করুন</button>
+        <button class="btn btn-primary btn-block" onclick="subscribe('বার্ষিক', 1499)">শুরু করুন</button>
       </div>
       <div class="plan-card">
         <p class="plan-name">ছাত্র</p>
@@ -771,11 +859,9 @@ const BOOKS = [
 let state = {
   currentBook: null,
   user: JSON.parse(localStorage.getItem('sb_user') || 'null'),
-  // Load unlocked books from localStorage
   unlockedBooks: JSON.parse(localStorage.getItem('sb_unlocked') || '[]')
 };
 
-/* ----- Page Router ----- */
 function showPage(page) {
   document.querySelectorAll('main[id^="page-"]').forEach(m => m.classList.add('hidden'));
   const target = document.getElementById('page-' + page);
@@ -796,12 +882,10 @@ function getCoverUrl(book) {
   return `https://via.placeholder.com/300x450/${book.color || '1a3a2a'}/faf8f5?text=${encodeURIComponent(book.title)}`;
 }
 
-/* ----- Check if book is unlocked ----- */
 function isBookUnlocked(bookId) {
   return state.unlockedBooks.includes(bookId);
 }
 
-/* ----- Render Functions ----- */
 function renderFeatured() {
   const grid = document.getElementById('featuredGrid');
   grid.innerHTML = BOOKS.slice(0, 4).map(book => bookTileHTML(book)).join('');
@@ -860,7 +944,6 @@ function bindBookTiles() {
   });
 }
 
-/* ----- Book Detail Logic ----- */
 function openBookDetail(id) {
   const book = BOOKS.find(b => b.id === id);
   if (!book) return;
@@ -890,7 +973,6 @@ function openBookDetail(id) {
   document.getElementById('bdBadge').textContent = book.badge === 'new' ? 'নতুন' : 'ক্লাসিক';
   document.getElementById('bdBadge').className = 'badge ' + (book.badge === 'new' ? 'badge-gold' : 'badge-classic');
 
-  // Dynamic Action Buttons
   const actionsEl = document.getElementById('bdActions');
   if (isUnlocked) {
     actionsEl.innerHTML = `<button class="btn btn-primary btn-lg" onclick="openReader('${book.title}')">পড়া শুরু করুন →</button>`;
@@ -901,7 +983,6 @@ function openBookDetail(id) {
   showPage('book-detail');
 }
 
-/* ----- Payment Modal Flow ----- */
 function openPaymentModal(bookId) {
   const book = BOOKS.find(b => b.id === bookId);
   if (!book) return;
@@ -909,18 +990,15 @@ function openPaymentModal(bookId) {
   state.currentBook = book;
   const discPrice = Math.round(book.price * 0.50);
 
-  // Populate Modal Data
   document.getElementById('pmCover').src = getCoverUrl(book);
   document.getElementById('pmTitle').textContent = book.title;
   document.getElementById('pmPrice').textContent = '৳ ' + discPrice;
   document.getElementById('pmOriginal').textContent = '৳ ' + book.price;
 
-  // Reset Modal Steps
   document.getElementById('paymentStep1').classList.remove('hidden');
   document.getElementById('paymentStep2').classList.add('hidden');
   document.getElementById('paymentStep3').classList.add('hidden');
 
-  // Show Modal
   document.getElementById('paymentModal').classList.add('active');
 }
 
@@ -929,17 +1007,13 @@ function closePaymentModal() {
 }
 
 function processPayment() {
-  // Hide step 1, show loading
   document.getElementById('paymentStep1').classList.add('hidden');
   document.getElementById('paymentStep2').classList.remove('hidden');
 
-  // Simulate Payment Gateway delay (2.5 seconds)
   setTimeout(() => {
-    // Hide loading, show success
     document.getElementById('paymentStep2').classList.add('hidden');
     document.getElementById('paymentStep3').classList.remove('hidden');
     
-    // Unlock the book and save to localStorage
     if (!state.unlockedBooks.includes(state.currentBook.id)) {
       state.unlockedBooks.push(state.currentBook.id);
       localStorage.setItem('sb_unlocked', JSON.stringify(state.unlockedBooks));
@@ -949,7 +1023,6 @@ function processPayment() {
 
 function startReadingUnlocked() {
   closePaymentModal();
-  // Refresh detail page to show "Read" button instead of "Buy"
   openBookDetail(state.currentBook.id);
   showToast('বইটি সফলভাবে আনলক হয়েছে!');
 }
@@ -959,12 +1032,10 @@ function openReader(title) {
   showPage('reader');
 }
 
-/* ----- Subscribe ----- */
 function subscribe(plan, price) {
   showToast(`"${plan}" প্ল্যান (৳ ${price}) নির্বাচিত — শীঘ্রই পেমেন্ট পেজ যুক্ত হবে`);
 }
 
-/* ----- Auth (Mock) ----- */
 document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
@@ -1006,7 +1077,6 @@ function updateAuthUI() {
   }
 }
 
-/* ----- Reader Controls ----- */
 let fontSize = 1.15;
 let themeIdx = 0;
 const themes = ['', 'theme-sepia', 'theme-dark'];
@@ -1055,7 +1125,6 @@ window.addEventListener('scroll', () => {
   fill.style.width = pct + '%';
 });
 
-/* ----- Filters ----- */
 document.getElementById('filterBar').addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
@@ -1064,7 +1133,6 @@ document.getElementById('filterBar').addEventListener('click', (e) => {
   renderCatalog(chip.dataset.filter);
 });
 
-/* ----- Payment Method Selection in Modal ----- */
 document.querySelectorAll('.payment-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
@@ -1072,7 +1140,6 @@ document.querySelectorAll('.payment-option').forEach(opt => {
   });
 });
 
-/* ----- Toast ----- */
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -1081,7 +1148,6 @@ function showToast(msg) {
   window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
-/* ----- Init ----- */
 function init() {
   renderFeatured();
   updateAuthUI();
