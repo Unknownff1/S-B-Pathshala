@@ -44,6 +44,79 @@
   --shadow-lg: 0 12px 40px rgba(26,26,26,0.12);
   --container: 1200px;
 }
+/* Book Cover 3D Styles */
+.book-cover {
+  aspect-ratio: 2 / 3;
+  border-radius: 2px 6px 6px 2px; /* বাম দিক একটু সোজা, ডান দিক গোল */
+  background: var(--color-bg-alt);
+  margin-bottom: var(--space-3); 
+  position: relative;
+  /* 3D Perspective */
+  perspective: 1000px;
+  box-shadow: 
+    -5px 5px 15px rgba(0, 0, 0, 0.15), /* গাঢ় ছায়া */
+    inset 2px 0 5px rgba(255, 255, 255, 0.2); /* স্পাইনে হালকা আলো */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* বইয়ের মলাট/স্পাইন (Book Spine) */
+.book-cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(255,255,255,0.3) 100%);
+  border-radius: 2px 0 0 2px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* বইয়ের পাতা (Book Pages edge) */
+.book-cover::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 4px;
+  height: calc(100% - 4px);
+  background: repeating-linear-gradient(90deg, #f0f0f0, #f0f0f0 2px, #dcdcdc 2px, #dcdcdc 4px);
+  border-radius: 0 6px 6px 0;
+  transform: translateZ(-1px);
+  z-index: -1;
+}
+
+/* ইমেজ রেন্ডারিং */
+.book-cover img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  border-radius: 2px 6px 6px 2px;
+  transition: transform 0.5s ease; 
+  position: relative;
+  z-index: 1;
+}
+
+/* হোভার ইফেক্ট (Hover Effect) */
+.book-tile:hover .book-cover {
+  transform: rotateY(-12deg) rotateX(4deg) translateY(-8px) scale(1.02);
+  box-shadow: 
+    -15px 15px 25px rgba(0, 0, 0, 0.25), /* হোভারে ছায়া আরও বড় হবে */
+    inset 2px 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* কার্টে থাকা ছোট ইমেজেও 3D লুক */
+.cart-item-img {
+  width: 80px; 
+  height: 110px; 
+  object-fit: cover; 
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: -3px 3px 8px rgba(0,0,0,0.2);
+  position: relative;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
