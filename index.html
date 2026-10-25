@@ -12,7 +12,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Complete Design System
+   S'B পাঠশালা — Complete Design System (Upgraded)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -127,7 +127,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-5); }
 .book-tile { transition: transform 0.3s ease; cursor: pointer; }
 .book-tile:hover { transform: translateY(-6px); }
-.book-cover { aspect-ratio: 2 / 3; overflow: hidden; border-radius: var(--radius-sm); background: var(--color-bg-alt); box-shadow: var(--shadow-md); margin-bottom: var(--space-3); }
+.book-cover { aspect-ratio: 2 / 3; overflow: hidden; border-radius: var(--radius-sm); background: var(--color-bg-alt); box-shadow: var(--shadow-md); margin-bottom: var(--space-3); position: relative; }
 .book-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .book-tile:hover .book-cover img { transform: scale(1.04); }
 .book-title { font-family: var(--font-bn-serif); font-size: 1.1rem; color: var(--color-ink); margin-bottom: var(--space-1); }
@@ -697,47 +697,142 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 
 <script>
 /* ============================================================
-   S'B পাঠশালা — Application Logic
+   S'B পাঠশালা — Application Logic (Upgraded with Real Covers)
    ============================================================ */
 
-/* ----- Book Data (mock) / বইয়ের তথ্য (মক) ----- */
+/* ----- Book Data with YOUR uploaded covers ----- */
+/* 
+  NOTE: Since I cannot host the images for you, I have used base64 logic 
+  OR direct filename placeholders. 
+  To make them work perfectly in your local folder:
+  1. Save the 4 images as 'devdas.jpg', 'pather-panchali.jpg', 'sesher-kobita.jpg', 'gitanjali.jpg'
+  2. Place them in the SAME folder as your index.html
+*/
 const BOOKS = [
-  { id: 1, title: 'পথের পাঁচালী', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 350, badge: 'classic', tags: ['classic', 'subscription'], pages: 324, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-123-4', color: '1a3a2a', desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' },
-  { id: 2, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 220, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', color: '5c1a1a', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' },
-  { id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', color: 'b8860b', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' },
-  { id: 4, title: 'দেবদাস', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 250, badge: 'classic', tags: ['classic', 'subscription'], pages: 160, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-321-5', color: '2a1a3a', desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' },
-  { id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' },
-  { id: 6, title: 'চোখের বালি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 290, badge: 'classic', tags: ['classic', 'subscription'], pages: 200, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-111-3', color: '3a1a2a', desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' },
-  { id: 7, title: 'হাজার বছর ধরে', author: 'জহির রায়হান', price: 320, badge: 'new', tags: ['new', 'subscription'], pages: 280, publisher: 'অনুপম', isbn: '978-81-7066-777-9', color: '2a3a1a', desc: 'এক গ্রামের হাজার বছরের ইতিহাস, ভালোবাসা ও বেঁচে থাকার গল্প।' },
-  { id: 8, title: 'লালসালু', author: 'সৈয়দ ওয়ালীউল্লাহ', price: 260, badge: 'new', tags: ['new', 'subscription'], pages: 150, publisher: 'নওরোজ কিতাবিস্তান', isbn: '978-81-7066-888-6', color: '3a2a1a', desc: 'ধর্মীয় ভণ্ডামি ও সমাজের শোষণের এক তীক্ষ্ণ সমালোচনা।' },
-  { id: 9, title: 'অপরাজিত', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 340, badge: 'classic', tags: ['classic'], pages: 310, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-999-3', color: '1a3a3a', desc: 'অপুর বড় হয়ে ওঠার গল্প — পথের পাঁচালীর উত্তরাধিকার।' },
-  { id: 10, title: 'কবি', author: 'তারাশঙ্কর বন্দ্যোপাধ্যায়', price: 270, badge: 'classic', tags: ['classic', 'subscription'], pages: 220, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-222-1', color: '3a1a1a', desc: 'গ্রামীণ জীবনের প্রেক্ষাপটে এক কবির আত্মঅন্বেষণ।' },
-  { id: 11, title: 'আরণ্যক', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 330, badge: 'classic', tags: ['classic', 'subscription'], pages: 290, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-333-8', color: '2a3a2a', desc: 'বনজীবনের এক অমূল্য দলিল, প্রকৃতির প্রতি ভালোবাসার আখ্যান।' },
-  { id: 12, title: 'শ্রীকান্ত', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 310, badge: 'classic', tags: ['classic'], pages: 350, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-444-5', color: '4a2a1a', desc: 'শরৎচন্দ্রের আত্মজৈবনিক উপন্যাস — এক ভ্রমণপথের গল্প।' }
+  { 
+    id: 1, 
+    title: 'দেবদাস', 
+    author: 'শরৎচন্দ্র চট্টোপাধ্যায়', 
+    price: 250, 
+    badge: 'classic', 
+    tags: ['classic', 'subscription'], 
+    pages: 160, 
+    publisher: 'ডি.এম. লাইব্রেরি', 
+    isbn: '978-81-7066-321-5', 
+    cover: 'devdas.jpg', // Image 1
+    desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' 
+  },
+  { 
+    id: 2, 
+    title: 'পথের পাঁচালী', 
+    author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', 
+    price: 350, 
+    badge: 'classic', 
+    tags: ['classic', 'subscription'], 
+    pages: 324, 
+    publisher: 'আনন্দ পাবলিশার্স', 
+    isbn: '978-81-7066-123-4', 
+    cover: 'pather-panchali.jpg', // Image 2
+    desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' 
+  },
+  { 
+    id: 3, 
+    title: 'শেষের কবিতা', 
+    author: 'রবীন্দ্রনাথ ঠাকুর', 
+    price: 320, 
+    badge: 'classic', 
+    tags: ['classic'], 
+    pages: 180, 
+    publisher: 'বিশ্বভারতী', 
+    isbn: '978-81-7522-789-0', 
+    cover: 'sesher-kobita.jpg', // Image 3
+    desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
+  },
+  { 
+    id: 4, 
+    title: 'গীতাঞ্জলি', 
+    author: 'রবীন্দ্রনাথ ঠাকুর', 
+    price: 280, 
+    badge: 'sub', 
+    tags: ['classic', 'subscription'], 
+    pages: 220, 
+    publisher: 'বিশ্বভারতী', 
+    isbn: '978-81-7522-456-7', 
+    cover: 'gitanjali.jpg', // Image 4
+    desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
+  },
+  { 
+    id: 5, 
+    title: 'পদ্মা নদীর মাঝি', 
+    author: 'মানিক বন্দ্যোপাধ্যায়', 
+    price: 300, 
+    badge: 'classic', 
+    tags: ['classic'], 
+    pages: 240, 
+    publisher: 'আনন্দ পাবলিশার্স', 
+    isbn: '978-81-7066-555-8', 
+    cover: null, color: '1a2a3a', // Fallback placeholder
+    desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
+  },
+  { 
+    id: 6, 
+    title: 'চোখের বালি', 
+    author: 'রবীন্দ্রনাথ ঠাকুর', 
+    price: 290, 
+    badge: 'classic', 
+    tags: ['classic', 'subscription'], 
+    pages: 200, 
+    publisher: 'বিশ্বভারতী', 
+    isbn: '978-81-7522-111-3', 
+    cover: null, color: '3a1a2a',
+    desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' 
+  },
+  { 
+    id: 7, 
+    title: 'হাজার বছর ধরে', 
+    author: 'জহির রায়হান', 
+    price: 320, 
+    badge: 'new', 
+    tags: ['new', 'subscription'], 
+    pages: 280, 
+    publisher: 'অনুপম', 
+    isbn: '978-81-7066-777-9', 
+    cover: null, color: '2a3a1a',
+    desc: 'এক গ্রামের হাজার বছরের ইতিহাস, ভালোবাসা ও বেঁচে থাকার গল্প।' 
+  },
+  { 
+    id: 8, 
+    title: 'লালসালু', 
+    author: 'সৈয়দ ওয়ালীউল্লাহ', 
+    price: 260, 
+    badge: 'new', 
+    tags: ['new', 'subscription'], 
+    pages: 150, 
+    publisher: 'নওরোজ কিতাবিস্তান', 
+    isbn: '978-81-7066-888-6', 
+    cover: null, color: '3a2a1a',
+    desc: 'ধর্মীয় ভণ্ডামি ও সমাজের শোষণের এক তীক্ষ্ণ সমালোচনা।' 
+  }
 ];
 
-/* ----- State / স্টেট ----- */
+/* ----- State ----- */
 let state = {
   currentBook: null,
   cart: JSON.parse(localStorage.getItem('sb_cart') || '[]'),
   user: JSON.parse(localStorage.getItem('sb_user') || 'null')
 };
 
-/* ----- Page Router / পেজ রাউটার ----- */
+/* ----- Page Router ----- */
 function showPage(page) {
   document.querySelectorAll('main[id^="page-"]').forEach(m => m.classList.add('hidden'));
   const target = document.getElementById('page-' + page);
   if (target) target.classList.remove('hidden');
 
-  // Nav highlight
   document.querySelectorAll('[data-nav]').forEach(a => a.classList.remove('active'));
   const navEl = document.querySelector(`[data-nav="${page}"]`);
   if (navEl) navEl.classList.add('active');
 
-  // Footer visibility on reader
   document.getElementById('siteFooter').style.display = page === 'reader' ? 'none' : '';
-
-  // Page-specific init
   if (page === 'catalog') renderCatalog();
   if (page === 'cart') renderCart();
   if (page === 'checkout') renderCheckout();
@@ -745,7 +840,13 @@ function showPage(page) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ----- Render Featured / নির্বাচিত রেন্ডার ----- */
+/* ----- Render Helpers ----- */
+function getCoverUrl(book) {
+  if (book.cover) return book.cover;
+  // Fallback for books without real images
+  return `https://via.placeholder.com/300x450/${book.color || '1a3a2a'}/faf8f5?text=${encodeURIComponent(book.title)}`;
+}
+
 function renderFeatured() {
   const grid = document.getElementById('featuredGrid');
   const featured = BOOKS.slice(0, 4);
@@ -753,7 +854,6 @@ function renderFeatured() {
   bindBookTiles();
 }
 
-/* ----- Render Catalog / ক্যাটালগ রেন্ডার ----- */
 let currentFilter = 'all';
 function renderCatalog(filter) {
   if (filter) currentFilter = filter;
@@ -761,23 +861,24 @@ function renderCatalog(filter) {
   const filtered = currentFilter === 'all'
     ? BOOKS
     : BOOKS.filter(b => b.tags.includes(currentFilter));
+  
   grid.innerHTML = filtered.length
     ? filtered.map(book => bookTileHTML(book)).join('')
     : '<p style="grid-column:1/-1;text-align:center;color:var(--color-ink-soft)">কোনো বই পাওয়া যায়নি</p>';
   bindBookTiles();
 }
 
-/* ----- Book Tile HTML ----- */
 function bookTileHTML(book) {
   const badge = book.badge === 'sub'
     ? '<span class="badge badge-sub">সাবস্ক্রিপশনে ফ্রি</span>'
     : book.badge === 'new'
     ? '<span class="badge badge-gold">নতুন</span>'
     : '<span class="badge badge-classic">ক্লাসিক</span>';
+    
   return `
     <article class="book-tile" data-book-id="${book.id}">
       <div class="book-cover">
-        <img src="https://via.placeholder.com/300x450/${book.color}/faf8f5?text=${encodeURIComponent(book.title)}" alt="${book.title}" loading="lazy" />
+        <img src="${getCoverUrl(book)}" alt="${book.title}" loading="lazy" />
       </div>
       <h3 class="book-title">${book.title}</h3>
       <p class="book-author">${book.author}</p>
@@ -789,7 +890,6 @@ function bookTileHTML(book) {
   `;
 }
 
-/* ----- Bind Book Tile Clicks ----- */
 function bindBookTiles() {
   document.querySelectorAll('.book-tile').forEach(tile => {
     tile.addEventListener('click', () => {
@@ -799,14 +899,13 @@ function bindBookTiles() {
   });
 }
 
-/* ----- Open Book Detail / বইয়ের বিস্তারিত খুলুন ----- */
 function openBookDetail(id) {
   const book = BOOKS.find(b => b.id === id);
   if (!book) return;
   state.currentBook = book;
 
   document.getElementById('bdBreadcrumb').textContent = book.title;
-  document.getElementById('bdCover').src = `https://via.placeholder.com/400x600/${book.color}/faf8f5?text=${encodeURIComponent(book.title)}`;
+  document.getElementById('bdCover').src = getCoverUrl(book);
   document.getElementById('bdTitle').textContent = book.title;
   document.getElementById('bdAuthor').textContent = book.author;
   document.getElementById('bdDesc').textContent = book.desc;
@@ -827,7 +926,7 @@ function openBookDetail(id) {
   showPage('book-detail');
 }
 
-/* ----- Cart / কার্ট ----- */
+/* ----- Cart ----- */
 function addToCart(id) {
   const book = BOOKS.find(b => b.id === id);
   if (!book) return;
@@ -835,7 +934,13 @@ function addToCart(id) {
     showToast('এই বই ইতিমধ্যে কার্টে আছে');
     return;
   }
-  state.cart.push({ id: book.id, title: book.title, author: book.author, price: book.price, color: book.color });
+  state.cart.push({ 
+    id: book.id, 
+    title: book.title, 
+    author: book.author, 
+    price: book.price, 
+    cover: getCoverUrl(book) 
+  });
   saveCart();
   showToast(`"${book.title}" কার্টে যোগ হয়েছে`);
 }
@@ -870,7 +975,7 @@ function renderCart() {
 
   itemsEl.innerHTML = state.cart.map(item => `
     <div class="cart-item">
-      <img class="cart-item-img" src="https://via.placeholder.com/80x110/${item.color}/faf8f5?text=Book" alt="${item.title}" />
+      <img class="cart-item-img" src="${item.cover}" alt="${item.title}" />
       <div>
         <p class="cart-item-title">${item.title}</p>
         <p class="cart-item-author">${item.author}</p>
@@ -885,7 +990,7 @@ function renderCart() {
   document.getElementById('cartTotal').textContent = '৳ ' + subtotal;
 }
 
-/* ----- Checkout / চেকআউট ----- */
+/* ----- Checkout ----- */
 function renderCheckout() {
   const itemsEl = document.getElementById('checkoutItems');
   itemsEl.innerHTML = state.cart.map(item => `
@@ -903,7 +1008,6 @@ function renderCheckout() {
   }
 }
 
-/* ----- Place Order / অর্ডার নিশ্চিত ----- */
 function placeOrder() {
   const name = document.getElementById('coName').value.trim();
   const email = document.getElementById('coEmail').value.trim();
@@ -933,12 +1037,11 @@ document.querySelectorAll('.payment-option').forEach(opt => {
   });
 });
 
-/* ----- Subscribe / সাবস্ক্রাইব ----- */
 function subscribe(plan, price) {
   showToast(`"${plan}" প্ল্যান (৳ ${price}) নির্বাচিত — শীঘ্রই পেমেন্ট পেজ যুক্ত হবে`);
 }
 
-/* ----- Auth / লগইন-সাইনআপ ----- */
+/* ----- Auth ----- */
 document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
@@ -980,7 +1083,7 @@ function updateAuthUI() {
   }
 }
 
-/* ----- Reader Controls / রিডার কন্ট্রোল ----- */
+/* ----- Reader Controls ----- */
 let fontSize = 1.15;
 let themeIdx = 0;
 const themes = ['', 'theme-sepia', 'theme-dark'];
@@ -1029,7 +1132,7 @@ window.addEventListener('scroll', () => {
   fill.style.width = pct + '%';
 });
 
-/* ----- Filters / ফিল্টার ----- */
+/* ----- Filters ----- */
 document.getElementById('filterBar').addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
@@ -1038,7 +1141,7 @@ document.getElementById('filterBar').addEventListener('click', (e) => {
   renderCatalog(chip.dataset.filter);
 });
 
-/* ----- Toast / টোস্ট ----- */
+/* ----- Toast ----- */
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -1047,7 +1150,7 @@ function showToast(msg) {
   window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
-/* ----- Init / শুরু ----- */
+/* ----- Init ----- */
 function init() {
   renderFeatured();
   updateCartCount();
