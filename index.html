@@ -12,7 +12,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Design System (Buy & Unlock Edition)
+   S'B পাঠশালা — Design System (With Logo)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -80,7 +80,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .btn-gold { background: var(--color-gold); color: var(--color-white); }
 .btn-gold:hover { background: #a37409; }
 
-/* Header */
+/* Header & Logo */
 .site-header {
   position: sticky; top: 0; z-index: 100;
   background: var(--color-bg); border-bottom: 1px solid var(--color-border);
@@ -89,9 +89,12 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 1rem 0; gap: var(--space-4);
 }
-.brand { display: flex; flex-direction: column; line-height: 1.1; cursor: pointer; }
+.brand { display: flex; align-items: center; gap: 12px; line-height: 1.1; cursor: pointer; }
+.brand-logo { width: 45px; height: 45px; object-fit: contain; } /* লোগোর সাইজ */
+.brand-text { display: flex; flex-direction: column; }
 .brand-bn { font-family: var(--font-bn-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-primary); }
 .brand-en { font-family: var(--font-en-serif); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-ink-soft); }
+
 .main-nav { display: flex; gap: var(--space-4); font-family: var(--font-bn-sans); font-size: 0.95rem; }
 .main-nav a { padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
 .main-nav a:hover, .main-nav a.active { border-bottom-color: var(--color-gold); }
@@ -375,10 +378,15 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 <!-- ============ HEADER ============ -->
 <header class="site-header">
   <div class="container header-inner">
+    <!-- Logo Added Here -->
     <div class="brand" onclick="showPage('home')">
-      <span class="brand-bn">S'B পাঠশালা</span>
-      <span class="brand-en">Pathshala</span>
+      <img src="logo.png" alt="S'B পাঠশালা লোগো" class="brand-logo" />
+      <div class="brand-text">
+        <span class="brand-bn">S'B পাঠশালা</span>
+        <span class="brand-en">Pathshala</span>
+      </div>
     </div>
+    
     <nav class="main-nav" id="mainNav">
       <a onclick="showPage('home')" data-nav="home">হোম</a>
       <a onclick="showPage('catalog')" data-nav="catalog">বইয়ের তালিকা</a>
