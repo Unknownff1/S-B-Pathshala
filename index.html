@@ -12,7 +12,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Complete Design System (Upgraded)
+   S'B পাঠশালা — Complete Design System (Digital Library Edition)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -43,79 +43,6 @@
   --shadow-md: 0 4px 16px rgba(26,26,26,0.08);
   --shadow-lg: 0 12px 40px rgba(26,26,26,0.12);
   --container: 1200px;
-}
-/* Book Cover 3D Styles */
-.book-cover {
-  aspect-ratio: 2 / 3;
-  border-radius: 2px 6px 6px 2px; /* বাম দিক একটু সোজা, ডান দিক গোল */
-  background: var(--color-bg-alt);
-  margin-bottom: var(--space-3); 
-  position: relative;
-  /* 3D Perspective */
-  perspective: 1000px;
-  box-shadow: 
-    -5px 5px 15px rgba(0, 0, 0, 0.15), /* গাঢ় ছায়া */
-    inset 2px 0 5px rgba(255, 255, 255, 0.2); /* স্পাইনে হালকা আলো */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-  transform-style: preserve-3d;
-  cursor: pointer;
-}
-
-/* বইয়ের মলাট/স্পাইন (Book Spine) */
-.book-cover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 100%;
-  background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(255,255,255,0.3) 100%);
-  border-radius: 2px 0 0 2px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* বইয়ের পাতা (Book Pages edge) */
-.book-cover::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  right: 0;
-  width: 4px;
-  height: calc(100% - 4px);
-  background: repeating-linear-gradient(90deg, #f0f0f0, #f0f0f0 2px, #dcdcdc 2px, #dcdcdc 4px);
-  border-radius: 0 6px 6px 0;
-  transform: translateZ(-1px);
-  z-index: -1;
-}
-
-/* ইমেজ রেন্ডারিং */
-.book-cover img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  border-radius: 2px 6px 6px 2px;
-  transition: transform 0.5s ease; 
-  position: relative;
-  z-index: 1;
-}
-
-/* হোভার ইফেক্ট (Hover Effect) */
-.book-tile:hover .book-cover {
-  transform: rotateY(-12deg) rotateX(4deg) translateY(-8px) scale(1.02);
-  box-shadow: 
-    -15px 15px 25px rgba(0, 0, 0, 0.25), /* হোভারে ছায়া আরও বড় হবে */
-    inset 2px 0 5px rgba(255, 255, 255, 0.2);
-}
-
-/* কার্টে থাকা ছোট ইমেজেও 3D লুক */
-.cart-item-img {
-  width: 80px; 
-  height: 110px; 
-  object-fit: cover; 
-  border-radius: 2px 4px 4px 2px;
-  box-shadow: -3px 3px 8px rgba(0,0,0,0.2);
-  position: relative;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -196,17 +123,45 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .section-link:hover { text-decoration: underline; }
 .featured-books { padding: var(--space-7) 0; }
 
-/* Book Grid */
+/* Book Grid & 3D Covers */
 .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-5); }
 .book-tile { transition: transform 0.3s ease; cursor: pointer; }
-.book-tile:hover { transform: translateY(-6px); }
-.book-cover { aspect-ratio: 2 / 3; overflow: hidden; border-radius: var(--radius-sm); background: var(--color-bg-alt); box-shadow: var(--shadow-md); margin-bottom: var(--space-3); position: relative; }
-.book-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.book-tile:hover .book-cover img { transform: scale(1.04); }
+.book-cover {
+  aspect-ratio: 2 / 3;
+  border-radius: 2px 6px 6px 2px;
+  background: var(--color-bg-alt);
+  margin-bottom: var(--space-3); 
+  position: relative;
+  perspective: 1000px;
+  box-shadow: 
+    -5px 5px 15px rgba(0, 0, 0, 0.15),
+    inset 2px 0 5px rgba(255, 255, 255, 0.2);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+.book-cover::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 12px; height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(255,255,255,0.3) 100%);
+  border-radius: 2px 0 0 2px; z-index: 2; pointer-events: none;
+}
+.book-cover::after {
+  content: '';
+  position: absolute; top: 2px; right: 0; width: 4px; height: calc(100% - 4px);
+  background: repeating-linear-gradient(90deg, #f0f0f0, #f0f0f0 2px, #dcdcdc 2px, #dcdcdc 4px);
+  border-radius: 0 6px 6px 0; transform: translateZ(-1px); z-index: -1;
+}
+.book-cover img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px 6px 6px 2px; position: relative; z-index: 1; }
+.book-tile:hover .book-cover {
+  transform: rotateY(-12deg) rotateX(4deg) translateY(-8px) scale(1.02);
+  box-shadow: -15px 15px 25px rgba(0, 0, 0, 0.25), inset 2px 0 5px rgba(255, 255, 255, 0.2);
+}
+
 .book-title { font-family: var(--font-bn-serif); font-size: 1.1rem; color: var(--color-ink); margin-bottom: var(--space-1); }
 .book-author { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); margin-bottom: var(--space-2); }
-.book-price-row { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
-.book-price { font-family: var(--font-bn-sans); font-weight: 600; color: var(--color-accent); }
+.book-price-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
 .badge { display: inline-block; font-family: var(--font-bn-sans); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 500; }
 .badge-classic { background: rgba(92,26,26,0.1); color: var(--color-accent); }
 .badge-sub { background: rgba(26,58,42,0.1); color: var(--color-primary); }
@@ -329,10 +284,9 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .cart-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-6); }
 .cart-items { display: flex; flex-direction: column; gap: var(--space-3); }
 .cart-item { display: grid; grid-template-columns: 80px 1fr auto; gap: var(--space-3); align-items: center; background: var(--color-white); padding: var(--space-3); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
-.cart-item-img { width: 80px; height: 110px; object-fit: cover; border-radius: var(--radius-sm); }
+.cart-item-img { width: 80px; height: 110px; object-fit: cover; border-radius: 2px 4px 4px 2px; box-shadow: -3px 3px 8px rgba(0,0,0,0.2); position: relative; }
 .cart-item-title { font-family: var(--font-bn-serif); font-size: 1.05rem; margin-bottom: 0.2rem; }
 .cart-item-author { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
-.cart-item-price { font-family: var(--font-bn-sans); font-weight: 600; color: var(--color-accent); }
 .remove-btn { font-family: var(--font-bn-sans); font-size: 0.8rem; color: var(--color-accent); margin-top: 0.3rem; cursor: pointer; text-decoration: underline; }
 .cart-summary { background: var(--color-white); padding: var(--space-5); border-radius: var(--radius-md); box-shadow: var(--shadow-md); height: fit-content; position: sticky; top: 100px; }
 .cart-summary h3 { font-family: var(--font-bn-serif); font-size: 1.3rem; color: var(--color-primary); margin-bottom: var(--space-4); }
@@ -452,7 +406,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
         <ul>
           <li>✓ হাজারো বাংলা বই</li>
           <li>✓ যেকোনো ডিভাইসে পড়ুন</li>
-          <li>✓ অফলাইনে পড়ার সুবিধা</li>
+          <li>✓ ডিজিটাল অ্যাক্সেস</li>
           <li>✓ বিজ্ঞাপনমুক্ত অভিজ্ঞতা</li>
         </ul>
       </div>
@@ -583,7 +537,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
         <ul class="plan-features">
           <li>✓ সব মাসিক সুবিধা</li>
           <li>✓ ২ মাস ফ্রি (১৭% সাশ্রয়)</li>
-          <li>✓ অফলাইনে পড়ার সুবিধা</li>
+          <li>✓ ডিজিটাল লাইব্রেরি অ্যাক্সেস</li>
           <li>✓ অগ্রাধিকার সহায়তা</li>
         </ul>
         <button class="btn btn-primary btn-block" onclick="subscribe('বার্ষিক', 1999)">শুরু করুন</button>
@@ -667,7 +621,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       <div class="cart-summary">
         <h3>অর্ডার সারাংশ</h3>
         <div class="summary-row"><span>সাবটোটাল</span><span id="cartSubtotal">৳ ০</span></div>
-        <div class="summary-row"><span>ডেলিভারি</span><span>ফ্রি</span></div>
+        <div class="summary-row"><span>ডিজিটাল অ্যাক্সেস</span><span>ইনস্ট্যান্ট</span></div>
         <div class="summary-row total"><span>মোট</span><span id="cartTotal">৳ ০</span></div>
         <button class="btn btn-primary btn-block btn-lg" style="margin-top:1.2rem" onclick="showPage('checkout')">চেকআউটে যান</button>
       </div>
@@ -723,7 +677,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
         <h3>অর্ডার সারাংশ</h3>
         <div id="checkoutItems"></div>
         <div class="summary-row"><span>সাবটোটাল</span><span id="coSubtotal">৳ ০</span></div>
-        <div class="summary-row"><span>ডেলিভারি</span><span>ফ্রি</span></div>
+        <div class="summary-row"><span>ডিজিটাল অ্যাক্সেস</span><span>ইনস্ট্যান্ট</span></div>
         <div class="summary-row total"><span>মোট</span><span id="coTotal">৳ ০</span></div>
       </div>
     </div>
@@ -770,17 +724,9 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 
 <script>
 /* ============================================================
-   S'B পাঠশালা — Application Logic (Upgraded with Real Covers)
+   S'B পাঠশালা — Application Logic (Digital Library Edition)
    ============================================================ */
 
-/* ----- Book Data with YOUR uploaded covers ----- */
-/* 
-  NOTE: Since I cannot host the images for you, I have used base64 logic 
-  OR direct filename placeholders. 
-  To make them work perfectly in your local folder:
-  1. Save the 4 images as 'devdas.jpg', 'pather-panchali.jpg', 'sesher-kobita.jpg', 'gitanjali.jpg'
-  2. Place them in the SAME folder as your index.html
-*/
 const BOOKS = [
   { 
     id: 1, 
@@ -792,7 +738,7 @@ const BOOKS = [
     pages: 160, 
     publisher: 'ডি.এম. লাইব্রেরি', 
     isbn: '978-81-7066-321-5', 
-    cover: 'devdas.jpg', // Image 1
+    cover: 'devdas.jpg',
     desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' 
   },
   { 
@@ -805,7 +751,7 @@ const BOOKS = [
     pages: 324, 
     publisher: 'আনন্দ পাবলিশার্স', 
     isbn: '978-81-7066-123-4', 
-    cover: 'pather-panchali.jpg', // Image 2
+    cover: 'pather-panchali.jpg',
     desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' 
   },
   { 
@@ -818,7 +764,7 @@ const BOOKS = [
     pages: 180, 
     publisher: 'বিশ্বভারতী', 
     isbn: '978-81-7522-789-0', 
-    cover: 'sesher-kobita.jpg', // Image 3
+    cover: 'sesher-kobita.jpg',
     desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
   },
   { 
@@ -831,7 +777,7 @@ const BOOKS = [
     pages: 220, 
     publisher: 'বিশ্বভারতী', 
     isbn: '978-81-7522-456-7', 
-    cover: 'gitanjali.jpg', // Image 4
+    cover: 'gitanjali.jpg',
     desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
   },
   { 
@@ -844,7 +790,7 @@ const BOOKS = [
     pages: 240, 
     publisher: 'আনন্দ পাবলিশার্স', 
     isbn: '978-81-7066-555-8', 
-    cover: null, color: '1a2a3a', // Fallback placeholder
+    cover: null, color: '1a2a3a',
     desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
   },
   { 
@@ -888,14 +834,12 @@ const BOOKS = [
   }
 ];
 
-/* ----- State ----- */
 let state = {
   currentBook: null,
   cart: JSON.parse(localStorage.getItem('sb_cart') || '[]'),
   user: JSON.parse(localStorage.getItem('sb_user') || 'null')
 };
 
-/* ----- Page Router ----- */
 function showPage(page) {
   document.querySelectorAll('main[id^="page-"]').forEach(m => m.classList.add('hidden'));
   const target = document.getElementById('page-' + page);
@@ -913,10 +857,8 @@ function showPage(page) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ----- Render Helpers ----- */
 function getCoverUrl(book) {
   if (book.cover) return book.cover;
-  // Fallback for books without real images
   return `https://via.placeholder.com/300x450/${book.color || '1a3a2a'}/faf8f5?text=${encodeURIComponent(book.title)}`;
 }
 
@@ -948,7 +890,6 @@ function bookTileHTML(book) {
     ? '<span class="badge badge-gold">নতুন</span>'
     : '<span class="badge badge-classic">ক্লাসিক</span>';
     
-  // Calculate 50% discount
   const discountedPrice = Math.round(book.price * 0.50);
     
   return `
@@ -958,7 +899,7 @@ function bookTileHTML(book) {
       </div>
       <h3 class="book-title">${book.title}</h3>
       <p class="book-author">${book.author}</p>
-      <div class="book-price-row" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <div class="book-price-row">
         <span class="book-price" style="text-decoration: line-through; color: #888; font-size: 0.9rem; font-weight: normal;">
           ৳ ${book.price}
         </span>
@@ -970,6 +911,7 @@ function bookTileHTML(book) {
     </article>
   `;
 }
+
 function bindBookTiles() {
   document.querySelectorAll('.book-tile').forEach(tile => {
     tile.addEventListener('click', () => {
@@ -988,12 +930,14 @@ function openBookDetail(id) {
   document.getElementById('bdCover').src = getCoverUrl(book);
   document.getElementById('bdTitle').textContent = book.title;
   document.getElementById('bdAuthor').textContent = book.author;
+  document.getElementById('bdDesc').textContent = book.desc;
+  
   const discPrice = Math.round(book.price * 0.50);
-document.getElementById('bdPrice').innerHTML = `
-  <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; margin-right: 10px;">৳ ${book.price}</span>
-  ৳ ${discPrice} (50% Off)
-`;
-  document.getElementById('bdPrice').textContent = '৳ ' + book.price;
+  document.getElementById('bdPrice').innerHTML = `
+    <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; margin-right: 10px;">৳ ${book.price}</span>
+    ৳ ${discPrice} (50% Off)
+  `;
+  
   document.getElementById('bdPages').textContent = book.pages;
   document.getElementById('bdPublisher').textContent = book.publisher;
   document.getElementById('bdIsbn').textContent = book.isbn;
@@ -1010,7 +954,6 @@ document.getElementById('bdPrice').innerHTML = `
   showPage('book-detail');
 }
 
-/* ----- Cart ----- */
 function addToCart(id) {
   const book = BOOKS.find(b => b.id === id);
   if (!book) return;
@@ -1022,8 +965,8 @@ function addToCart(id) {
     id: book.id, 
     title: book.title, 
     author: book.author, 
-    price: Math.round(book.price * 0.50), // Store discounted price in cart
-originalPrice: book.price, 
+    price: Math.round(book.price * 0.50),
+    originalPrice: book.price,
     cover: getCoverUrl(book) 
   });
   saveCart();
@@ -1067,10 +1010,10 @@ function renderCart() {
         <a class="remove-btn" onclick="removeFromCart(${item.id})">সরান</a>
       </div>
       <div style="text-align: right;">
-  <span class="cart-item-price" style="font-weight: bold; color: var(--color-accent);">৳ ${item.price}</span>
-  <br>
-  <span style="text-decoration: line-through; color: #888; font-size: 0.8rem;">৳ ${item.originalPrice}</span>
-</div>
+        <span class="cart-item-price" style="font-weight: bold; color: var(--color-accent); font-size: 1.1rem;">৳ ${item.price}</span>
+        <br>
+        <span style="text-decoration: line-through; color: #888; font-size: 0.8rem;">৳ ${item.originalPrice}</span>
+      </div>
     </div>
   `).join('');
 
@@ -1079,7 +1022,6 @@ function renderCart() {
   document.getElementById('cartTotal').textContent = '৳ ' + subtotal;
 }
 
-/* ----- Checkout ----- */
 function renderCheckout() {
   const itemsEl = document.getElementById('checkoutItems');
   itemsEl.innerHTML = state.cart.map(item => `
@@ -1113,12 +1055,11 @@ function placeOrder() {
     saveCart();
     btn.disabled = false;
     btn.textContent = 'অর্ডার নিশ্চিত করুন';
-    showToast('✓ অর্ডার সফল! কনফার্মেশন ইমেইল পাঠানো হয়েছে।');
-    setTimeout(() => showPage('home'), 1800);
+    showToast('✓ অর্ডার সফল! আপনি এখন ওয়েবসাইটে বইটি পড়তে পারবেন।');
+    setTimeout(() => showPage('catalog'), 1800);
   }, 1500);
 }
 
-/* ----- Payment method selection ----- */
 document.querySelectorAll('.payment-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
@@ -1130,7 +1071,6 @@ function subscribe(plan, price) {
   showToast(`"${plan}" প্ল্যান (৳ ${price}) নির্বাচিত — শীঘ্রই পেমেন্ট পেজ যুক্ত হবে`);
 }
 
-/* ----- Auth ----- */
 document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
@@ -1172,7 +1112,6 @@ function updateAuthUI() {
   }
 }
 
-/* ----- Reader Controls ----- */
 let fontSize = 1.15;
 let themeIdx = 0;
 const themes = ['', 'theme-sepia', 'theme-dark'];
@@ -1221,7 +1160,6 @@ window.addEventListener('scroll', () => {
   fill.style.width = pct + '%';
 });
 
-/* ----- Filters ----- */
 document.getElementById('filterBar').addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
@@ -1230,7 +1168,6 @@ document.getElementById('filterBar').addEventListener('click', (e) => {
   renderCatalog(chip.dataset.filter);
 });
 
-/* ----- Toast ----- */
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -1239,7 +1176,6 @@ function showToast(msg) {
   window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
-/* ----- Init ----- */
 function init() {
   renderFeatured();
   updateCartCount();
