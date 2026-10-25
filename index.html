@@ -12,7 +12,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Complete Design System (Digital Library Edition)
+   S'B পাঠশালা — Design System (Buy & Unlock Edition)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -77,6 +77,8 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .btn-ghost:hover { color: var(--color-primary); }
 .btn-lg { padding: 0.9rem 2rem; font-size: 1rem; }
 .btn-block { width: 100%; }
+.btn-gold { background: var(--color-gold); color: var(--color-white); }
+.btn-gold:hover { background: #a37409; }
 
 /* Header */
 .site-header {
@@ -94,11 +96,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .main-nav a { padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
 .main-nav a:hover, .main-nav a.active { border-bottom-color: var(--color-gold); }
 .header-actions { display: flex; align-items: center; gap: var(--space-2); }
-.cart-count {
-  background: var(--color-accent); color: var(--color-white);
-  font-family: var(--font-bn-sans); font-size: 0.7rem; font-weight: 600;
-  padding: 0.1rem 0.4rem; border-radius: 999px; margin-left: 0.3rem;
-}
 
 /* Hero */
 .hero { padding: var(--space-8) 0; background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%); overflow: hidden; }
@@ -133,17 +130,14 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   margin-bottom: var(--space-3); 
   position: relative;
   perspective: 1000px;
-  box-shadow: 
-    -5px 5px 15px rgba(0, 0, 0, 0.15),
-    inset 2px 0 5px rgba(255, 255, 255, 0.2);
+  box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.15), inset 2px 0 5px rgba(255, 255, 255, 0.2);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
   transform-style: preserve-3d;
   overflow: hidden;
 }
 .book-cover::before {
   content: '';
-  position: absolute;
-  top: 0; left: 0; width: 12px; height: 100%;
+  position: absolute; top: 0; left: 0; width: 12px; height: 100%;
   background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(255,255,255,0.3) 100%);
   border-radius: 2px 0 0 2px; z-index: 2; pointer-events: none;
 }
@@ -157,6 +151,21 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .book-tile:hover .book-cover {
   transform: rotateY(-12deg) rotateX(4deg) translateY(-8px) scale(1.02);
   box-shadow: -15px 15px 25px rgba(0, 0, 0, 0.25), inset 2px 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* Unlocked Badge on Cover */
+.book-cover .unlocked-badge {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(26, 58, 42, 0.9);
+  color: var(--color-white);
+  font-family: var(--font-bn-sans);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+  box-shadow: var(--shadow-sm);
 }
 
 .book-title { font-family: var(--font-bn-serif); font-size: 1.1rem; color: var(--color-ink); margin-bottom: var(--space-1); }
@@ -278,38 +287,64 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .plan-features { margin: var(--space-4) 0 var(--space-5); }
 .plan-features li { font-family: var(--font-bn-sans); font-size: 0.9rem; padding: 0.4rem 0; color: var(--color-ink-soft); }
 
-/* Cart & Checkout */
-.cart-page, .checkout-page { padding: var(--space-6) 0 var(--space-7); min-height: 60vh; }
-.cart-title, .checkout-title { font-family: var(--font-bn-serif); font-size: 2.2rem; color: var(--color-primary); margin-bottom: var(--space-5); }
-.cart-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-6); }
-.cart-items { display: flex; flex-direction: column; gap: var(--space-3); }
-.cart-item { display: grid; grid-template-columns: 80px 1fr auto; gap: var(--space-3); align-items: center; background: var(--color-white); padding: var(--space-3); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
-.cart-item-img { width: 80px; height: 110px; object-fit: cover; border-radius: 2px 4px 4px 2px; box-shadow: -3px 3px 8px rgba(0,0,0,0.2); position: relative; }
-.cart-item-title { font-family: var(--font-bn-serif); font-size: 1.05rem; margin-bottom: 0.2rem; }
-.cart-item-author { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
-.remove-btn { font-family: var(--font-bn-sans); font-size: 0.8rem; color: var(--color-accent); margin-top: 0.3rem; cursor: pointer; text-decoration: underline; }
-.cart-summary { background: var(--color-white); padding: var(--space-5); border-radius: var(--radius-md); box-shadow: var(--shadow-md); height: fit-content; position: sticky; top: 100px; }
-.cart-summary h3 { font-family: var(--font-bn-serif); font-size: 1.3rem; color: var(--color-primary); margin-bottom: var(--space-4); }
-.summary-row { display: flex; justify-content: space-between; font-family: var(--font-bn-sans); font-size: 0.95rem; padding: 0.5rem 0; color: var(--color-ink-soft); }
-.summary-row.total { border-top: 1px solid var(--color-border); padding-top: var(--space-3); margin-top: var(--space-2); font-size: 1.15rem; font-weight: 600; color: var(--color-ink); }
-.empty-state { text-align: center; padding: var(--space-7) var(--space-4); }
-.empty-state h2 { font-family: var(--font-bn-serif); font-size: 1.8rem; color: var(--color-primary); margin-bottom: var(--space-3); }
-.empty-state p { font-family: var(--font-bn-sans); color: var(--color-ink-soft); margin-bottom: var(--space-5); }
+/* Payment Modal (Popup) */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-content {
+  background: var(--color-white); width: 90%; max-width: 420px;
+  border-radius: var(--radius-lg); padding: var(--space-5);
+  box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s ease;
+  position: relative;
+}
+.modal-overlay.active .modal-content { transform: translateY(0); }
+.modal-close {
+  position: absolute; top: 15px; right: 15px; font-size: 1.5rem;
+  color: var(--color-ink-soft); cursor: pointer;
+}
+.modal-close:hover { color: var(--color-accent); }
+.modal-title { font-family: var(--font-bn-serif); font-size: 1.5rem; color: var(--color-primary); margin-bottom: var(--space-1); text-align: center; }
+.modal-subtitle { font-family: var(--font-bn-sans); font-size: 0.9rem; color: var(--color-ink-soft); margin-bottom: var(--space-4); text-align: center; }
+.modal-book-info { display: flex; gap: var(--space-3); align-items: center; background: var(--color-bg-alt); padding: var(--space-3); border-radius: var(--radius-md); margin-bottom: var(--space-4); }
+.modal-book-info img { width: 50px; height: 70px; object-fit: cover; border-radius: 2px 4px 4px 2px; box-shadow: var(--shadow-sm); }
+.modal-book-info .mb-title { font-family: var(--font-bn-serif); font-size: 1rem; font-weight: 600; }
+.modal-book-info .mb-price { font-family: var(--font-bn-sans); font-size: 0.9rem; color: var(--color-accent); font-weight: bold; }
+.modal-book-info .mb-discount { font-family: var(--font-bn-sans); font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-/* Payment methods */
-.payment-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); margin: var(--space-4) 0; }
-.payment-option { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); cursor: pointer; transition: all 0.2s; text-align: center; }
+/* Payment Methods inside Modal */
+.payment-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); margin-bottom: var(--space-4); }
+.payment-option { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-2); cursor: pointer; transition: all 0.2s; text-align: center; }
 .payment-option:hover { border-color: var(--color-primary); }
 .payment-option.selected { border-color: var(--color-primary); background: rgba(26,58,42,0.05); }
-.payment-option .pm-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
-.payment-option .pm-name { font-family: var(--font-bn-sans); font-size: 0.85rem; font-weight: 500; }
+.payment-option .pm-icon { font-size: 1.2rem; margin-bottom: 0.1rem; }
+.payment-option .pm-name { font-family: var(--font-bn-sans); font-size: 0.75rem; font-weight: 500; }
+
+/* Processing State (Loading) */
+.processing-state { text-align: center; padding: var(--space-5) 0; }
+.spinner {
+  width: 40px; height: 40px; border: 4px solid var(--color-border);
+  border-top: 4px solid var(--color-primary); border-radius: 50%;
+  animation: spin 1s linear infinite; margin: 0 auto var(--space-3);
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.processing-state p { font-family: var(--font-bn-sans); color: var(--color-ink-soft); }
+
+/* Success State */
+.success-state { text-align: center; padding: var(--space-4) 0; }
+.success-icon { font-size: 3rem; color: #4CAF50; margin-bottom: var(--space-3); }
+.success-state h3 { font-family: var(--font-bn-serif); font-size: 1.5rem; color: var(--color-primary); margin-bottom: var(--space-2); }
+.success-state p { font-family: var(--font-bn-sans); color: var(--color-ink-soft); margin-bottom: var(--space-4); }
 
 /* Toast */
 .toast {
   position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(120%);
   background: var(--color-primary); color: var(--color-white);
   padding: 0.9rem 1.8rem; border-radius: 999px; font-family: var(--font-bn-sans);
-  font-size: 0.9rem; box-shadow: var(--shadow-lg); z-index: 1000;
+  font-size: 0.9rem; box-shadow: var(--shadow-lg); z-index: 3000;
   transition: transform 0.3s ease; max-width: 90%;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
@@ -323,8 +358,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   .book-detail-cover { max-width: 280px; margin: 0 auto; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .plan-grid { grid-template-columns: 1fr; }
-  .cart-grid { grid-template-columns: 1fr; }
-  .cart-summary { position: static; }
 }
 @media (max-width: 640px) {
   .main-nav { display: none; }
@@ -352,9 +385,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       <a onclick="showPage('subscription')" data-nav="subscription">সাবস্ক্রিপশন</a>
     </nav>
     <div class="header-actions">
-      <button class="btn btn-ghost" onclick="showPage('cart')" aria-label="Cart">
-        🛒 <span class="cart-count" id="cartCount">0</span>
-      </button>
       <button class="btn btn-outline" onclick="showPage('login')" id="loginBtn">লগইন</button>
       <button class="btn btn-primary hidden" onclick="logout()" id="logoutBtn">লগআউট</button>
     </div>
@@ -426,7 +456,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       <button class="filter-chip" data-filter="classic">ক্লাসিক</button>
       <button class="filter-chip" data-filter="new">নতুন</button>
       <button class="filter-chip" data-filter="subscription">সাবস্ক্রিপশন</button>
-      <button class="filter-chip" data-filter="free">ফ্রি</button>
     </div>
     <div class="book-grid" id="catalogGrid"></div>
   </div>
@@ -453,12 +482,13 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
         <p class="book-detail-desc" id="bdDesc">—</p>
         <div class="book-detail-price">
           <span class="price-now" id="bdPrice">—</span>
-          <span class="price-note" id="bdPriceNote">সাবস্ক্রিপশনে ফ্রি</span>
         </div>
-        <div class="book-detail-actions">
-          <button class="btn btn-primary btn-lg" id="bdReadBtn">এখনই পড়ুন</button>
-          <button class="btn btn-outline btn-lg" id="bdCartBtn">কার্টে যোগ করুন</button>
+        
+        <!-- Dynamic Action Buttons -->
+        <div class="book-detail-actions" id="bdActions">
+          <!-- Buttons injected via JS based on lock/unlock status -->
         </div>
+
         <ul class="book-detail-specs">
           <li><strong>পৃষ্ঠা সংখ্যা:</strong> <span id="bdPages">—</span></li>
           <li><strong>ভাষা:</strong> বাংলা</li>
@@ -472,7 +502,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       <h2>নমুনা পাঠ</h2>
       <div class="preview-content">
         <p>“আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে...”</p>
-        <p>এখানে আপনি প্রথম অধ্যায়ের প্রথম কিছু অংশ পড়তে পারবেন। পূর্ণ বইটি পড়তে সাবস্ক্রিপশন নিন বা আলাদাভাবে কিনুন।</p>
+        <p style="color:var(--color-accent); font-weight:bold; margin-top:1rem;">🔒 পূর্ণ বইটি পড়তে হলে বইটি কিনে আনলক করুন।</p>
       </div>
     </section>
   </div>
@@ -607,83 +637,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   </div>
 </main>
 
-<!-- ============ PAGE: CART ============ -->
-<main id="page-cart" class="hidden">
-  <div class="container cart-page">
-    <h1 class="cart-title">আপনার কার্ট</h1>
-    <div id="cartEmpty" class="empty-state hidden">
-      <h2>কার্ট খালি</h2>
-      <p>বই যোগ করে পড়া শুরু করুন</p>
-      <button class="btn btn-primary" onclick="showPage('catalog')">বই দেখুন</button>
-    </div>
-    <div class="cart-grid" id="cartContent">
-      <div class="cart-items" id="cartItems"></div>
-      <div class="cart-summary">
-        <h3>অর্ডার সারাংশ</h3>
-        <div class="summary-row"><span>সাবটোটাল</span><span id="cartSubtotal">৳ ০</span></div>
-        <div class="summary-row"><span>ডিজিটাল অ্যাক্সেস</span><span>ইনস্ট্যান্ট</span></div>
-        <div class="summary-row total"><span>মোট</span><span id="cartTotal">৳ ০</span></div>
-        <button class="btn btn-primary btn-block btn-lg" style="margin-top:1.2rem" onclick="showPage('checkout')">চেকআউটে যান</button>
-      </div>
-    </div>
-  </div>
-</main>
-
-<!-- ============ PAGE: CHECKOUT ============ -->
-<main id="page-checkout" class="hidden">
-  <div class="container checkout-page">
-    <h1 class="checkout-title">চেকআউট</h1>
-    <div class="cart-grid">
-      <div>
-        <div class="auth-card" style="max-width:100%;margin:0 0 1.5rem">
-          <h3 style="font-family:var(--font-bn-serif);font-size:1.3rem;margin-bottom:1rem;color:var(--color-primary)">যোগাযোগের তথ্য</h3>
-          <div class="form-group">
-            <label for="coName">নাম</label>
-            <input type="text" id="coName" placeholder="আপনার নাম" required />
-          </div>
-          <div class="form-group">
-            <label for="coEmail">ইমেইল</label>
-            <input type="email" id="coEmail" placeholder="you@example.com" required />
-          </div>
-          <div class="form-group">
-            <label for="coPhone">মোবাইল নম্বর</label>
-            <input type="tel" id="coPhone" placeholder="01XXXXXXXXX" required />
-          </div>
-        </div>
-        <div class="auth-card" style="max-width:100%;margin:0">
-          <h3 style="font-family:var(--font-bn-serif);font-size:1.3rem;margin-bottom:1rem;color:var(--color-primary)">পেমেন্ট পদ্ধতি</h3>
-          <div class="payment-methods" id="paymentMethods">
-            <div class="payment-option selected" data-method="bkash">
-              <div class="pm-icon">📱</div>
-              <div class="pm-name">bKash</div>
-            </div>
-            <div class="payment-option" data-method="nagad">
-              <div class="pm-icon">💳</div>
-              <div class="pm-name">Nagad</div>
-            </div>
-            <div class="payment-option" data-method="card">
-              <div class="pm-icon">💳</div>
-              <div class="pm-name">কার্ড</div>
-            </div>
-            <div class="payment-option" data-method="rocket">
-              <div class="pm-icon">🚀</div>
-              <div class="pm-name">Rocket</div>
-            </div>
-          </div>
-          <button class="btn btn-primary btn-block btn-lg" style="margin-top:1rem" onclick="placeOrder()">অর্ডার নিশ্চিত করুন</button>
-        </div>
-      </div>
-      <div class="cart-summary">
-        <h3>অর্ডার সারাংশ</h3>
-        <div id="checkoutItems"></div>
-        <div class="summary-row"><span>সাবটোটাল</span><span id="coSubtotal">৳ ০</span></div>
-        <div class="summary-row"><span>ডিজিটাল অ্যাক্সেস</span><span>ইনস্ট্যান্ট</span></div>
-        <div class="summary-row total"><span>মোট</span><span id="coTotal">৳ ০</span></div>
-      </div>
-    </div>
-  </div>
-</main>
-
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer" id="siteFooter">
   <div class="container footer-grid">
@@ -719,127 +672,102 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   </div>
 </footer>
 
+<!-- ============ PAYMENT MODAL ============ -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closePaymentModal()">×</span>
+    
+    <!-- Step 1: Select Payment -->
+    <div id="paymentStep1">
+      <h2 class="modal-title">পেমেন্ট সম্পন্ন করুন</h2>
+      <p class="modal-subtitle">নিরাপদে পেমেন্ট করে বইটি আনলক করুন</p>
+      
+      <div class="modal-book-info">
+        <img id="pmCover" src="" alt="Book Cover">
+        <div>
+          <div class="mb-title" id="pmTitle">বইয়ের নাম</div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="mb-price" id="pmPrice">৳ ০</span>
+            <span class="mb-discount" id="pmOriginal">৳ ০</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-methods">
+        <div class="payment-option selected" data-method="bkash">
+          <div class="pm-icon">📱</div>
+          <div class="pm-name">bKash</div>
+        </div>
+        <div class="payment-option" data-method="nagad">
+          <div class="pm-icon">💳</div>
+          <div class="pm-name">Nagad</div>
+        </div>
+        <div class="payment-option" data-method="card">
+          <div class="pm-icon">💳</div>
+          <div class="pm-name">কার্ড</div>
+        </div>
+        <div class="payment-option" data-method="rocket">
+          <div class="pm-icon">🚀</div>
+          <div class="pm-name">Rocket</div>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary btn-block btn-lg" onclick="processPayment()">পেমেন্ট করুন</button>
+    </div>
+
+    <!-- Step 2: Processing -->
+    <div id="paymentStep2" class="processing-state hidden">
+      <div class="spinner"></div>
+      <p>পেমেন্ট প্রসেস হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।</p>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="paymentStep3" class="success-state hidden">
+      <div class="success-icon">✓</div>
+      <h3>পেমেন্ট সফল হয়েছে!</h3>
+      <p>বইটি সফলভাবে আনলক করা হয়েছে। এখন আপনি এটি পড়তে পারবেন।</p>
+      <button class="btn btn-primary btn-block" onclick="startReadingUnlocked()">পড়া শুরু করুন</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============ TOAST ============ -->
 <div class="toast" id="toast"></div>
 
 <script>
 /* ============================================================
-   S'B পাঠশালা — Application Logic (Digital Library Edition)
+   S'B পাঠশালা — Buy & Unlock Logic
    ============================================================ */
 
 const BOOKS = [
   { 
-    id: 1, 
-    title: 'দেবদাস', 
-    author: 'শরৎচন্দ্র চট্টোপাধ্যায়', 
-    price: 250, 
-    badge: 'classic', 
-    tags: ['classic', 'subscription'], 
-    pages: 160, 
-    publisher: 'ডি.এম. লাইব্রেরি', 
-    isbn: '978-81-7066-321-5', 
-    cover: 'devdas.jpg',
-    desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' 
+    id: 1, title: 'দেবদাস', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 250, badge: 'classic', tags: ['classic', 'subscription'], pages: 160, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-321-5', cover: 'devdas.jpg', desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' 
   },
   { 
-    id: 2, 
-    title: 'পথের পাঁচালী', 
-    author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', 
-    price: 350, 
-    badge: 'classic', 
-    tags: ['classic', 'subscription'], 
-    pages: 324, 
-    publisher: 'আনন্দ পাবলিশার্স', 
-    isbn: '978-81-7066-123-4', 
-    cover: 'pather-panchali.jpg',
-    desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' 
+    id: 2, title: 'পথের পাঁচালী', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 350, badge: 'classic', tags: ['classic', 'subscription'], pages: 324, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-123-4', cover: 'pather-panchali.jpg', desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' 
   },
   { 
-    id: 3, 
-    title: 'শেষের কবিতা', 
-    author: 'রবীন্দ্রনাথ ঠাকুর', 
-    price: 320, 
-    badge: 'classic', 
-    tags: ['classic'], 
-    pages: 180, 
-    publisher: 'বিশ্বভারতী', 
-    isbn: '978-81-7522-789-0', 
-    cover: 'sesher-kobita.jpg',
-    desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
+    id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', cover: 'sesher-kobita.jpg', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
   },
   { 
-    id: 4, 
-    title: 'গীতাঞ্জলি', 
-    author: 'রবীন্দ্রনাথ ঠাকুর', 
-    price: 280, 
-    badge: 'sub', 
-    tags: ['classic', 'subscription'], 
-    pages: 220, 
-    publisher: 'বিশ্বভারতী', 
-    isbn: '978-81-7522-456-7', 
-    cover: 'gitanjali.jpg',
-    desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
+    id: 4, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 220, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', cover: 'gitanjali.jpg', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
   },
   { 
-    id: 5, 
-    title: 'পদ্মা নদীর মাঝি', 
-    author: 'মানিক বন্দ্যোপাধ্যায়', 
-    price: 300, 
-    badge: 'classic', 
-    tags: ['classic'], 
-    pages: 240, 
-    publisher: 'আনন্দ পাবলিশার্স', 
-    isbn: '978-81-7066-555-8', 
-    cover: null, color: '1a2a3a',
-    desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
+    id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', cover: null, color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
   },
   { 
-    id: 6, 
-    title: 'চোখের বালি', 
-    author: 'রবীন্দ্রনাথ ঠাকুর', 
-    price: 290, 
-    badge: 'classic', 
-    tags: ['classic', 'subscription'], 
-    pages: 200, 
-    publisher: 'বিশ্বভারতী', 
-    isbn: '978-81-7522-111-3', 
-    cover: null, color: '3a1a2a',
-    desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' 
-  },
-  { 
-    id: 7, 
-    title: 'হাজার বছর ধরে', 
-    author: 'জহির রায়হান', 
-    price: 320, 
-    badge: 'new', 
-    tags: ['new', 'subscription'], 
-    pages: 280, 
-    publisher: 'অনুপম', 
-    isbn: '978-81-7066-777-9', 
-    cover: null, color: '2a3a1a',
-    desc: 'এক গ্রামের হাজার বছরের ইতিহাস, ভালোবাসা ও বেঁচে থাকার গল্প।' 
-  },
-  { 
-    id: 8, 
-    title: 'লালসালু', 
-    author: 'সৈয়দ ওয়ালীউল্লাহ', 
-    price: 260, 
-    badge: 'new', 
-    tags: ['new', 'subscription'], 
-    pages: 150, 
-    publisher: 'নওরোজ কিতাবিস্তান', 
-    isbn: '978-81-7066-888-6', 
-    cover: null, color: '3a2a1a',
-    desc: 'ধর্মীয় ভণ্ডামি ও সমাজের শোষণের এক তীক্ষ্ণ সমালোচনা।' 
+    id: 6, title: 'চোখের বালি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 290, badge: 'classic', tags: ['classic', 'subscription'], pages: 200, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-111-3', cover: null, color: '3a1a2a', desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' 
   }
 ];
 
 let state = {
   currentBook: null,
-  cart: JSON.parse(localStorage.getItem('sb_cart') || '[]'),
-  user: JSON.parse(localStorage.getItem('sb_user') || 'null')
+  user: JSON.parse(localStorage.getItem('sb_user') || 'null'),
+  // Load unlocked books from localStorage
+  unlockedBooks: JSON.parse(localStorage.getItem('sb_unlocked') || '[]')
 };
 
+/* ----- Page Router ----- */
 function showPage(page) {
   document.querySelectorAll('main[id^="page-"]').forEach(m => m.classList.add('hidden'));
   const target = document.getElementById('page-' + page);
@@ -851,8 +779,6 @@ function showPage(page) {
 
   document.getElementById('siteFooter').style.display = page === 'reader' ? 'none' : '';
   if (page === 'catalog') renderCatalog();
-  if (page === 'cart') renderCart();
-  if (page === 'checkout') renderCheckout();
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -862,10 +788,15 @@ function getCoverUrl(book) {
   return `https://via.placeholder.com/300x450/${book.color || '1a3a2a'}/faf8f5?text=${encodeURIComponent(book.title)}`;
 }
 
+/* ----- Check if book is unlocked ----- */
+function isBookUnlocked(bookId) {
+  return state.unlockedBooks.includes(bookId);
+}
+
+/* ----- Render Functions ----- */
 function renderFeatured() {
   const grid = document.getElementById('featuredGrid');
-  const featured = BOOKS.slice(0, 4);
-  grid.innerHTML = featured.map(book => bookTileHTML(book)).join('');
+  grid.innerHTML = BOOKS.slice(0, 4).map(book => bookTileHTML(book)).join('');
   bindBookTiles();
 }
 
@@ -873,9 +804,7 @@ let currentFilter = 'all';
 function renderCatalog(filter) {
   if (filter) currentFilter = filter;
   const grid = document.getElementById('catalogGrid');
-  const filtered = currentFilter === 'all'
-    ? BOOKS
-    : BOOKS.filter(b => b.tags.includes(currentFilter));
+  const filtered = currentFilter === 'all' ? BOOKS : BOOKS.filter(b => b.tags.includes(currentFilter));
   
   grid.innerHTML = filtered.length
     ? filtered.map(book => bookTileHTML(book)).join('')
@@ -884,29 +813,32 @@ function renderCatalog(filter) {
 }
 
 function bookTileHTML(book) {
-  const badge = book.badge === 'sub'
-    ? '<span class="badge badge-sub">সাবস্ক্রিপশনে ফ্রি</span>'
-    : book.badge === 'new'
-    ? '<span class="badge badge-gold">নতুন</span>'
-    : '<span class="badge badge-classic">ক্লাসিক</span>';
-    
   const discountedPrice = Math.round(book.price * 0.50);
-    
+  const isUnlocked = isBookUnlocked(book.id);
+  
+  let unlockedBadgeHTML = isUnlocked ? '<div class="unlocked-badge">✓ আনলকড</div>' : '';
+  
   return `
     <article class="book-tile" data-book-id="${book.id}">
       <div class="book-cover">
+        ${unlockedBadgeHTML}
         <img src="${getCoverUrl(book)}" alt="${book.title}" loading="lazy" />
       </div>
       <h3 class="book-title">${book.title}</h3>
       <p class="book-author">${book.author}</p>
       <div class="book-price-row">
-        <span class="book-price" style="text-decoration: line-through; color: #888; font-size: 0.9rem; font-weight: normal;">
-          ৳ ${book.price}
-        </span>
-        <span class="book-price" style="color: var(--color-accent); font-weight: bold; font-size: 1.1rem;">
-          ৳ ${discountedPrice} (50%)
-        </span>
-        ${badge}
+        ${!isUnlocked ? `
+          <span class="book-price" style="text-decoration: line-through; color: #888; font-size: 0.9rem; font-weight: normal;">
+            ৳ ${book.price}
+          </span>
+          <span class="book-price" style="color: var(--color-accent); font-weight: bold; font-size: 1.1rem;">
+            ৳ ${discountedPrice} (50%)
+          </span>
+        ` : `
+          <span class="book-price" style="color: var(--color-primary); font-weight: bold; font-size: 1.1rem;">
+            ✓ আপনার লাইব্রেরিতে আছে
+          </span>
+        `}
       </div>
     </article>
   `;
@@ -915,16 +847,19 @@ function bookTileHTML(book) {
 function bindBookTiles() {
   document.querySelectorAll('.book-tile').forEach(tile => {
     tile.addEventListener('click', () => {
-      const id = parseInt(tile.dataset.bookId);
-      openBookDetail(id);
+      openBookDetail(parseInt(tile.dataset.bookId));
     });
   });
 }
 
+/* ----- Book Detail Logic ----- */
 function openBookDetail(id) {
   const book = BOOKS.find(b => b.id === id);
   if (!book) return;
   state.currentBook = book;
+
+  const discPrice = Math.round(book.price * 0.50);
+  const isUnlocked = isBookUnlocked(book.id);
 
   document.getElementById('bdBreadcrumb').textContent = book.title;
   document.getElementById('bdCover').src = getCoverUrl(book);
@@ -932,145 +867,96 @@ function openBookDetail(id) {
   document.getElementById('bdAuthor').textContent = book.author;
   document.getElementById('bdDesc').textContent = book.desc;
   
-  const discPrice = Math.round(book.price * 0.50);
-  document.getElementById('bdPrice').innerHTML = `
-    <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; margin-right: 10px;">৳ ${book.price}</span>
-    ৳ ${discPrice} (50% Off)
-  `;
+  if (isUnlocked) {
+    document.getElementById('bdPrice').innerHTML = `<span style="color:var(--color-primary); font-size:1.5rem;">✓ আনলকড</span>`;
+  } else {
+    document.getElementById('bdPrice').innerHTML = `
+      <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; margin-right: 10px;">৳ ${book.price}</span>
+      ৳ ${discPrice} <span style="font-size:1rem; color:#888; font-weight:normal;">(50% Off)</span>
+    `;
+  }
   
   document.getElementById('bdPages').textContent = book.pages;
   document.getElementById('bdPublisher').textContent = book.publisher;
   document.getElementById('bdIsbn').textContent = book.isbn;
   document.getElementById('bdBadge').textContent = book.badge === 'new' ? 'নতুন' : 'ক্লাসিক';
   document.getElementById('bdBadge').className = 'badge ' + (book.badge === 'new' ? 'badge-gold' : 'badge-classic');
-  document.getElementById('bdPriceNote').textContent = book.tags.includes('subscription') ? 'সাবস্ক্রিপশনে ফ্রি' : 'শুধু কিনুন';
 
-  document.getElementById('bdReadBtn').onclick = () => {
-    document.getElementById('readerTitle').textContent = book.title;
-    showPage('reader');
-  };
-  document.getElementById('bdCartBtn').onclick = () => addToCart(book.id);
+  // Dynamic Action Buttons
+  const actionsEl = document.getElementById('bdActions');
+  if (isUnlocked) {
+    actionsEl.innerHTML = `<button class="btn btn-primary btn-lg" onclick="openReader('${book.title}')">পড়া শুরু করুন →</button>`;
+  } else {
+    actionsEl.innerHTML = `<button class="btn btn-gold btn-lg" onclick="openPaymentModal(${book.id})">এখনই কিনুন — ৳ ${discPrice}</button>`;
+  }
 
   showPage('book-detail');
 }
 
-function addToCart(id) {
-  const book = BOOKS.find(b => b.id === id);
+/* ----- Payment Modal Flow ----- */
+function openPaymentModal(bookId) {
+  const book = BOOKS.find(b => b.id === bookId);
   if (!book) return;
-  if (state.cart.find(i => i.id === id)) {
-    showToast('এই বই ইতিমধ্যে কার্টে আছে');
-    return;
-  }
-  state.cart.push({ 
-    id: book.id, 
-    title: book.title, 
-    author: book.author, 
-    price: Math.round(book.price * 0.50),
-    originalPrice: book.price,
-    cover: getCoverUrl(book) 
-  });
-  saveCart();
-  showToast(`"${book.title}" কার্টে যোগ হয়েছে`);
+  
+  state.currentBook = book;
+  const discPrice = Math.round(book.price * 0.50);
+
+  // Populate Modal Data
+  document.getElementById('pmCover').src = getCoverUrl(book);
+  document.getElementById('pmTitle').textContent = book.title;
+  document.getElementById('pmPrice').textContent = '৳ ' + discPrice;
+  document.getElementById('pmOriginal').textContent = '৳ ' + book.price;
+
+  // Reset Modal Steps
+  document.getElementById('paymentStep1').classList.remove('hidden');
+  document.getElementById('paymentStep2').classList.add('hidden');
+  document.getElementById('paymentStep3').classList.add('hidden');
+
+  // Show Modal
+  document.getElementById('paymentModal').classList.add('active');
 }
 
-function removeFromCart(id) {
-  state.cart = state.cart.filter(i => i.id !== id);
-  saveCart();
-  renderCart();
+function closePaymentModal() {
+  document.getElementById('paymentModal').classList.remove('active');
 }
 
-function saveCart() {
-  localStorage.setItem('sb_cart', JSON.stringify(state.cart));
-  updateCartCount();
-}
+function processPayment() {
+  // Hide step 1, show loading
+  document.getElementById('paymentStep1').classList.add('hidden');
+  document.getElementById('paymentStep2').classList.remove('hidden');
 
-function updateCartCount() {
-  document.getElementById('cartCount').textContent = state.cart.length;
-}
-
-function renderCart() {
-  const itemsEl = document.getElementById('cartItems');
-  const emptyEl = document.getElementById('cartEmpty');
-  const contentEl = document.getElementById('cartContent');
-
-  if (!state.cart.length) {
-    emptyEl.classList.remove('hidden');
-    contentEl.classList.add('hidden');
-    return;
-  }
-  emptyEl.classList.add('hidden');
-  contentEl.classList.remove('hidden');
-
-  itemsEl.innerHTML = state.cart.map(item => `
-    <div class="cart-item">
-      <img class="cart-item-img" src="${item.cover}" alt="${item.title}" />
-      <div>
-        <p class="cart-item-title">${item.title}</p>
-        <p class="cart-item-author">${item.author}</p>
-        <a class="remove-btn" onclick="removeFromCart(${item.id})">সরান</a>
-      </div>
-      <div style="text-align: right;">
-        <span class="cart-item-price" style="font-weight: bold; color: var(--color-accent); font-size: 1.1rem;">৳ ${item.price}</span>
-        <br>
-        <span style="text-decoration: line-through; color: #888; font-size: 0.8rem;">৳ ${item.originalPrice}</span>
-      </div>
-    </div>
-  `).join('');
-
-  const subtotal = state.cart.reduce((s, i) => s + i.price, 0);
-  document.getElementById('cartSubtotal').textContent = '৳ ' + subtotal;
-  document.getElementById('cartTotal').textContent = '৳ ' + subtotal;
-}
-
-function renderCheckout() {
-  const itemsEl = document.getElementById('checkoutItems');
-  itemsEl.innerHTML = state.cart.map(item => `
-    <div class="summary-row">
-      <span>${item.title}</span>
-      <span>৳ ${item.price}</span>
-    </div>
-  `).join('');
-  const subtotal = state.cart.reduce((s, i) => s + i.price, 0);
-  document.getElementById('coSubtotal').textContent = '৳ ' + subtotal;
-  document.getElementById('coTotal').textContent = '৳ ' + subtotal;
-  if (!state.cart.length) {
-    showToast('কার্ট খালি — আগে বই যোগ করুন');
-    showPage('catalog');
-  }
-}
-
-function placeOrder() {
-  const name = document.getElementById('coName').value.trim();
-  const email = document.getElementById('coEmail').value.trim();
-  const phone = document.getElementById('coPhone').value.trim();
-  if (!name || !email || !phone) {
-    showToast('সব তথ্য পূরণ করুন');
-    return;
-  }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = 'প্রসেস হচ্ছে...';
+  // Simulate Payment Gateway delay (2.5 seconds)
   setTimeout(() => {
-    state.cart = [];
-    saveCart();
-    btn.disabled = false;
-    btn.textContent = 'অর্ডার নিশ্চিত করুন';
-    showToast('✓ অর্ডার সফল! আপনি এখন ওয়েবসাইটে বইটি পড়তে পারবেন।');
-    setTimeout(() => showPage('catalog'), 1800);
-  }, 1500);
+    // Hide loading, show success
+    document.getElementById('paymentStep2').classList.add('hidden');
+    document.getElementById('paymentStep3').classList.remove('hidden');
+    
+    // Unlock the book and save to localStorage
+    if (!state.unlockedBooks.includes(state.currentBook.id)) {
+      state.unlockedBooks.push(state.currentBook.id);
+      localStorage.setItem('sb_unlocked', JSON.stringify(state.unlockedBooks));
+    }
+  }, 2500);
 }
 
-document.querySelectorAll('.payment-option').forEach(opt => {
-  opt.addEventListener('click', () => {
-    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
-    opt.classList.add('selected');
-  });
-});
+function startReadingUnlocked() {
+  closePaymentModal();
+  // Refresh detail page to show "Read" button instead of "Buy"
+  openBookDetail(state.currentBook.id);
+  showToast('বইটি সফলভাবে আনলক হয়েছে!');
+}
 
+function openReader(title) {
+  document.getElementById('readerTitle').textContent = title;
+  showPage('reader');
+}
+
+/* ----- Subscribe ----- */
 function subscribe(plan, price) {
   showToast(`"${plan}" প্ল্যান (৳ ${price}) নির্বাচিত — শীঘ্রই পেমেন্ট পেজ যুক্ত হবে`);
 }
 
+/* ----- Auth (Mock) ----- */
 document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
@@ -1088,7 +974,7 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
   state.user = { name, email };
   localStorage.setItem('sb_user', JSON.stringify(state.user));
   updateAuthUI();
-  showToast('অ্যাকাউন্ট তৈরি হয়েছে — ইমেইল ভেরিফিকেশন লিঙ্ক পাঠানো হয়েছে');
+  showToast('অ্যাকাউন্ট তৈরি হয়েছে');
   showPage('home');
 });
 
@@ -1112,6 +998,7 @@ function updateAuthUI() {
   }
 }
 
+/* ----- Reader Controls ----- */
 let fontSize = 1.15;
 let themeIdx = 0;
 const themes = ['', 'theme-sepia', 'theme-dark'];
@@ -1160,6 +1047,7 @@ window.addEventListener('scroll', () => {
   fill.style.width = pct + '%';
 });
 
+/* ----- Filters ----- */
 document.getElementById('filterBar').addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
@@ -1168,6 +1056,15 @@ document.getElementById('filterBar').addEventListener('click', (e) => {
   renderCatalog(chip.dataset.filter);
 });
 
+/* ----- Payment Method Selection in Modal ----- */
+document.querySelectorAll('.payment-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+/* ----- Toast ----- */
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -1176,9 +1073,9 @@ function showToast(msg) {
   window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
+/* ----- Init ----- */
 function init() {
   renderFeatured();
-  updateCartCount();
   updateAuthUI();
   showPage('home');
 }
