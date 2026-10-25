@@ -875,6 +875,9 @@ function bookTileHTML(book) {
     ? '<span class="badge badge-gold">নতুন</span>'
     : '<span class="badge badge-classic">ক্লাসিক</span>';
     
+  // Calculate 50% discount
+  const discountedPrice = Math.round(book.price * 0.50);
+    
   return `
     <article class="book-tile" data-book-id="${book.id}">
       <div class="book-cover">
@@ -882,14 +885,18 @@ function bookTileHTML(book) {
       </div>
       <h3 class="book-title">${book.title}</h3>
       <p class="book-author">${book.author}</p>
-      <div class="book-price-row">
-        <span class="book-price">৳ ${book.price}</span>
+      <div class="book-price-row" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span class="book-price" style="text-decoration: line-through; color: #888; font-size: 0.9rem; font-weight: normal;">
+          ৳ ${book.price}
+        </span>
+        <span class="book-price" style="color: var(--color-accent); font-weight: bold; font-size: 1.1rem;">
+          ৳ ${discountedPrice} (50%)
+        </span>
         ${badge}
       </div>
     </article>
   `;
 }
-
 function bindBookTiles() {
   document.querySelectorAll('.book-tile').forEach(tile => {
     tile.addEventListener('click', () => {
@@ -908,7 +915,11 @@ function openBookDetail(id) {
   document.getElementById('bdCover').src = getCoverUrl(book);
   document.getElementById('bdTitle').textContent = book.title;
   document.getElementById('bdAuthor').textContent = book.author;
-  document.getElementById('bdDesc').textContent = book.desc;
+  const discPrice = Math.round(book.price * 0.50);
+document.getElementById('bdPrice').innerHTML = `
+  <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; margin-right: 10px;">৳ ${book.price}</span>
+  ৳ ${discPrice} (50% Off)
+`;
   document.getElementById('bdPrice').textContent = '৳ ' + book.price;
   document.getElementById('bdPages').textContent = book.pages;
   document.getElementById('bdPublisher').textContent = book.publisher;
@@ -938,7 +949,8 @@ function addToCart(id) {
     id: book.id, 
     title: book.title, 
     author: book.author, 
-    price: book.price, 
+    price: Math.round(book.price * 0.50), // Store discounted price in cart
+originalPrice: book.price, 
     cover: getCoverUrl(book) 
   });
   saveCart();
@@ -981,7 +993,11 @@ function renderCart() {
         <p class="cart-item-author">${item.author}</p>
         <a class="remove-btn" onclick="removeFromCart(${item.id})">সরান</a>
       </div>
-      <span class="cart-item-price">৳ ${item.price}</span>
+      <div style="text-align: right;">
+  <span class="cart-item-price" style="font-weight: bold; color: var(--color-accent);">৳ ${item.price}</span>
+  <br>
+  <span style="text-decoration: line-through; color: #888; font-size: 0.8rem;">৳ ${item.originalPrice}</span>
+</div>
     </div>
   `).join('');
 
