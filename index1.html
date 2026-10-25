@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>S'B পাঠশালা — বইয়ের পাতায় খুঁজে নিন নতুন এক পৃথিবী</title>
+<meta name="description" content="S'B পাঠশালা — প্রিমিয়াম ডিজিটাল লাইব্রেরি ও অনলাইন বইয়ের দোকান। Discover a New World Between the Pages." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   S'B পাঠশালা — Complete Design System
+   ============================================================ */
+:root {
+  --color-bg: #faf8f5;
+  --color-bg-alt: #f3eee5;
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #4a4a4a;
+  --color-primary: #1a3a2a;
+  --color-primary-hover: #142b1f;
+  --color-accent: #5c1a1a;
+  --color-gold: #b8860b;
+  --color-border: #d9d2c5;
+  --color-white: #ffffff;
+  --font-bn-serif: 'Noto Serif Bengali', 'Noto Serif', serif;
+  --font-bn-sans: 'Noto Sans Bengali', 'Noto Sans', sans-serif;
+  --font-en-serif: 'Cormorant Garamond', Georgia, serif;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4rem;
+  --space-8: 6rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(26,26,26,0.06);
+  --shadow-md: 0 4px 16px rgba(26,26,26,0.08);
+  --shadow-lg: 0 12px 40px rgba(26,26,26,0.12);
+  --container: 1200px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-bn-serif);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; cursor: pointer; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: inherit; font-size: 1rem; }
+.container { max-width: var(--container); margin: 0 auto; padding: 0 var(--space-4); }
+.hidden { display: none !important; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.65rem 1.4rem; font-family: var(--font-bn-sans);
+  font-size: 0.95rem; font-weight: 500; border-radius: var(--radius-sm);
+  transition: all 0.2s ease; white-space: nowrap;
+}
+.btn-primary { background: var(--color-primary); color: var(--color-white); }
+.btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--color-primary); border: 1.5px solid var(--color-primary); }
+.btn-outline:hover { background: var(--color-primary); color: var(--color-white); }
+.btn-ghost { padding: 0.5rem; color: var(--color-ink-soft); }
+.btn-ghost:hover { color: var(--color-primary); }
+.btn-lg { padding: 0.9rem 2rem; font-size: 1rem; }
+.btn-block { width: 100%; }
+
+/* Header */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--color-bg); border-bottom: 1px solid var(--color-border);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 0; gap: var(--space-4);
+}
+.brand { display: flex; flex-direction: column; line-height: 1.1; cursor: pointer; }
+.brand-bn { font-family: var(--font-bn-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-primary); }
+.brand-en { font-family: var(--font-en-serif); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-ink-soft); }
+.main-nav { display: flex; gap: var(--space-4); font-family: var(--font-bn-sans); font-size: 0.95rem; }
+.main-nav a { padding: 0.4rem 0; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
+.main-nav a:hover, .main-nav a.active { border-bottom-color: var(--color-gold); }
+.header-actions { display: flex; align-items: center; gap: var(--space-2); }
+.cart-count {
+  background: var(--color-accent); color: var(--color-white);
+  font-family: var(--font-bn-sans); font-size: 0.7rem; font-weight: 600;
+  padding: 0.1rem 0.4rem; border-radius: 999px; margin-left: 0.3rem;
+}
+
+/* Hero */
+.hero { padding: var(--space-8) 0; background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%); overflow: hidden; }
+.hero-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-6); align-items: center; }
+.hero-eyebrow { font-family: var(--font-bn-sans); font-size: 0.9rem; letter-spacing: 0.1em; color: var(--color-accent); margin-bottom: var(--space-3); text-transform: uppercase; }
+.hero-title { font-family: var(--font-bn-serif); font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.15; color: var(--color-primary); margin-bottom: var(--space-4); }
+.hero-title em { font-style: italic; color: var(--color-accent); font-family: var(--font-en-serif); font-weight: 400; }
+.hero-subtitle { font-family: var(--font-bn-sans); font-size: 1.1rem; color: var(--color-ink-soft); margin-bottom: var(--space-3); max-width: 480px; }
+.hero-tagline-en { font-family: var(--font-en-serif); font-style: italic; font-size: 1.15rem; color: var(--color-gold); margin-bottom: var(--space-5); }
+.hero-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.hero-visual { display: flex; justify-content: center; align-items: center; min-height: 400px; }
+.book-stack { position: relative; width: 280px; height: 380px; }
+.book-card { position: absolute; width: 220px; height: 320px; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); }
+.book-card-1 { background: var(--color-primary); top: 0; left: 30px; transform: rotate(-6deg); }
+.book-card-2 { background: var(--color-accent); top: 40px; left: 0; transform: rotate(4deg); }
+.book-card-3 { background: var(--color-gold); top: 30px; left: 60px; transform: rotate(-2deg); }
+
+/* Sections */
+.section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-5); }
+.section-title { font-family: var(--font-bn-serif); font-size: 2rem; color: var(--color-primary); }
+.section-link { font-family: var(--font-bn-sans); font-size: 0.95rem; color: var(--color-accent); cursor: pointer; }
+.section-link:hover { text-decoration: underline; }
+.featured-books { padding: var(--space-7) 0; }
+
+/* Book Grid */
+.book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-5); }
+.book-tile { transition: transform 0.3s ease; cursor: pointer; }
+.book-tile:hover { transform: translateY(-6px); }
+.book-cover { aspect-ratio: 2 / 3; overflow: hidden; border-radius: var(--radius-sm); background: var(--color-bg-alt); box-shadow: var(--shadow-md); margin-bottom: var(--space-3); }
+.book-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.book-tile:hover .book-cover img { transform: scale(1.04); }
+.book-title { font-family: var(--font-bn-serif); font-size: 1.1rem; color: var(--color-ink); margin-bottom: var(--space-1); }
+.book-author { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); margin-bottom: var(--space-2); }
+.book-price-row { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.book-price { font-family: var(--font-bn-sans); font-weight: 600; color: var(--color-accent); }
+.badge { display: inline-block; font-family: var(--font-bn-sans); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 500; }
+.badge-classic { background: rgba(92,26,26,0.1); color: var(--color-accent); }
+.badge-sub { background: rgba(26,58,42,0.1); color: var(--color-primary); }
+.badge-gold { background: rgba(184,134,11,0.15); color: var(--color-gold); }
+
+/* Subscription CTA */
+.subscription-cta { padding: var(--space-7) 0; background: var(--color-primary); color: var(--color-white); }
+.subscription-inner { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-6); align-items: center; }
+.subscription-text h2 { font-family: var(--font-bn-serif); font-size: 2rem; margin-bottom: var(--space-3); color: var(--color-white); }
+.subscription-text p { font-family: var(--font-bn-sans); font-size: 1rem; opacity: 0.9; margin-bottom: var(--space-4); }
+.subscription-cta .btn-primary { background: var(--color-gold); color: var(--color-white); }
+.subscription-cta .btn-primary:hover { background: #a37409; }
+.subscription-features ul li { font-family: var(--font-bn-sans); padding: 0.4rem 0; opacity: 0.95; }
+
+/* Footer */
+.site-footer { background: var(--color-bg-alt); border-top: 1px solid var(--color-border); padding: var(--space-6) 0 var(--space-4); margin-top: var(--space-7); }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--space-5); margin-bottom: var(--space-5); }
+.footer-brand .brand-bn { display: block; margin-bottom: var(--space-2); font-size: 1.2rem; }
+.footer-brand p { font-family: var(--font-bn-sans); font-size: 0.9rem; color: var(--color-ink-soft); }
+.footer-en { font-family: var(--font-en-serif); font-style: italic; color: var(--color-gold); margin-top: 0.3rem; }
+.footer-col h4 { font-family: var(--font-bn-sans); font-size: 0.95rem; font-weight: 600; margin-bottom: var(--space-3); color: var(--color-primary); }
+.footer-col ul li { margin-bottom: var(--space-2); }
+.footer-col a { font-family: var(--font-bn-sans); font-size: 0.9rem; color: var(--color-ink-soft); }
+.footer-col a:hover { color: var(--color-primary); }
+.footer-bottom { border-top: 1px solid var(--color-border); padding-top: var(--space-3); text-align: center; }
+.footer-bottom p { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
+
+/* Catalog filters */
+.catalog-page { padding: var(--space-6) 0 var(--space-7); }
+.catalog-head { margin-bottom: var(--space-5); }
+.catalog-title { font-family: var(--font-bn-serif); font-size: 2.4rem; color: var(--color-primary); margin-bottom: var(--space-2); }
+.catalog-subtitle { font-family: var(--font-bn-sans); color: var(--color-ink-soft); }
+.filter-bar { display: flex; gap: var(--space-2); flex-wrap: wrap; margin: var(--space-4) 0 var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid var(--color-border); }
+.filter-chip {
+  font-family: var(--font-bn-sans); font-size: 0.9rem; padding: 0.5rem 1rem;
+  border: 1.5px solid var(--color-border); border-radius: 999px;
+  background: transparent; color: var(--color-ink-soft); transition: all 0.2s;
+}
+.filter-chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.filter-chip.active { background: var(--color-primary); color: var(--color-white); border-color: var(--color-primary); }
+
+/* Book Detail */
+.book-detail-page { padding: var(--space-5) 0 var(--space-7); }
+.breadcrumb { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); margin-bottom: var(--space-5); }
+.breadcrumb a:hover { color: var(--color-primary); }
+.book-detail-grid { display: grid; grid-template-columns: 380px 1fr; gap: var(--space-6); margin-bottom: var(--space-7); }
+.book-detail-cover img { width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); }
+.book-detail-title { font-family: var(--font-bn-serif); font-size: 2.4rem; color: var(--color-primary); margin: var(--space-3) 0 var(--space-2); }
+.book-detail-author { font-family: var(--font-bn-sans); font-size: 1rem; color: var(--color-ink-soft); margin-bottom: var(--space-3); }
+.book-detail-author a { color: var(--color-accent); }
+.book-detail-rating { display: flex; gap: var(--space-2); align-items: center; margin-bottom: var(--space-4); color: var(--color-gold); }
+.rating-count { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
+.book-detail-desc { font-size: 1.05rem; color: var(--color-ink-soft); margin-bottom: var(--space-4); }
+.book-detail-price { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-4); }
+.price-now { font-family: var(--font-bn-sans); font-size: 2rem; font-weight: 700; color: var(--color-accent); }
+.price-note { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-primary); background: rgba(26,58,42,0.1); padding: 0.3rem 0.7rem; border-radius: 999px; }
+.book-detail-actions { display: flex; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
+.book-detail-specs { font-family: var(--font-bn-sans); font-size: 0.9rem; border-top: 1px solid var(--color-border); padding-top: var(--space-4); }
+.book-detail-specs li { padding: 0.4rem 0; color: var(--color-ink-soft); }
+.book-detail-specs strong { color: var(--color-ink); }
+.book-preview { padding: var(--space-5); background: var(--color-bg-alt); border-left: 4px solid var(--color-gold); border-radius: var(--radius-sm); }
+.book-preview h2 { font-family: var(--font-bn-serif); font-size: 1.5rem; color: var(--color-primary); margin-bottom: var(--space-3); }
+.preview-content p { margin-bottom: var(--space-3); }
+
+/* Reader */
+.reader-page-wrap { background: #fffdf8; min-height: 100vh; }
+.reader-header { position: sticky; top: 0; background: rgba(255,253,248,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--color-border); z-index: 50; }
+.reader-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.5rem; gap: var(--space-3); }
+.reader-back { font-family: var(--font-bn-sans); font-size: 0.9rem; color: var(--color-primary); cursor: pointer; }
+.reader-title { font-family: var(--font-bn-serif); font-size: 1rem; color: var(--color-ink); }
+.reader-controls { display: flex; gap: var(--space-1); }
+.reader-progress-bar { height: 2px; background: var(--color-border); }
+.reader-progress-fill { height: 100%; background: var(--color-gold); width: 0%; transition: width 0.3s ease; }
+.reader-content { max-width: 720px; margin: 0 auto; padding: var(--space-6) var(--space-4); }
+.reader-page h1 { font-family: var(--font-bn-serif); font-size: 1.8rem; color: var(--color-primary); margin-bottom: var(--space-5); text-align: center; }
+.reader-page p { font-size: 1.15rem; line-height: 1.9; margin-bottom: var(--space-4); color: var(--color-ink); text-align: justify; }
+.reader-footer { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4) var(--space-5); border-top: 1px solid var(--color-border); background: rgba(255,253,248,0.96); position: sticky; bottom: 0; }
+.reader-page-info { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
+.reader-page-wrap.theme-sepia { background: #f4ecd8; }
+.reader-page-wrap.theme-sepia .reader-content { color: #3a2f1a; }
+.reader-page-wrap.theme-dark { background: #1a1a1a; color: #d4d4d4; }
+.reader-page-wrap.theme-dark .reader-page p { color: #d4d4d4; }
+.reader-page-wrap.theme-dark .reader-header, .reader-page-wrap.theme-dark .reader-footer { background: #111; border-color: #333; }
+.reader-page-wrap.theme-dark .reader-title { color: #d4d4d4; }
+
+/* Auth */
+.auth-page { padding: var(--space-8) 0; min-height: 70vh; display: flex; align-items: center; }
+.auth-card { max-width: 440px; margin: 0 auto; background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; }
+.auth-card h1 { font-family: var(--font-bn-serif); font-size: 2rem; color: var(--color-primary); margin-bottom: var(--space-2); text-align: center; }
+.auth-card .auth-sub { font-family: var(--font-bn-sans); font-size: 0.95rem; color: var(--color-ink-soft); text-align: center; margin-bottom: var(--space-5); }
+.form-group { margin-bottom: var(--space-4); }
+.form-group label { display: block; font-family: var(--font-bn-sans); font-size: 0.9rem; font-weight: 500; margin-bottom: var(--space-2); color: var(--color-ink); }
+.form-group input, .form-group select { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); transition: border-color 0.2s; }
+.form-group input:focus, .form-group select:focus { outline: none; border-color: var(--color-primary); }
+.auth-switch { font-family: var(--font-bn-sans); font-size: 0.9rem; text-align: center; margin-top: var(--space-4); color: var(--color-ink-soft); }
+.auth-switch a { color: var(--color-accent); font-weight: 500; cursor: pointer; }
+.auth-switch a:hover { text-decoration: underline; }
+.divider { display: flex; align-items: center; gap: var(--space-3); margin: var(--space-4) 0; color: var(--color-ink-soft); font-family: var(--font-bn-sans); font-size: 0.85rem; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+
+/* Subscription page */
+.subscription-page { padding: var(--space-6) 0 var(--space-7); }
+.subscription-hero { text-align: center; margin-bottom: var(--space-7); }
+.subscription-hero h1 { font-family: var(--font-bn-serif); font-size: 2.8rem; color: var(--color-primary); margin-bottom: var(--space-3); }
+.subscription-hero p { font-family: var(--font-bn-sans); font-size: 1.1rem; color: var(--color-ink-soft); max-width: 600px; margin: 0 auto; }
+.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.plan-card { background: var(--color-white); border: 2px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); transition: all 0.3s; position: relative; }
+.plan-card:hover { border-color: var(--color-primary); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.plan-card.featured { border-color: var(--color-gold); }
+.plan-card.featured::before { content: 'জনপ্রিয়'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--color-gold); color: var(--color-white); font-family: var(--font-bn-sans); font-size: 0.75rem; padding: 0.25rem 0.9rem; border-radius: 999px; font-weight: 600; }
+.plan-name { font-family: var(--font-bn-sans); font-size: 1rem; color: var(--color-ink-soft); margin-bottom: var(--space-2); }
+.plan-price { font-family: var(--font-bn-sans); font-size: 2.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-1); }
+.plan-price span { font-size: 1rem; font-weight: 400; color: var(--color-ink-soft); }
+.plan-features { margin: var(--space-4) 0 var(--space-5); }
+.plan-features li { font-family: var(--font-bn-sans); font-size: 0.9rem; padding: 0.4rem 0; color: var(--color-ink-soft); }
+
+/* Cart & Checkout */
+.cart-page, .checkout-page { padding: var(--space-6) 0 var(--space-7); min-height: 60vh; }
+.cart-title, .checkout-title { font-family: var(--font-bn-serif); font-size: 2.2rem; color: var(--color-primary); margin-bottom: var(--space-5); }
+.cart-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-6); }
+.cart-items { display: flex; flex-direction: column; gap: var(--space-3); }
+.cart-item { display: grid; grid-template-columns: 80px 1fr auto; gap: var(--space-3); align-items: center; background: var(--color-white); padding: var(--space-3); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+.cart-item-img { width: 80px; height: 110px; object-fit: cover; border-radius: var(--radius-sm); }
+.cart-item-title { font-family: var(--font-bn-serif); font-size: 1.05rem; margin-bottom: 0.2rem; }
+.cart-item-author { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
+.cart-item-price { font-family: var(--font-bn-sans); font-weight: 600; color: var(--color-accent); }
+.remove-btn { font-family: var(--font-bn-sans); font-size: 0.8rem; color: var(--color-accent); margin-top: 0.3rem; cursor: pointer; text-decoration: underline; }
+.cart-summary { background: var(--color-white); padding: var(--space-5); border-radius: var(--radius-md); box-shadow: var(--shadow-md); height: fit-content; position: sticky; top: 100px; }
+.cart-summary h3 { font-family: var(--font-bn-serif); font-size: 1.3rem; color: var(--color-primary); margin-bottom: var(--space-4); }
+.summary-row { display: flex; justify-content: space-between; font-family: var(--font-bn-sans); font-size: 0.95rem; padding: 0.5rem 0; color: var(--color-ink-soft); }
+.summary-row.total { border-top: 1px solid var(--color-border); padding-top: var(--space-3); margin-top: var(--space-2); font-size: 1.15rem; font-weight: 600; color: var(--color-ink); }
+.empty-state { text-align: center; padding: var(--space-7) var(--space-4); }
+.empty-state h2 { font-family: var(--font-bn-serif); font-size: 1.8rem; color: var(--color-primary); margin-bottom: var(--space-3); }
+.empty-state p { font-family: var(--font-bn-sans); color: var(--color-ink-soft); margin-bottom: var(--space-5); }
+
+/* Payment methods */
+.payment-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); margin: var(--space-4) 0; }
+.payment-option { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); cursor: pointer; transition: all 0.2s; text-align: center; }
+.payment-option:hover { border-color: var(--color-primary); }
+.payment-option.selected { border-color: var(--color-primary); background: rgba(26,58,42,0.05); }
+.payment-option .pm-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+.payment-option .pm-name { font-family: var(--font-bn-sans); font-size: 0.85rem; font-weight: 500; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(120%);
+  background: var(--color-primary); color: var(--color-white);
+  padding: 0.9rem 1.8rem; border-radius: 999px; font-family: var(--font-bn-sans);
+  font-size: 0.9rem; box-shadow: var(--shadow-lg); z-index: 1000;
+  transition: transform 0.3s ease; max-width: 90%;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { min-height: 280px; order: -1; }
+  .subscription-inner { grid-template-columns: 1fr; }
+  .book-detail-grid { grid-template-columns: 1fr; }
+  .book-detail-cover { max-width: 280px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .plan-grid { grid-template-columns: 1fr; }
+  .cart-grid { grid-template-columns: 1fr; }
+  .cart-summary { position: static; }
+}
+@media (max-width: 640px) {
+  .main-nav { display: none; }
+  .book-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero { padding: var(--space-6) 0; }
+  .reader-content { padding: var(--space-4) var(--space-3); }
+  .reader-page p { font-size: 1.05rem; }
+  .payment-methods { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand" onclick="showPage('home')">
+      <span class="brand-bn">S'B পাঠশালা</span>
+      <span class="brand-en">Pathshala</span>
+    </div>
+    <nav class="main-nav" id="mainNav">
+      <a onclick="showPage('home')" data-nav="home">হোম</a>
+      <a onclick="showPage('catalog')" data-nav="catalog">বইয়ের তালিকা</a>
+      <a onclick="showPage('subscription')" data-nav="subscription">সাবস্ক্রিপশন</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="showPage('cart')" aria-label="Cart">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="btn btn-outline" onclick="showPage('login')" id="loginBtn">লগইন</button>
+      <button class="btn btn-primary hidden" onclick="logout()" id="logoutBtn">লগআউট</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PAGE: HOME ============ -->
+<main id="page-home">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow">বইয়ের পাতায় খুঁজে নিন</p>
+        <h1 class="hero-title">নতুন এক <em>পৃথিবী</em></h1>
+        <p class="hero-subtitle">হাজারো বাংলা বই, একটি সাবস্ক্রিপশনে। পড়ুন যেকোনো সময়, যেকোনো ডিভাইসে।</p>
+        <p class="hero-tagline-en">Discover a New World Between the Pages.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-lg" onclick="showPage('catalog')">বই দেখুন</button>
+          <button class="btn btn-outline btn-lg" onclick="showPage('subscription')">সাবস্ক্রিপশন নিন</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="book-stack">
+          <div class="book-card book-card-1"></div>
+          <div class="book-card book-card-2"></div>
+          <div class="book-card book-card-3"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-books">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">এই মাসের নির্বাচিত বই</h2>
+        <a class="section-link" onclick="showPage('catalog')">সব দেখুন →</a>
+      </div>
+      <div class="book-grid" id="featuredGrid"></div>
+    </div>
+  </section>
+
+  <section class="subscription-cta">
+    <div class="container subscription-inner">
+      <div class="subscription-text">
+        <h2>আনলিমিটেড পড়ুন — মাত্র ৳ ১৯৯/মাস</h2>
+        <p>সাবস্ক্রিপশনে পাবেন হাজারো বই, কোনো সীমা নেই। বাতিল করুন যেকোনো সময়।</p>
+        <button class="btn btn-primary btn-lg" onclick="showPage('subscription')">সাবস্ক্রিপশন শুরু করুন</button>
+      </div>
+      <div class="subscription-features">
+        <ul>
+          <li>✓ হাজারো বাংলা বই</li>
+          <li>✓ যেকোনো ডিভাইসে পড়ুন</li>
+          <li>✓ অফলাইনে পড়ার সুবিধা</li>
+          <li>✓ বিজ্ঞাপনমুক্ত অভিজ্ঞতা</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ PAGE: CATALOG ============ -->
+<main id="page-catalog" class="hidden">
+  <div class="container catalog-page">
+    <div class="catalog-head">
+      <h1 class="catalog-title">সব বই</h1>
+      <p class="catalog-subtitle">হাজারো বাংলা বইয়ের সংগ্রহ থেকে আপনার পছন্দের বই খুঁজুন</p>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-chip active" data-filter="all">সব</button>
+      <button class="filter-chip" data-filter="classic">ক্লাসিক</button>
+      <button class="filter-chip" data-filter="new">নতুন</button>
+      <button class="filter-chip" data-filter="subscription">সাবস্ক্রিপশন</button>
+      <button class="filter-chip" data-filter="free">ফ্রি</button>
+    </div>
+    <div class="book-grid" id="catalogGrid"></div>
+  </div>
+</main>
+
+<!-- ============ PAGE: BOOK DETAIL ============ -->
+<main id="page-book-detail" class="hidden">
+  <div class="container book-detail-page">
+    <nav class="breadcrumb">
+      <a onclick="showPage('home')">হোম</a> / <a onclick="showPage('catalog')">বই</a> / <span id="bdBreadcrumb">বই</span>
+    </nav>
+    <div class="book-detail-grid">
+      <aside class="book-detail-cover">
+        <img id="bdCover" src="" alt="Book cover" />
+      </aside>
+      <div class="book-detail-info">
+        <span class="badge badge-classic" id="bdBadge">ক্লাসিক</span>
+        <h1 class="book-detail-title" id="bdTitle">—</h1>
+        <p class="book-detail-author">লেখক: <a id="bdAuthor">—</a></p>
+        <div class="book-detail-rating">
+          <span>★★★★★</span>
+          <span class="rating-count" id="bdRating">(২৪৭ জনের রেটিং)</span>
+        </div>
+        <p class="book-detail-desc" id="bdDesc">—</p>
+        <div class="book-detail-price">
+          <span class="price-now" id="bdPrice">—</span>
+          <span class="price-note" id="bdPriceNote">সাবস্ক্রিপশনে ফ্রি</span>
+        </div>
+        <div class="book-detail-actions">
+          <button class="btn btn-primary btn-lg" id="bdReadBtn">এখনই পড়ুন</button>
+          <button class="btn btn-outline btn-lg" id="bdCartBtn">কার্টে যোগ করুন</button>
+        </div>
+        <ul class="book-detail-specs">
+          <li><strong>পৃষ্ঠা সংখ্যা:</strong> <span id="bdPages">—</span></li>
+          <li><strong>ভাষা:</strong> বাংলা</li>
+          <li><strong>প্রকাশক:</strong> <span id="bdPublisher">—</span></li>
+          <li><strong>ISBN:</strong> <span id="bdIsbn">—</span></li>
+          <li><strong>ফরম্যাট:</strong> EPUB, PDF</li>
+        </ul>
+      </div>
+    </div>
+    <section class="book-preview">
+      <h2>নমুনা পাঠ</h2>
+      <div class="preview-content">
+        <p>“আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে...”</p>
+        <p>এখানে আপনি প্রথম অধ্যায়ের প্রথম কিছু অংশ পড়তে পারবেন। পূর্ণ বইটি পড়তে সাবস্ক্রিপশন নিন বা আলাদাভাবে কিনুন।</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ============ PAGE: READER ============ -->
+<main id="page-reader" class="hidden">
+  <div class="reader-page-wrap" id="readerWrap">
+    <header class="reader-header">
+      <div class="reader-header-inner">
+        <a class="reader-back" onclick="showPage('book-detail')">← ফিরুন</a>
+        <span class="reader-title" id="readerTitle">পথের পাঁচালী</span>
+        <div class="reader-controls">
+          <button id="themeToggle" class="btn btn-ghost" aria-label="Theme">🌓</button>
+          <button id="fontIncrease" class="btn btn-ghost" aria-label="Increase font">A+</button>
+          <button id="fontDecrease" class="btn btn-ghost" aria-label="Decrease font">A−</button>
+        </div>
+      </div>
+      <div class="reader-progress-bar"><div class="reader-progress-fill" id="progressFill"></div></div>
+    </header>
+    <main class="reader-content">
+      <article class="reader-page" id="readerPage">
+        <h1>প্রথম অধ্যায়</h1>
+        <p>আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে।</p>
+        <p>এই গ্রামে ছিল অপু আর দুর্গা। তাদের বাবা হরিহর দত্ত পূজা-পার্বণে পুরোহিতির কাজ করতেন। মা সর্বজয়া গৃহিণী।</p>
+        <p>অপু ছিল ছোট, দুর্গা তার বড় বোন। দুর্গার বয়স বেশি হলেও ভাইয়ের প্রতি তার ভালোবাসা ছিল অগাধ। দুজনে মিলে সারাদিন গ্রামের মাঠে, নদীর ধারে ঘুরে বেড়াতো।</p>
+        <p>সেদিন ছিল বৈশাখ মাসের এক গরম দুপুর। অপু আর দুর্গা বাড়ির পাশের বাঁশবাগানে গিয়েছিল। হঠাৎ দুর্গার চোখে পড়ল একটা পাখির বাসা।</p>
+        <p>“অপু, দেখ দেখ, পাখির বাসা!” — দুর্গা উচ্ছ্বসিত হয়ে বলল।</p>
+        <p>অপু তাকিয়ে দেখল, বাঁশগাছের এক ডালে ছোট্ট একটা বাসা। বাসার ভেতর থেকে উঁকি দিচ্ছে পাখির ছানা।</p>
+      </article>
+    </main>
+    <footer class="reader-footer">
+      <button class="btn btn-outline" id="prevPage">← আগের পাতা</button>
+      <span class="reader-page-info">পৃষ্ঠা <span id="pageNum">১</span> / ৩২৪</span>
+      <button class="btn btn-primary" id="nextPage">পরের পাতা →</button>
+    </footer>
+  </div>
+</main>
+
+<!-- ============ PAGE: SUBSCRIPTION ============ -->
+<main id="page-subscription" class="hidden">
+  <div class="container subscription-page">
+    <div class="subscription-hero">
+      <h1>সাবস্ক্রিপশন প্ল্যান</h1>
+      <p>আপনার পছন্দের প্ল্যান বেছে নিন। যেকোনো সময় বাতিল বা আপগ্রেড করুন।</p>
+    </div>
+    <div class="plan-grid">
+      <div class="plan-card">
+        <p class="plan-name">মাসিক</p>
+        <p class="plan-price">৳ ১৯৯<span>/মাস</span></p>
+        <ul class="plan-features">
+          <li>✓ হাজারো বাংলা বই</li>
+          <li>✓ যেকোনো ডিভাইসে পড়ুন</li>
+          <li>✓ বিজ্ঞাপনমুক্ত অভিজ্ঞতা</li>
+          <li>✓ যেকোনো সময় বাতিল</li>
+        </ul>
+        <button class="btn btn-outline btn-block" onclick="subscribe('মাসিক', 199)">শুরু করুন</button>
+      </div>
+      <div class="plan-card featured">
+        <p class="plan-name">বার্ষিক</p>
+        <p class="plan-price">৳ ১,৯৯৯<span>/বছর</span></p>
+        <ul class="plan-features">
+          <li>✓ সব মাসিক সুবিধা</li>
+          <li>✓ ২ মাস ফ্রি (১৭% সাশ্রয়)</li>
+          <li>✓ অফলাইনে পড়ার সুবিধা</li>
+          <li>✓ অগ্রাধিকার সহায়তা</li>
+        </ul>
+        <button class="btn btn-primary btn-block" onclick="subscribe('বার্ষিক', 1999)">শুরু করুন</button>
+      </div>
+      <div class="plan-card">
+        <p class="plan-name">ছাত্র</p>
+        <p class="plan-price">৳ ৯৯<span>/মাস</span></p>
+        <ul class="plan-features">
+          <li>✓ শিক্ষার্থী ভেরিফিকেশনে</li>
+          <li>✓ সব বই পড়ার সুবিধা</li>
+          <li>✓ ৫০% ছাড়</li>
+          <li>✓ যেকোনো সময় বাতিল</li>
+        </ul>
+        <button class="btn btn-outline btn-block" onclick="subscribe('ছাত্র', 99)">শুরু করুন</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: LOGIN ============ -->
+<main id="page-login" class="hidden">
+  <div class="container auth-page">
+    <div class="auth-card">
+      <h1>লগইন</h1>
+      <p class="auth-sub">আপনার অ্যাকাউন্টে প্রবেশ করুন</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">ইমেইল</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">পাসওয়ার্ড</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">লগইন করুন</button>
+      </form>
+      <div class="divider">অথবা</div>
+      <button class="btn btn-outline btn-block" onclick="showToast('ইমেইল ভেরিফিকেশন লিঙ্ক পাঠানো হবে')">ইমেইল দিয়ে লগইন</button>
+      <p class="auth-switch">অ্যাকাউন্ট নেই? <a onclick="showPage('signup')">সাইনআপ করুন</a></p>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: SIGNUP ============ -->
+<main id="page-signup" class="hidden">
+  <div class="container auth-page">
+    <div class="auth-card">
+      <h1>সাইনআপ</h1>
+      <p class="auth-sub">নতুন অ্যাকাউন্ট তৈরি করুন</p>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signupName">নাম</label>
+          <input type="text" id="signupName" placeholder="আপনার নাম" required />
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">ইমেইল</label>
+          <input type="email" id="signupEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">পাসওয়ার্ড</label>
+          <input type="password" id="signupPassword" placeholder="কমপক্ষে ৬ অক্ষর" required minlength="6" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">অ্যাকাউন্ট তৈরি করুন</button>
+      </form>
+      <p class="auth-switch">আগে থেকেই অ্যাকাউন্ট আছে? <a onclick="showPage('login')">লগইন করুন</a></p>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: CART ============ -->
+<main id="page-cart" class="hidden">
+  <div class="container cart-page">
+    <h1 class="cart-title">আপনার কার্ট</h1>
+    <div id="cartEmpty" class="empty-state hidden">
+      <h2>কার্ট খালি</h2>
+      <p>বই যোগ করে পড়া শুরু করুন</p>
+      <button class="btn btn-primary" onclick="showPage('catalog')">বই দেখুন</button>
+    </div>
+    <div class="cart-grid" id="cartContent">
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-summary">
+        <h3>অর্ডার সারাংশ</h3>
+        <div class="summary-row"><span>সাবটোটাল</span><span id="cartSubtotal">৳ ০</span></div>
+        <div class="summary-row"><span>ডেলিভারি</span><span>ফ্রি</span></div>
+        <div class="summary-row total"><span>মোট</span><span id="cartTotal">৳ ০</span></div>
+        <button class="btn btn-primary btn-block btn-lg" style="margin-top:1.2rem" onclick="showPage('checkout')">চেকআউটে যান</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: CHECKOUT ============ -->
+<main id="page-checkout" class="hidden">
+  <div class="container checkout-page">
+    <h1 class="checkout-title">চেকআউট</h1>
+    <div class="cart-grid">
+      <div>
+        <div class="auth-card" style="max-width:100%;margin:0 0 1.5rem">
+          <h3 style="font-family:var(--font-bn-serif);font-size:1.3rem;margin-bottom:1rem;color:var(--color-primary)">যোগাযোগের তথ্য</h3>
+          <div class="form-group">
+            <label for="coName">নাম</label>
+            <input type="text" id="coName" placeholder="আপনার নাম" required />
+          </div>
+          <div class="form-group">
+            <label for="coEmail">ইমেইল</label>
+            <input type="email" id="coEmail" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="coPhone">মোবাইল নম্বর</label>
+            <input type="tel" id="coPhone" placeholder="01XXXXXXXXX" required />
+          </div>
+        </div>
+        <div class="auth-card" style="max-width:100%;margin:0">
+          <h3 style="font-family:var(--font-bn-serif);font-size:1.3rem;margin-bottom:1rem;color:var(--color-primary)">পেমেন্ট পদ্ধতি</h3>
+          <div class="payment-methods" id="paymentMethods">
+            <div class="payment-option selected" data-method="bkash">
+              <div class="pm-icon">📱</div>
+              <div class="pm-name">bKash</div>
+            </div>
+            <div class="payment-option" data-method="nagad">
+              <div class="pm-icon">💳</div>
+              <div class="pm-name">Nagad</div>
+            </div>
+            <div class="payment-option" data-method="card">
+              <div class="pm-icon">💳</div>
+              <div class="pm-name">কার্ড</div>
+            </div>
+            <div class="payment-option" data-method="rocket">
+              <div class="pm-icon">🚀</div>
+              <div class="pm-name">Rocket</div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block btn-lg" style="margin-top:1rem" onclick="placeOrder()">অর্ডার নিশ্চিত করুন</button>
+        </div>
+      </div>
+      <div class="cart-summary">
+        <h3>অর্ডার সারাংশ</h3>
+        <div id="checkoutItems"></div>
+        <div class="summary-row"><span>সাবটোটাল</span><span id="coSubtotal">৳ ০</span></div>
+        <div class="summary-row"><span>ডেলিভারি</span><span>ফ্রি</span></div>
+        <div class="summary-row total"><span>মোট</span><span id="coTotal">৳ ০</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer" id="siteFooter">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <span class="brand-bn">S'B পাঠশালা</span>
+      <p>বইয়ের পাতায় খুঁজে নিন নতুন এক পৃথিবী।</p>
+      <p class="footer-en">Discover a New World Between the Pages.</p>
+    </div>
+    <div class="footer-col">
+      <h4>দোকান</h4>
+      <ul>
+        <li><a onclick="showPage('catalog')">সব বই</a></li>
+        <li><a onclick="showPage('subscription')">সাবস্ক্রিপশন</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>সহায়তা</h4>
+      <ul>
+        <li><a href="mailto:support@sbpathshala.com">যোগাযোগ</a></li>
+        <li><a href="#">সাধারণ প্রশ্ন</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>কোম্পানি</h4>
+      <ul>
+        <li><a href="#">আমাদের সম্পর্কে</a></li>
+        <li><a href="#">শর্তাবলী</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© ২০২৫ S'B পাঠশালা। সর্বস্বত্ব সংরক্ষিত।</p>
+  </div>
+</footer>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   S'B পাঠশালা — Application Logic
+   ============================================================ */
+
+/* ----- Book Data (mock) / বইয়ের তথ্য (মক) ----- */
+const BOOKS = [
+  { id: 1, title: 'পথের পাঁচালী', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 350, badge: 'classic', tags: ['classic', 'subscription'], pages: 324, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-123-4', color: '1a3a2a', desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' },
+  { id: 2, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 220, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', color: '5c1a1a', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' },
+  { id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', color: 'b8860b', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' },
+  { id: 4, title: 'দেবদাস', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 250, badge: 'classic', tags: ['classic', 'subscription'], pages: 160, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-321-5', color: '2a1a3a', desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' },
+  { id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' },
+  { id: 6, title: 'চোখের বালি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 290, badge: 'classic', tags: ['classic', 'subscription'], pages: 200, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-111-3', color: '3a1a2a', desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' },
+  { id: 7, title: 'হাজার বছর ধরে', author: 'জহির রায়হান', price: 320, badge: 'new', tags: ['new', 'subscription'], pages: 280, publisher: 'অনুপম', isbn: '978-81-7066-777-9', color: '2a3a1a', desc: 'এক গ্রামের হাজার বছরের ইতিহাস, ভালোবাসা ও বেঁচে থাকার গল্প।' },
+  { id: 8, title: 'লালসালু', author: 'সৈয়দ ওয়ালীউল্লাহ', price: 260, badge: 'new', tags: ['new', 'subscription'], pages: 150, publisher: 'নওরোজ কিতাবিস্তান', isbn: '978-81-7066-888-6', color: '3a2a1a', desc: 'ধর্মীয় ভণ্ডামি ও সমাজের শোষণের এক তীক্ষ্ণ সমালোচনা।' },
+  { id: 9, title: 'অপরাজিত', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 340, badge: 'classic', tags: ['classic'], pages: 310, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-999-3', color: '1a3a3a', desc: 'অপুর বড় হয়ে ওঠার গল্প — পথের পাঁচালীর উত্তরাধিকার।' },
+  { id: 10, title: 'কবি', author: 'তারাশঙ্কর বন্দ্যোপাধ্যায়', price: 270, badge: 'classic', tags: ['classic', 'subscription'], pages: 220, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-222-1', color: '3a1a1a', desc: 'গ্রামীণ জীবনের প্রেক্ষাপটে এক কবির আত্মঅন্বেষণ।' },
+  { id: 11, title: 'আরণ্যক', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 330, badge: 'classic', tags: ['classic', 'subscription'], pages: 290, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-333-8', color: '2a3a2a', desc: 'বনজীবনের এক অমূল্য দলিল, প্রকৃতির প্রতি ভালোবাসার আখ্যান।' },
+  { id: 12, title: 'শ্রীকান্ত', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 310, badge: 'classic', tags: ['classic'], pages: 350, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-444-5', color: '4a2a1a', desc: 'শরৎচন্দ্রের আত্মজৈবনিক উপন্যাস — এক ভ্রমণপথের গল্প।' }
+];
+
+/* ----- State / স্টেট ----- */
+let state = {
+  currentBook: null,
+  cart: JSON.parse(localStorage.getItem('sb_cart') || '[]'),
+  user: JSON.parse(localStorage.getItem('sb_user') || 'null')
+};
+
+/* ----- Page Router / পেজ রাউটার ----- */
+function showPage(page) {
+  document.querySelectorAll('main[id^="page-"]').forEach(m => m.classList.add('hidden'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.remove('hidden');
+
+  // Nav highlight
+  document.querySelectorAll('[data-nav]').forEach(a => a.classList.remove('active'));
+  const navEl = document.querySelector(`[data-nav="${page}"]`);
+  if (navEl) navEl.classList.add('active');
+
+  // Footer visibility on reader
+  document.getElementById('siteFooter').style.display = page === 'reader' ? 'none' : '';
+
+  // Page-specific init
+  if (page === 'catalog') renderCatalog();
+  if (page === 'cart') renderCart();
+  if (page === 'checkout') renderCheckout();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ----- Render Featured / নির্বাচিত রেন্ডার ----- */
+function renderFeatured() {
+  const grid = document.getElementById('featuredGrid');
+  const featured = BOOKS.slice(0, 4);
+  grid.innerHTML = featured.map(book => bookTileHTML(book)).join('');
+  bindBookTiles();
+}
+
+/* ----- Render Catalog / ক্যাটালগ রেন্ডার ----- */
+let currentFilter = 'all';
+function renderCatalog(filter) {
+  if (filter) currentFilter = filter;
+  const grid = document.getElementById('catalogGrid');
+  const filtered = currentFilter === 'all'
+    ? BOOKS
+    : BOOKS.filter(b => b.tags.includes(currentFilter));
+  grid.innerHTML = filtered.length
+    ? filtered.map(book => bookTileHTML(book)).join('')
+    : '<p style="grid-column:1/-1;text-align:center;color:var(--color-ink-soft)">কোনো বই পাওয়া যায়নি</p>';
+  bindBookTiles();
+}
+
+/* ----- Book Tile HTML ----- */
+function bookTileHTML(book) {
+  const badge = book.badge === 'sub'
+    ? '<span class="badge badge-sub">সাবস্ক্রিপশনে ফ্রি</span>'
+    : book.badge === 'new'
+    ? '<span class="badge badge-gold">নতুন</span>'
+    : '<span class="badge badge-classic">ক্লাসিক</span>';
+  return `
+    <article class="book-tile" data-book-id="${book.id}">
+      <div class="book-cover">
+        <img src="https://via.placeholder.com/300x450/${book.color}/faf8f5?text=${encodeURIComponent(book.title)}" alt="${book.title}" loading="lazy" />
+      </div>
+      <h3 class="book-title">${book.title}</h3>
+      <p class="book-author">${book.author}</p>
+      <div class="book-price-row">
+        <span class="book-price">৳ ${book.price}</span>
+        ${badge}
+      </div>
+    </article>
+  `;
+}
+
+/* ----- Bind Book Tile Clicks ----- */
+function bindBookTiles() {
+  document.querySelectorAll('.book-tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+      const id = parseInt(tile.dataset.bookId);
+      openBookDetail(id);
+    });
+  });
+}
+
+/* ----- Open Book Detail / বইয়ের বিস্তারিত খুলুন ----- */
+function openBookDetail(id) {
+  const book = BOOKS.find(b => b.id === id);
+  if (!book) return;
+  state.currentBook = book;
+
+  document.getElementById('bdBreadcrumb').textContent = book.title;
+  document.getElementById('bdCover').src = `https://via.placeholder.com/400x600/${book.color}/faf8f5?text=${encodeURIComponent(book.title)}`;
+  document.getElementById('bdTitle').textContent = book.title;
+  document.getElementById('bdAuthor').textContent = book.author;
+  document.getElementById('bdDesc').textContent = book.desc;
+  document.getElementById('bdPrice').textContent = '৳ ' + book.price;
+  document.getElementById('bdPages').textContent = book.pages;
+  document.getElementById('bdPublisher').textContent = book.publisher;
+  document.getElementById('bdIsbn').textContent = book.isbn;
+  document.getElementById('bdBadge').textContent = book.badge === 'new' ? 'নতুন' : 'ক্লাসিক';
+  document.getElementById('bdBadge').className = 'badge ' + (book.badge === 'new' ? 'badge-gold' : 'badge-classic');
+  document.getElementById('bdPriceNote').textContent = book.tags.includes('subscription') ? 'সাবস্ক্রিপশনে ফ্রি' : 'শুধু কিনুন';
+
+  document.getElementById('bdReadBtn').onclick = () => {
+    document.getElementById('readerTitle').textContent = book.title;
+    showPage('reader');
+  };
+  document.getElementById('bdCartBtn').onclick = () => addToCart(book.id);
+
+  showPage('book-detail');
+}
+
+/* ----- Cart / কার্ট ----- */
+function addToCart(id) {
+  const book = BOOKS.find(b => b.id === id);
+  if (!book) return;
+  if (state.cart.find(i => i.id === id)) {
+    showToast('এই বই ইতিমধ্যে কার্টে আছে');
+    return;
+  }
+  state.cart.push({ id: book.id, title: book.title, author: book.author, price: book.price, color: book.color });
+  saveCart();
+  showToast(`"${book.title}" কার্টে যোগ হয়েছে`);
+}
+
+function removeFromCart(id) {
+  state.cart = state.cart.filter(i => i.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function saveCart() {
+  localStorage.setItem('sb_cart', JSON.stringify(state.cart));
+  updateCartCount();
+}
+
+function updateCartCount() {
+  document.getElementById('cartCount').textContent = state.cart.length;
+}
+
+function renderCart() {
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const contentEl = document.getElementById('cartContent');
+
+  if (!state.cart.length) {
+    emptyEl.classList.remove('hidden');
+    contentEl.classList.add('hidden');
+    return;
+  }
+  emptyEl.classList.add('hidden');
+  contentEl.classList.remove('hidden');
+
+  itemsEl.innerHTML = state.cart.map(item => `
+    <div class="cart-item">
+      <img class="cart-item-img" src="https://via.placeholder.com/80x110/${item.color}/faf8f5?text=Book" alt="${item.title}" />
+      <div>
+        <p class="cart-item-title">${item.title}</p>
+        <p class="cart-item-author">${item.author}</p>
+        <a class="remove-btn" onclick="removeFromCart(${item.id})">সরান</a>
+      </div>
+      <span class="cart-item-price">৳ ${item.price}</span>
+    </div>
+  `).join('');
+
+  const subtotal = state.cart.reduce((s, i) => s + i.price, 0);
+  document.getElementById('cartSubtotal').textContent = '৳ ' + subtotal;
+  document.getElementById('cartTotal').textContent = '৳ ' + subtotal;
+}
+
+/* ----- Checkout / চেকআউট ----- */
+function renderCheckout() {
+  const itemsEl = document.getElementById('checkoutItems');
+  itemsEl.innerHTML = state.cart.map(item => `
+    <div class="summary-row">
+      <span>${item.title}</span>
+      <span>৳ ${item.price}</span>
+    </div>
+  `).join('');
+  const subtotal = state.cart.reduce((s, i) => s + i.price, 0);
+  document.getElementById('coSubtotal').textContent = '৳ ' + subtotal;
+  document.getElementById('coTotal').textContent = '৳ ' + subtotal;
+  if (!state.cart.length) {
+    showToast('কার্ট খালি — আগে বই যোগ করুন');
+    showPage('catalog');
+  }
+}
+
+/* ----- Place Order / অর্ডার নিশ্চিত ----- */
+function placeOrder() {
+  const name = document.getElementById('coName').value.trim();
+  const email = document.getElementById('coEmail').value.trim();
+  const phone = document.getElementById('coPhone').value.trim();
+  if (!name || !email || !phone) {
+    showToast('সব তথ্য পূরণ করুন');
+    return;
+  }
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'প্রসেস হচ্ছে...';
+  setTimeout(() => {
+    state.cart = [];
+    saveCart();
+    btn.disabled = false;
+    btn.textContent = 'অর্ডার নিশ্চিত করুন';
+    showToast('✓ অর্ডার সফল! কনফার্মেশন ইমেইল পাঠানো হয়েছে।');
+    setTimeout(() => showPage('home'), 1800);
+  }, 1500);
+}
+
+/* ----- Payment method selection ----- */
+document.querySelectorAll('.payment-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+/* ----- Subscribe / সাবস্ক্রাইব ----- */
+function subscribe(plan, price) {
+  showToast(`"${plan}" প্ল্যান (৳ ${price}) নির্বাচিত — শীঘ্রই পেমেন্ট পেজ যুক্ত হবে`);
+}
+
+/* ----- Auth / লগইন-সাইনআপ ----- */
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  state.user = { email };
+  localStorage.setItem('sb_user', JSON.stringify(state.user));
+  updateAuthUI();
+  showToast('সফলভাবে লগইন হয়েছে');
+  showPage('home');
+});
+
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  state.user = { name, email };
+  localStorage.setItem('sb_user', JSON.stringify(state.user));
+  updateAuthUI();
+  showToast('অ্যাকাউন্ট তৈরি হয়েছে — ইমেইল ভেরিফিকেশন লিঙ্ক পাঠানো হয়েছে');
+  showPage('home');
+});
+
+function logout() {
+  state.user = null;
+  localStorage.removeItem('sb_user');
+  updateAuthUI();
+  showToast('লগআউট হয়েছে');
+  showPage('home');
+}
+
+function updateAuthUI() {
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (state.user) {
+    loginBtn.classList.add('hidden');
+    logoutBtn.classList.remove('hidden');
+  } else {
+    loginBtn.classList.remove('hidden');
+    logoutBtn.classList.add('hidden');
+  }
+}
+
+/* ----- Reader Controls / রিডার কন্ট্রোল ----- */
+let fontSize = 1.15;
+let themeIdx = 0;
+const themes = ['', 'theme-sepia', 'theme-dark'];
+let currentPage = 1;
+const totalPages = 324;
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const wrap = document.getElementById('readerWrap');
+  wrap.classList.remove('theme-sepia', 'theme-dark');
+  themeIdx = (themeIdx + 1) % themes.length;
+  if (themes[themeIdx]) wrap.classList.add(themes[themeIdx]);
+});
+
+document.getElementById('fontIncrease').addEventListener('click', () => {
+  fontSize = Math.min(fontSize + 0.1, 1.8);
+  document.getElementById('readerPage').querySelectorAll('p').forEach(p => p.style.fontSize = fontSize + 'rem');
+});
+
+document.getElementById('fontDecrease').addEventListener('click', () => {
+  fontSize = Math.max(fontSize - 0.1, 0.9);
+  document.getElementById('readerPage').querySelectorAll('p').forEach(p => p.style.fontSize = fontSize + 'rem');
+});
+
+document.getElementById('prevPage').addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    document.getElementById('pageNum').textContent = currentPage;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+  if (currentPage < totalPages) {
+    currentPage++;
+    document.getElementById('pageNum').textContent = currentPage;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+window.addEventListener('scroll', () => {
+  const fill = document.getElementById('progressFill');
+  if (!fill) return;
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  fill.style.width = pct + '%';
+});
+
+/* ----- Filters / ফিল্টার ----- */
+document.getElementById('filterBar').addEventListener('click', (e) => {
+  const chip = e.target.closest('.filter-chip');
+  if (!chip) return;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  renderCatalog(chip.dataset.filter);
+});
+
+/* ----- Toast / টোস্ট ----- */
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+/* ----- Init / শুরু ----- */
+function init() {
+  renderFeatured();
+  updateCartCount();
+  updateAuthUI();
+  showPage('home');
+}
+init();
+</script>
+
+</body>
+</html>
