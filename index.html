@@ -14,7 +14,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Design System (Supabase + Old UI)
+   S'B পাঠশালা — Design System (With Full Gitanjali Reader)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -138,12 +138,10 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 }
 .book-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Individual book positioning */
 .book-card-1 { top: 80px; left: 20px; transform: rotateY(-15deg) rotateZ(-10deg); z-index: 1; }
 .book-card-2 { top: 10px; left: 80px; transform: rotateY(-15deg) rotateZ(5deg); z-index: 2; }
 .book-card-3 { top: 100px; left: 140px; transform: rotateY(-15deg) rotateZ(-2deg); z-index: 3; }
 
-/* Hover Effect */
 .hero-visual:hover .book-card-1 { transform: rotateY(-15deg) rotateZ(-15deg) translateX(-20px) translateY(10px); }
 .hero-visual:hover .book-card-2 { transform: rotateY(-15deg) rotateZ(8deg) translateY(-10px); }
 .hero-visual:hover .book-card-3 { transform: rotateY(-15deg) rotateZ(-2deg) translateX(20px) translateY(5px); box-shadow: -15px 15px 35px rgba(0,0,0,0.35), inset 3px 0 5px rgba(255,255,255,0.2); }
@@ -182,7 +180,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   box-shadow: -15px 15px 25px rgba(0, 0, 0, 0.25), inset 2px 0 5px rgba(255, 255, 255, 0.2);
 }
 
-/* Unlocked Badge on Cover */
 .book-cover .unlocked-badge {
   position: absolute; top: 10px; right: 10px; background: rgba(26, 58, 42, 0.9);
   color: var(--color-white); font-family: var(--font-bn-sans); font-size: 0.7rem;
@@ -255,12 +252,42 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .reader-content { max-width: 720px; margin: 0 auto; padding: var(--space-6) var(--space-4); }
 .reader-page h1 { font-family: var(--font-bn-serif); font-size: 1.8rem; color: var(--color-primary); margin-bottom: var(--space-5); text-align: center; }
 .reader-page p { font-size: 1.15rem; line-height: 1.9; margin-bottom: var(--space-4); color: var(--color-ink); text-align: justify; }
+
+/* এই অংশটুকু নতুন যোগ করা হয়েছে গীতাঞ্জলির জন্য */
+.reader-page .poem-title {
+  font-family: var(--font-bn-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-align: center;
+  margin: var(--space-5) 0 var(--space-3) 0;
+  border-bottom: 1px dashed var(--color-border);
+  padding-bottom: 0.5rem;
+}
+.reader-page .poem-meta {
+  font-family: var(--font-bn-sans);
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+.reader-page .poem-text {
+  font-family: var(--font-bn-serif);
+  font-size: 1.2rem;
+  line-height: 2;
+  color: var(--color-ink);
+  text-align: center;
+  white-space: pre-line; /* লাইন ব্রেক ঠিক রাখার জন্য */
+  margin-bottom: var(--space-5);
+}
+
 .reader-footer { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4) var(--space-5); border-top: 1px solid var(--color-border); background: rgba(255,253,248,0.96); position: sticky; bottom: 0; }
 .reader-page-info { font-family: var(--font-bn-sans); font-size: 0.85rem; color: var(--color-ink-soft); }
 .reader-page-wrap.theme-sepia { background: #f4ecd8; }
 .reader-page-wrap.theme-sepia .reader-content { color: #3a2f1a; }
 .reader-page-wrap.theme-dark { background: #1a1a1a; color: #d4d4d4; }
 .reader-page-wrap.theme-dark .reader-page p { color: #d4d4d4; }
+.reader-page-wrap.theme-dark .reader-page .poem-text { color: #d4d4d4; }
 .reader-page-wrap.theme-dark .reader-header, .reader-page-wrap.theme-dark .reader-footer { background: #111; border-color: #333; }
 .reader-page-wrap.theme-dark .reader-title { color: #d4d4d4; }
 
@@ -278,7 +305,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .plan-price { font-family: var(--font-bn-sans); font-size: 2.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-1); }
 .plan-price span { font-size: 1rem; font-weight: 400; color: var(--color-ink-soft); }
 
-/* ডিসকাউন্ট প্রাইস স্টাইল */
 .plan-price-old { font-family: var(--font-bn-sans); font-size: 1.1rem; text-decoration: line-through; color: #888; margin-right: 8px; }
 .plan-discount-badge { display: inline-block; background: rgba(184, 134, 11, 0.15); color: var(--color-gold); font-family: var(--font-bn-sans); font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: bold; margin-left: 5px; vertical-align: middle; }
 
@@ -313,7 +339,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .modal-book-info .mb-price { font-family: var(--font-bn-sans); font-size: 0.9rem; color: var(--color-accent); font-weight: bold; }
 .modal-book-info .mb-discount { font-family: var(--font-bn-sans); font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-/* Payment Methods inside Modal */
 .payment-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); margin-bottom: var(--space-4); }
 .payment-option { border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-2); cursor: pointer; transition: all 0.2s; text-align: center; }
 .payment-option:hover { border-color: var(--color-primary); }
@@ -321,7 +346,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .payment-option .pm-icon { font-size: 1.2rem; margin-bottom: 0.1rem; }
 .payment-option .pm-name { font-family: var(--font-bn-sans); font-size: 0.75rem; font-weight: 500; }
 
-/* Processing State (Loading) */
 .processing-state { text-align: center; padding: var(--space-5) 0; }
 .spinner {
   width: 40px; height: 40px; border: 4px solid var(--color-border);
@@ -331,7 +355,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .processing-state p { font-family: var(--font-bn-sans); color: var(--color-ink-soft); }
 
-/* Success State */
 .success-state { text-align: center; padding: var(--space-4) 0; }
 .success-icon { font-size: 3rem; color: #4CAF50; margin-bottom: var(--space-3); }
 .success-state h3 { font-family: var(--font-bn-serif); font-size: 1.5rem; color: var(--color-primary); margin-bottom: var(--space-2); }
@@ -372,7 +395,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .auth-switch a:hover { text-decoration: underline; }
 .otp-input { text-align: center; font-size: 1.5rem !important; letter-spacing: 8px; font-weight: 700; }
 
-/* Toast */
 .toast {
   position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(120%);
   background: var(--color-primary); color: var(--color-white);
@@ -382,7 +404,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
-/* Responsive */
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-visual { min-height: 300px; margin-top: 2rem; }
@@ -446,18 +467,11 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
         </div>
       </div>
       
-      <!-- 3D Books in Hero (Only Images) -->
       <div class="hero-visual" aria-hidden="true">
         <div class="book-stack">
-          <div class="book-card book-card-1">
-            <img src="devdas.jpg" alt="Book 1" />
-          </div>
-          <div class="book-card book-card-2">
-            <img src="pather-panchali.jpg" alt="Book 2" />
-          </div>
-          <div class="book-card book-card-3">
-            <img src="sesher-kobita.jpg" alt="Book 3" />
-          </div>
+          <div class="book-card book-card-1"><img src="devdas.jpg" alt="Book 1" /></div>
+          <div class="book-card book-card-2"><img src="pather-panchali.jpg" alt="Book 2" /></div>
+          <div class="book-card book-card-3"><img src="sesher-kobita.jpg" alt="Book 3" /></div>
         </div>
       </div>
     </div>
@@ -545,9 +559,8 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
     </div>
     <section class="book-preview">
       <h2>নমুনা পাঠ</h2>
-      <div class="preview-content">
-        <p>“আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে...”</p>
-        <p style="color:var(--color-accent); font-weight:bold; margin-top:1rem;">🔒 পূর্ণ বইটি পড়তে হলে বইটি কিনে আনলক করুন।</p>
+      <div class="preview-content" id="bdPreview">
+        <!-- Dynamic Preview goes here -->
       </div>
     </section>
   </div>
@@ -568,20 +581,15 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       </div>
       <div class="reader-progress-bar"><div class="reader-progress-fill" id="progressFill"></div></div>
     </header>
+    
     <main class="reader-content">
-      <article class="reader-page" id="readerPage">
-        <h1>প্রথম অধ্যায়</h1>
-        <p>আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে।</p>
-        <p>এই গ্রামে ছিল অপু আর দুর্গা। তাদের বাবা হরিহর দত্ত পূজা-পার্বণে পুরোহিতির কাজ করতেন। মা সর্বজয়া গৃহিণী।</p>
-        <p>অপু ছিল ছোট, দুর্গা তার বড় বোন। দুর্গার বয়স বেশি হলেও ভাইয়ের প্রতি তার ভালোবাসা ছিল অগাধ। দুজনে মিলে সারাদিন গ্রামের মাঠে, নদীর ধারে ঘুরে বেড়াতো।</p>
-        <p>সেদিন ছিল বৈশাখ মাসের এক গরম দুপুর। অপু আর দুর্গা বাড়ির পাশের বাঁশবাগানে গিয়েছিল। হঠাৎ দুর্গার চোখে পড়ল একটা পাখির বাসা।</p>
-        <p>“অপু, দেখ দেখ, পাখির বাসা!” — দুর্গা উচ্ছ্বসিত হয়ে বলল।</p>
-        <p>অপু তাকিয়ে দেখল, বাঁশগাছের এক ডালে ছোট্ট একটা বাসা। বাসার ভেতর থেকে উঁকি দিচ্ছে পাখির ছানা।</p>
-      </article>
+      <!-- Dynamic Content goes here based on book ID -->
+      <article class="reader-page" id="readerPage"></article>
     </main>
+    
     <footer class="reader-footer">
       <button class="btn btn-outline" id="prevPage">← আগের পাতা</button>
-      <span class="reader-page-info">পৃষ্ঠা <span id="pageNum">১</span> / ৩২৪</span>
+      <span class="reader-page-info">পৃষ্ঠা <span id="pageNum">১</span> / <span id="totalPagesText">৩২৪</span></span>
       <button class="btn btn-primary" id="nextPage">পরের পাতা →</button>
     </footer>
   </div>
@@ -611,7 +619,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
         <div style="display: flex; align-items: baseline; margin-bottom: var(--space-1);">
           <span class="plan-price-old">৳ ১,৯৯৯</span>
           <span class="plan-price">৳ ১,৪৯৯<span>/বছর</span></span>
-          <span class="plan-discount-badge">২৫% ছাড়</span>
+          <span class="plan-discount-badge">২৫% ছাড়</span>
         </div>
         <ul class="plan-features">
           <li>✓ সব মাসিক সুবিধা</li>
@@ -676,7 +684,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   <div class="modal-content">
     <span class="modal-close" onclick="closePaymentModal()">×</span>
     
-    <!-- Step 1: Select Payment -->
     <div id="paymentStep1">
       <h2 class="modal-title">পেমেন্ট সম্পন্ন করুন</h2>
       <p class="modal-subtitle">নিরাপদে পেমেন্ট করে বইটি আনলক করুন</p>
@@ -693,34 +700,20 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       </div>
 
       <div class="payment-methods">
-        <div class="payment-option selected" data-method="bkash">
-          <div class="pm-icon">📱</div>
-          <div class="pm-name">bKash</div>
-        </div>
-        <div class="payment-option" data-method="nagad">
-          <div class="pm-icon">💳</div>
-          <div class="pm-name">Nagad</div>
-        </div>
-        <div class="payment-option" data-method="card">
-          <div class="pm-icon">💳</div>
-          <div class="pm-name">কার্ড</div>
-        </div>
-        <div class="payment-option" data-method="rocket">
-          <div class="pm-icon">🚀</div>
-          <div class="pm-name">Rocket</div>
-        </div>
+        <div class="payment-option selected" data-method="bkash"><div class="pm-icon">📱</div><div class="pm-name">bKash</div></div>
+        <div class="payment-option" data-method="nagad"><div class="pm-icon">💳</div><div class="pm-name">Nagad</div></div>
+        <div class="payment-option" data-method="card"><div class="pm-icon">💳</div><div class="pm-name">কার্ড</div></div>
+        <div class="payment-option" data-method="rocket"><div class="pm-icon">🚀</div><div class="pm-name">Rocket</div></div>
       </div>
       
       <button class="btn btn-primary btn-block btn-lg" onclick="processPayment()">পেমেন্ট করুন</button>
     </div>
 
-    <!-- Step 2: Processing -->
     <div id="paymentStep2" class="processing-state hidden">
       <div class="spinner"></div>
       <p>পেমেন্ট প্রসেস হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।</p>
     </div>
 
-    <!-- Step 3: Success -->
     <div id="paymentStep3" class="success-state hidden">
       <div class="success-icon">✓</div>
       <h3>পেমেন্ট সফল হয়েছে!</h3>
@@ -735,7 +728,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   <div class="auth-modal-content">
     <span class="auth-close" onclick="closeAuth()">×</span>
 
-    <!-- SIGN UP PANEL -->
     <section id="signupPanel">
       <h2 class="auth-title">নতুন অ্যাকাউন্ট</h2>
       <p class="auth-subtitle">S'B পাঠশালায় যোগ দিতে আপনার তথ্য দিন।</p>
@@ -759,7 +751,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       </div>
     </section>
 
-    <!-- OTP PANEL -->
     <section id="otpPanel" class="hidden">
       <h2 class="auth-title">ইমেইল যাচাই করুন</h2>
       <p class="auth-subtitle">আপনার ইমেইল <strong id="otpEmailText"></strong>-এ পাঠানো ৬ সংখ্যার কোডটি লিখুন।</p>
@@ -776,7 +767,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
       </div>
     </section>
 
-    <!-- LOGIN PANEL -->
     <section id="loginPanel" class="hidden">
       <h2 class="auth-title">লগইন করুন</h2>
       <p class="auth-subtitle">আপনার ইমেইল ও পাসওয়ার্ড ব্যবহার করুন।</p>
@@ -805,7 +795,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 
 <script>
 /* ============================================================
-   S'B পাঠশালা — Logic (Supabase + Old UI)
+   S'B পাঠশালা — Logic (Supabase + Gitanjali Book Content)
    ============================================================ */
 
 // Supabase Configuration
@@ -817,6 +807,101 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_ANON_KEY,
   { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
 );
+
+// Custom Book Content
+const BOOK_CONTENTS = {
+  4: { // Gitanjali (Book ID: 4)
+    title: "গীতাঞ্জলি",
+    totalPages: 157,
+    html: `
+      <h1>গীতাঞ্জলি</h1>
+      <p class="poem-meta">রবীন্দ্রনাথ ঠাকুর</p>
+      
+      <div class="poem-title">১</div>
+      <div class="poem-text">
+        আমার মাথা নত করে দাও হে তোমার চরণ-ধূলার তলে।
+        সকল অহঙ্কার হে আমার ডুবাও চোখের জলে।
+      </div>
+
+      <div class="poem-title">২</div>
+      <div class="poem-text">
+        আমি বহু বাসনায় প্রাণপণ চাই।
+        বিফল করে বাঁচালে মোরে, এ কুহক কে পারিবে সহিতে।
+        না চাহিতে মোরে যা করেছ দান, আকাশ আলোক তন্ময় মনপ্রাণ।
+        দিনে দিনে তুমি নিতেছ আমার সে মহা দানেরই যোগ্য করে।
+        আমি কথনে বা ভুলি, কথনে বা চলি, তোমার পথের লক্ষ্য ধরে।
+        তুমি নিত্য সম্মুখ হতে যাও যে সরে।
+        এ যে তব দয়া জানি জানি হায়, নিতে চাও বলে ফিরাও আমার।
+        পূর্ণ করিয়া লবে এ জীবন তব মিলনেরই যোগ্য করে।
+      </div>
+
+      <div class="poem-title">৩</div>
+      <div class="poem-text">
+        কত অজানারে জানাইলে তুমি, কত ঘরে দিলে ঠাই।
+        দূরকে করিলে নিকট, বন্ধু, পরকে করিলে ভাই।
+        পুরাতন আবাস ছেড়ে যাই যবে, মন ছেড়ে মোর দিক জাদিক তবে।
+        নূতনের মাঝে তুমি পুরাতন, সে-কথা সব ভুলে যাই।
+      </div>
+
+      <div class="poem-title">৪</div>
+      <div class="poem-text">
+        অন্ধকারের হাত থেকে আলোতে এসো।
+        মরণের হাত থেকে জীবনে এসো।
+      </div>
+
+      <div class="poem-title">৫</div>
+      <div class="poem-text">
+        এস হে এস, সজল ঘন, বাদল বরিষণ।
+        বিষাদে তব শ্যামল হৈছে এস হে এ জীবনে।
+        এস হে পরিশুদ্ধ চুমি, ছায়ায় ঘির কাননভূমি।
+        গগন ছুঁয়ে এস হে তুমি গভীর গর্জনে।
+      </div>
+
+      <div class="poem-title">৬</div>
+      <div class="poem-text">
+        জগৎ জুড়ে উদার গ্রহে আনন্দ-গান বাজে।
+        সে গান কবে গভীর রবে বাজিবে হিয়া মাঝে।
+        বাতাস জল আকাশ আলো সবারে কবে বাসিব ভালো।
+        হৃদয় সত্য জুড়িয়া তারা বসিবে নানা সাজে।
+      </div>
+
+      <div class="poem-title">৭</div>
+      <div class="poem-text">
+        আমার এ গান ছেড়েছে তার সকল অলঙ্কার।
+        তোমার কাছে খাটে না মোর কবির গরব করা।
+      </div>
+
+      <div class="poem-title">৮</div>
+      <div class="poem-text">
+        তুমি যে কাজ করচ, আমার সেই কাজে কি লাগাব না।
+        কাজের দিনে আমার তুমি আপনার হাতে জাগাব না।
+        ভালোমন্দ ওঠাপড়ায়, বিশ্বশালার ভাঙাগড়ায়।
+        তোমার পাশে দাঁড়িয়ে যেন তোমার সাথে হয় গো চেনা।
+      </div>
+
+      <div class="poem-title">৯</div>
+      <div class="poem-text">
+        পশ্চিমে আজি খুলিয়াছে দ্বার।
+        সেখা হতে সেবা আনেন উপহার।
+        দিবে আর নিবে, মিলাবে মিলিবে যাবে না ফিরে।
+        এই ভারতের মহামানবের সাগরতীরে।
+      </div>
+
+      <div class="poem-title">১০</div>
+      <div class="poem-text">
+        হে মোর দুর্ভাগা দেশ, যারা করেছে তোমার অপমান।
+        তাদের পিছে, সবার নীচে, সব-হারাদের মাঝ।
+        যখন তোমায় প্রণাম করি আমি, প্রণাম আমার কোথায় যায় থামি।
+        তোমার চরণ যেথায় নামে অপমানের তলে।
+        সেথায় অশ্রু আমার প্রণাম নামে না যে।
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem; color: var(--color-ink-soft);">
+        <p>— সমাপ্ত —</p>
+      </div>
+    `
+  }
+};
 
 // Books Data
 const BOOKS = [
@@ -830,7 +915,7 @@ const BOOKS = [
     id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', cover: 'sesher-kobita.jpg', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
   },
   { 
-    id: 4, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 220, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', cover: 'gitanjali.jpg', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
+    id: 4, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 157, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', cover: 'gitanjali.jpg', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
   },
   { 
     id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', cover: null, color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
@@ -960,11 +1045,28 @@ function openBookDetail(id) {
   document.getElementById('bdBadge').textContent = book.badge === 'new' ? 'নতুন' : 'ক্লাসিক';
   document.getElementById('bdBadge').className = 'badge ' + (book.badge === 'new' ? 'badge-gold' : 'badge-classic');
 
+  // Dynamic Action Buttons
   const actionsEl = document.getElementById('bdActions');
   if (isUnlocked) {
-    actionsEl.innerHTML = `<button class="btn btn-primary btn-lg" onclick="openReader('${book.title}')">পড়া শুরু করুন →</button>`;
+    actionsEl.innerHTML = `<button class="btn btn-primary btn-lg" onclick="openReader(${book.id})">পড়া শুরু করুন →</button>`;
   } else {
     actionsEl.innerHTML = `<button class="btn btn-gold btn-lg" onclick="openPaymentModal(${book.id})">এখনই কিনুন — ৳ ${discPrice}</button>`;
+  }
+
+  // Dynamic Preview
+  const previewEl = document.getElementById('bdPreview');
+  if (book.id === 4) { // Gitanjali custom preview
+    previewEl.innerHTML = `
+      <p style="font-style: italic; text-align: center; font-size: 1.1rem;">
+        “আমার মাথা নত করে দাও হে তোমার চরণ-ধূলার তলে।<br>সকল অহঙ্কার হে আমার ডুবাও চোখের জলে।”
+      </p>
+      <p style="color:var(--color-accent); font-weight:bold; margin-top:1rem;">🔒 পূর্ণ বইটি পড়তে হলে বইটি কিনে আনলক করুন।</p>
+    `;
+  } else {
+    previewEl.innerHTML = `
+      <p>“আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে...”</p>
+      <p style="color:var(--color-accent); font-weight:bold; margin-top:1rem;">🔒 পূর্ণ বইটি পড়তে হলে বইটি কিনে আনলক করুন।</p>
+    `;
   }
 
   showPage('book-detail');
@@ -1015,8 +1117,35 @@ function startReadingUnlocked() {
   showToast('বইটি সফলভাবে আনলক হয়েছে!');
 }
 
-function openReader(title) {
-  document.getElementById('readerTitle').textContent = title;
+/* ----- Reader Logic ----- */
+function openReader(bookId) {
+  const book = BOOKS.find(b => b.id === bookId);
+  if (!book) return;
+  
+  document.getElementById('readerTitle').textContent = book.title;
+  
+  const readerPage = document.getElementById('readerPage');
+  const totalPagesText = document.getElementById('totalPagesText');
+  
+  if (BOOK_CONTENTS[bookId]) {
+    readerPage.innerHTML = BOOK_CONTENTS[bookId].html;
+    totalPagesText.textContent = BOOK_CONTENTS[bookId].totalPages;
+    currentPage = 1;
+    document.getElementById('pageNum').textContent = currentPage;
+  } else {
+    // Default fallback text
+    readerPage.innerHTML = `
+      <h1>প্রথম অধ্যায়</h1>
+      <p>আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে।</p>
+      <p>এই গ্রামে ছিল অপু আর দুর্গা। তাদের বাবা হরিহর দত্ত পূজা-পার্বণে পুরোহিতির কাজ করতেন। মা সর্বজয়া গৃহিণী।</p>
+      <p>অপু ছিল ছোট, দুর্গা তার বড় বোন। দুর্গার বয়স বেশি হলেও ভাইয়ের প্রতি তার ভালোবাসা ছিল অগাধ। দুজনে মিলে সারাদিন গ্রামের মাঠে, নদীর ধারে ঘুরে বেড়াতো।</p>
+      <p style="text-align:center; margin-top: 2rem; color: var(--color-muted);">— এই বইটির সম্পূর্ণ কন্টেন্ট শীঘ্রই যুক্ত হবে —</p>
+    `;
+    totalPagesText.textContent = book.pages;
+    currentPage = 1;
+    document.getElementById('pageNum').textContent = currentPage;
+  }
+
   showPage('reader');
 }
 
@@ -1030,7 +1159,6 @@ let fontSize = 1.15;
 let themeIdx = 0;
 const themes = ['', 'theme-sepia', 'theme-dark'];
 let currentPage = 1;
-const totalPages = 324;
 
 document.getElementById('themeToggle').addEventListener('click', () => {
   const wrap = document.getElementById('readerWrap');
@@ -1041,12 +1169,12 @@ document.getElementById('themeToggle').addEventListener('click', () => {
 
 document.getElementById('fontIncrease').addEventListener('click', () => {
   fontSize = Math.min(fontSize + 0.1, 1.8);
-  document.getElementById('readerPage').querySelectorAll('p').forEach(p => p.style.fontSize = fontSize + 'rem');
+  document.getElementById('readerPage').querySelectorAll('p, .poem-text').forEach(p => p.style.fontSize = fontSize + 'rem');
 });
 
 document.getElementById('fontDecrease').addEventListener('click', () => {
   fontSize = Math.max(fontSize - 0.1, 0.9);
-  document.getElementById('readerPage').querySelectorAll('p').forEach(p => p.style.fontSize = fontSize + 'rem');
+  document.getElementById('readerPage').querySelectorAll('p, .poem-text').forEach(p => p.style.fontSize = fontSize + 'rem');
 });
 
 document.getElementById('prevPage').addEventListener('click', () => {
@@ -1058,6 +1186,7 @@ document.getElementById('prevPage').addEventListener('click', () => {
 });
 
 document.getElementById('nextPage').addEventListener('click', () => {
+  const totalPages = parseInt(document.getElementById('totalPagesText').textContent) || 324;
   if (currentPage < totalPages) {
     currentPage++;
     document.getElementById('pageNum').textContent = currentPage;
