@@ -14,7 +14,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Design System (With Rabindra Sangeet)
+   S'B পাঠশালা — Design System (Fixed Books + Rabindra Sangeet)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -295,7 +295,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .lyric-line.active {
   font-weight: 700;
   transform: scale(1.08);
-  background-color: rgba(184, 134, 11, 0.15); /* Gold highlight */
+  background-color: rgba(184, 134, 11, 0.15);
 }
 
 .reader-footer { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4) var(--space-5); border-top: 1px solid var(--color-border); background: rgba(255,253,248,0.96); position: sticky; bottom: 0; }
@@ -597,8 +597,8 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   <div class="reader-page-wrap" id="readerWrap">
     <header class="reader-header">
       <div class="reader-header-inner">
-        <a class="reader-back" onclick="showPage('rabindra-sangeet')">← ফিরুন</a>
-        <span class="reader-title" id="readerTitle">তোমার খোলা হাওয়া</span>
+        <a class="reader-back" id="readerBackBtn">← ফিরুন</a>
+        <span class="reader-title" id="readerTitle">পথের পাঁচালী</span>
         <div class="reader-controls">
           <button id="themeToggle" class="btn btn-ghost" aria-label="Theme">🌓</button>
           <button id="fontIncrease" class="btn btn-ghost" aria-label="Increase font">A+</button>
@@ -613,9 +613,9 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
     </main>
     
     <footer class="reader-footer">
-      <button class="btn btn-outline" id="prevPage">← আগের গান</button>
-      <span class="reader-page-info" id="pageNum">গান ১</span>
-      <button class="btn btn-primary" id="nextPage">পরের গান →</button>
+      <button class="btn btn-outline" id="prevPage">← আগের পাতা</button>
+      <span class="reader-page-info" id="pageNum">পৃষ্ঠা ১</span>
+      <button class="btn btn-primary" id="nextPage">পরের পাতা →</button>
     </footer>
   </div>
 </main>
@@ -820,7 +820,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 
 <script>
 /* ============================================================
-   S'B পাঠশালা — Logic (Supabase + Rabindra Sangeet)
+   S'B পাঠশালা — Logic (Restored Books + Rabindra Sangeet)
    ============================================================ */
 
 // Supabase Configuration
@@ -833,14 +833,32 @@ const supabaseClient = window.supabase.createClient(
   { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
 );
 
-// Rabindra Sangeet Data (Exact lyrics as requested)
+// 1. Restored Books Data
+const BOOKS = [
+  { 
+    id: 1, title: 'দেবদাস', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 250, badge: 'classic', tags: ['classic', 'subscription'], pages: 160, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-321-5', cover: 'devdas.jpg', desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' 
+  },
+  { 
+    id: 2, title: 'পথের পাঁচালী', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 350, badge: 'classic', tags: ['classic', 'subscription'], pages: 324, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-123-4', cover: 'pather-panchali.jpg', desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র।' 
+  },
+  { 
+    id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', cover: 'sesher-kobita.jpg', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
+  },
+  { 
+    id: 4, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 157, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', cover: 'gitanjali.jpg', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
+  },
+  { 
+    id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', cover: null, color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
+  },
+  { 
+    id: 6, title: 'চোখের বালি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 290, badge: 'classic', tags: ['classic', 'subscription'], pages: 200, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-111-3', cover: null, color: '3a1a2a', desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' 
+  }
+];
+
+// 2. Rabindra Sangeet Data
 const RABINDRA_SANGEET = [
   {
-    id: 'rs1',
-    title: 'তোমার খোলা হাওয়া',
-    author: 'রবীন্দ্রনাথ ঠাকুর',
-    cover: 'rs1.jpg', // You can replace with actual image paths
-    color: '8a6745',
+    id: 'rs1', title: 'তোমার খোলা হাওয়া', author: 'রবীন্দ্রনাথ ঠাকুর', color: '8a6745',
     lyrics: `তোমার খোলা হাওয়া
 লাগিয়ে পালে...
 তোমার খোলা হাওয়া
@@ -896,11 +914,7 @@ const RABINDRA_SANGEET = [
 তোমার খোলা হাওয়া`
   },
   {
-    id: 'rs2',
-    title: 'হে সখা, মম হৃদয়ে রহো',
-    author: 'রবীন্দ্রনাথ ঠাকুর',
-    cover: 'rs2.jpg',
-    color: '5c1a1a',
+    id: 'rs2', title: 'হে সখা, মম হৃদয়ে রহো', author: 'রবীন্দ্রনাথ ঠাকুর', color: '5c1a1a',
     lyrics: `হে সখা, মম হৃদয়ে রহো।
 হে সখা, মম হৃদয়ে রহো।
 সংসারে সব কাজে ধ্যানে জ্ঞানে হৃদয়ে রহো।
@@ -918,11 +932,7 @@ const RABINDRA_SANGEET = [
 হে সখা, মম হৃদয়ে রহো।`
   },
   {
-    id: 'rs3',
-    title: 'এরা সুখের লাগি চাহে প্রেম',
-    author: 'রবীন্দ্রনাথ ঠাকুর',
-    cover: 'rs3.jpg',
-    color: '1a3a2a',
+    id: 'rs3', title: 'এরা সুখের লাগি চাহে প্রেম', author: 'রবীন্দ্রনাথ ঠাকুর', color: '1a3a2a',
     lyrics: `এরা সুখের লাগি চাহে প্রেম, প্রেম মেলে না
 শুধু সুখ চলে যায়, এমনই মায়ার ছলনা
 এরা সুখের লাগি চাহে প্রেম, প্রেম মেলে না
@@ -954,15 +964,22 @@ const RABINDRA_SANGEET = [
   }
 ];
 
+// Gitanjali Titles (First 10 for demo)
+const GITANJALI_TITLES = [
+  "আমার মাথা নত করে দাও হে", "আমি বহু বাসনায় প্রাণপণে চাই", "কত অজানারে জানাইলে তুমি", "বিপদে মোরে রক্ষা কর", "অন্তর মম বিকশিত কর", "প্রেমে প্রাণে গানে গন্ধে আলোকে পুলকে", "তুমি নব নব রূপে এসো প্রাণে", "আজ ধানের ক্ষেতে রৌদ্র ছায়ায়", "আনন্দেরই সাগর থেকে", "তোমার সোনার থালায় সাজীব আজ"
+];
+
+// State Variables
 let state = {
   currentBook: null,
   user: null,
   unlockedBooks: JSON.parse(localStorage.getItem('sb_unlocked') || '[]')
 };
 
-// Global state for Rabindra Sangeet reader
-let currentSongIndex = 0;
 let isRabindraMode = false;
+let currentSongIndex = 0;
+let currentPage = 1;
+let totalBookPages = 1;
 
 /* ----- Page Router ----- */
 function showPage(page) {
@@ -981,16 +998,33 @@ function showPage(page) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ----- Render Functions ----- */
 function getCoverUrl(book) {
   if (book.cover) return book.cover;
   return `https://via.placeholder.com/300x450/${book.color || '1a3a2a'}/faf8f5?text=${encodeURIComponent(book.title)}`;
 }
 
+function isBookUnlocked(bookId) {
+  return state.unlockedBooks.includes(bookId);
+}
+
+/* ----- Render Functions ----- */
 function renderFeatured() {
   const grid = document.getElementById('featuredGrid');
   if (!grid) return;
   grid.innerHTML = BOOKS.slice(0, 4).map(book => bookTileHTML(book)).join('');
+  bindBookTiles();
+}
+
+let currentFilter = 'all';
+function renderCatalog(filter) {
+  if (filter) currentFilter = filter;
+  const grid = document.getElementById('catalogGrid');
+  if (!grid) return;
+  
+  const filtered = currentFilter === 'all' ? BOOKS : BOOKS.filter(b => b.tags.includes(currentFilter));
+  grid.innerHTML = filtered.length
+    ? filtered.map(book => bookTileHTML(book)).join('')
+    : '<p style="grid-column:1/-1;text-align:center;color:var(--color-ink-soft)">কোনো বই পাওয়া যায়নি</p>';
   bindBookTiles();
 }
 
@@ -1009,16 +1043,167 @@ function renderRabindraSangeet() {
   `).join('');
 }
 
+function bookTileHTML(book) {
+  const discountedPrice = Math.round(book.price * 0.50);
+  const isUnlocked = isBookUnlocked(book.id);
+  
+  let unlockedBadgeHTML = isUnlocked ? '<div class="unlocked-badge">✓ আনলকড</div>' : '';
+  
+  return `
+    <article class="book-tile" data-book-id="${book.id}">
+      <div class="book-cover">
+        ${unlockedBadgeHTML}
+        <img src="${getCoverUrl(book)}" alt="${book.title}" loading="lazy" />
+      </div>
+      <h3 class="book-title">${book.title}</h3>
+      <p class="book-author">${book.author}</p>
+      <div class="book-price-row">
+        ${!isUnlocked ? `
+          <span class="book-price" style="text-decoration: line-through; color: #888; font-size: 0.9rem; font-weight: normal;">
+            ৳ ${book.price}
+          </span>
+          <span class="book-price" style="color: var(--color-accent); font-weight: bold; font-size: 1.1rem;">
+            ৳ ${discountedPrice} (50%)
+          </span>
+        ` : `
+          <span class="book-price" style="color: var(--color-primary); font-weight: bold; font-size: 1.1rem;">
+            ✓ আপনার লাইব্রেরিতে আছে
+          </span>
+        `}
+      </div>
+    </article>
+  `;
+}
+
+function bindBookTiles() {
+  document.querySelectorAll('.book-tile[data-book-id]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      openBookDetail(parseInt(tile.dataset.bookId));
+    });
+  });
+}
+
+/* ----- Book Detail ----- */
+function openBookDetail(id) {
+  const book = BOOKS.find(b => b.id === id);
+  if (!book) return;
+  state.currentBook = book;
+
+  const discPrice = Math.round(book.price * 0.50);
+  const isUnlocked = isBookUnlocked(book.id);
+
+  document.getElementById('bdBreadcrumb').textContent = book.title;
+  document.getElementById('bdCover').src = getCoverUrl(book);
+  document.getElementById('bdTitle').textContent = book.title;
+  document.getElementById('bdAuthor').textContent = book.author;
+  document.getElementById('bdDesc').textContent = book.desc;
+  
+  if (isUnlocked) {
+    document.getElementById('bdPrice').innerHTML = `<span style="color:var(--color-primary); font-size:1.5rem;">✓ আনলকড</span>`;
+  } else {
+    document.getElementById('bdPrice').innerHTML = `
+      <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; margin-right: 10px;">৳ ${book.price}</span>
+      ৳ ${discPrice} <span style="font-size:1rem; color:#888; font-weight:normal;">(50% Off)</span>
+    `;
+  }
+  
+  document.getElementById('bdPages').textContent = book.pages;
+  document.getElementById('bdPublisher').textContent = book.publisher;
+  document.getElementById('bdIsbn').textContent = book.isbn;
+  document.getElementById('bdBadge').textContent = book.badge === 'new' ? 'নতুন' : 'ক্লাসিক';
+  document.getElementById('bdBadge').className = 'badge ' + (book.badge === 'new' ? 'badge-gold' : 'badge-classic');
+
+  const actionsEl = document.getElementById('bdActions');
+  if (isUnlocked) {
+    actionsEl.innerHTML = `<button class="btn btn-primary btn-lg" onclick="openNormalBookReader(${book.id})">পড়া শুরু করুন →</button>`;
+  } else {
+    actionsEl.innerHTML = `<button class="btn btn-gold btn-lg" onclick="openPaymentModal(${book.id})">এখনই কিনুন — ৳ ${discPrice}</button>`;
+  }
+
+  const previewEl = document.getElementById('bdPreview');
+  previewEl.innerHTML = `
+    <p>“এই বইটির বিস্তারিত পাঠ অভিজ্ঞতা পেতে বইটি কিনে আনলক করুন।”</p>
+    <p style="color:var(--color-accent); font-weight:bold; margin-top:1rem;">🔒 পূর্ণ বইটি পড়তে হলে বইটি কিনে আনলক করুন।</p>
+  `;
+
+  showPage('book-detail');
+}
+
+/* ----- Payment Modal Flow ----- */
+function openPaymentModal(bookId) {
+  const book = BOOKS.find(b => b.id === bookId);
+  if (!book) return;
+  
+  state.currentBook = book;
+  const discPrice = Math.round(book.price * 0.50);
+
+  document.getElementById('pmCover').src = getCoverUrl(book);
+  document.getElementById('pmTitle').textContent = book.title;
+  document.getElementById('pmPrice').textContent = '৳ ' + discPrice;
+  document.getElementById('pmOriginal').textContent = '৳ ' + book.price;
+
+  document.getElementById('paymentStep1').classList.remove('hidden');
+  document.getElementById('paymentStep2').classList.add('hidden');
+  document.getElementById('paymentStep3').classList.add('hidden');
+
+  document.getElementById('paymentModal').classList.add('active');
+}
+
+function closePaymentModal() {
+  document.getElementById('paymentModal').classList.remove('active');
+}
+
+function processPayment() {
+  document.getElementById('paymentStep1').classList.add('hidden');
+  document.getElementById('paymentStep2').classList.remove('hidden');
+
+  setTimeout(() => {
+    document.getElementById('paymentStep2').classList.add('hidden');
+    document.getElementById('paymentStep3').classList.remove('hidden');
+    
+    if (!state.unlockedBooks.includes(state.currentBook.id)) {
+      state.unlockedBooks.push(state.currentBook.id);
+      localStorage.setItem('sb_unlocked', JSON.stringify(state.unlockedBooks));
+    }
+  }, 2500);
+}
+
+function startReadingUnlocked() {
+  closePaymentModal();
+  openBookDetail(state.currentBook.id);
+  showToast('বইটি সফলভাবে আনলক হয়েছে!');
+}
+
+/* ----- Reader Logic (Books vs Rabindra) ----- */
+function openNormalBookReader(bookId) {
+  isRabindraMode = false;
+  const book = BOOKS.find(b => b.id === bookId);
+  
+  showPage('reader');
+  document.getElementById('readerBackBtn').onclick = () => showPage('book-detail');
+  document.getElementById('readerTitle').textContent = book.title;
+  
+  // Show generic text for normal books
+  document.getElementById('readerPage').innerHTML = `
+    <h1>${book.title}</h1>
+    <p>আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে।</p>
+    <p>এই গ্রামে ছিল অপু আর দুর্গা। তাদের বাবা হরিহর দত্ত পূজা-পার্বণে পুরোহিতির কাজ করতেন। মা সর্বজয়া গৃহিণী।</p>
+    <p style="text-align:center; margin-top: 2rem; color: var(--color-muted);">— বইটির সম্পূর্ণ কন্টেন্ট শীঘ্রই যুক্ত হবে —</p>
+  `;
+
+  document.getElementById('pageNum').textContent = `পৃষ্ঠা ১ / ${book.pages}`;
+  document.getElementById('prevPage').style.visibility = 'hidden';
+  document.getElementById('nextPage').style.visibility = 'hidden';
+}
+
 function openRabindraSong(index) {
   currentSongIndex = index;
   isRabindraMode = true;
   const song = RABINDRA_SANGEET[index];
   
-  // Navigate to reader page
   showPage('reader');
   
-  // Update header controls
-  document.querySelector('.reader-back').onclick = () => showPage('rabindra-sangeet');
+  document.getElementById('readerBackBtn').onclick = () => showPage('rabindra-sangeet');
   document.getElementById('readerTitle').textContent = song.title;
   
   renderLyrics(song);
@@ -1027,10 +1212,10 @@ function openRabindraSong(index) {
 function renderLyrics(song) {
   const readerPage = document.getElementById('readerPage');
   
-  // Split lyrics into lines to apply hover/touch effect
+  // Split lyrics into lines
   const lines = song.lyrics.split('\n');
   const linesHTML = lines.map(line => {
-    if (line.trim() === '') return '<br>'; // Preserve empty lines
+    if (line.trim() === '') return '<br>';
     return `<div class="lyric-line">${line}</div>`;
   }).join('');
 
@@ -1044,14 +1229,11 @@ function renderLyrics(song) {
     </div>
   `;
 
-  // Update footer info
   document.getElementById('pageNum').textContent = `গান ${currentSongIndex + 1} / ${RABINDRA_SANGEET.length}`;
-  
-  // Show/Hide prev/next buttons based on index
   document.getElementById('prevPage').style.visibility = currentSongIndex > 0 ? 'visible' : 'hidden';
   document.getElementById('nextPage').style.visibility = currentSongIndex < RABINDRA_SANGEET.length - 1 ? 'visible' : 'hidden';
 
-  // Attach touch event listener for mobile highlight
+  // Touch event for highlight
   const lyricLines = document.querySelectorAll('.lyric-line');
   lyricLines.forEach(line => {
     line.addEventListener('click', function() {
@@ -1060,8 +1242,12 @@ function renderLyrics(song) {
     });
   });
   
-  // Reset scroll position
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ----- Subscribe ----- */
+function subscribe(plan, price) {
+  showToast(`"${plan}" প্ল্যান (৳ ${price}) নির্বাচিত — শীঘ্রই পেমেন্ট পেজ যুক্ত হবে`);
 }
 
 /* ----- Reader Controls ----- */
@@ -1089,24 +1275,12 @@ document.getElementById('fontDecrease').addEventListener('click', () => {
 document.getElementById('prevPage').addEventListener('click', () => {
   if (isRabindraMode && currentSongIndex > 0) {
     openRabindraSong(currentSongIndex - 1);
-  } else {
-    // Normal book navigation logic (placeholder)
-    if (currentPage > 1) {
-      currentPage--;
-      document.getElementById('pageNum').textContent = `পৃষ্ঠা ${currentPage}`;
-    }
   }
 });
 
 document.getElementById('nextPage').addEventListener('click', () => {
   if (isRabindraMode && currentSongIndex < RABINDRA_SANGEET.length - 1) {
     openRabindraSong(currentSongIndex + 1);
-  } else {
-    // Normal book navigation logic (placeholder)
-    if (currentPage < totalBookPages) {
-      currentPage++;
-      document.getElementById('pageNum').textContent = `পৃষ্ঠা ${currentPage}`;
-    }
   }
 });
 
@@ -1311,7 +1485,6 @@ function showToast(msg) {
 
 /* ----- Init ----- */
 function init() {
-  // Ensure BOOKS is defined globally before calling render
   renderFeatured();
   checkSession();
   showPage('home');
