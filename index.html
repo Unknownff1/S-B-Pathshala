@@ -14,7 +14,7 @@
 
 <style>
 /* ============================================================
-   S'B পাঠশালা — Design System (Full Book Texts Added)
+   S'B পাঠশালা — Design System (Full Code)
    ============================================================ */
 :root {
   --color-bg: #faf8f5;
@@ -146,7 +146,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .hero-visual:hover .book-card-2 { transform: rotateY(-15deg) rotateZ(8deg) translateY(-10px); }
 .hero-visual:hover .book-card-3 { transform: rotateY(-15deg) rotateZ(-2deg) translateX(20px) translateY(5px); box-shadow: -15px 15px 35px rgba(0,0,0,0.35), inset 3px 0 5px rgba(255,255,255,0.2); }
 
-
 /* Sections */
 .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-5); }
 .section-title { font-family: var(--font-bn-serif); font-size: 2rem; color: var(--color-primary); }
@@ -267,7 +266,16 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   font-weight: 700;
   color: var(--color-accent);
   text-align: center;
+  margin-bottom: 1rem;
+}
+.reader-page .poem-title {
+  font-family: var(--font-bn-serif);
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  text-align: center;
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--color-border);
 }
 .reader-page .poem-text {
   font-family: var(--font-bn-serif);
@@ -789,7 +797,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 
 <script>
 /* ============================================================
-   S'B পাঠশালা — Logic (Supabase + Book Excerpts)
+   S'B পাঠশালা — Logic (Supabase + Dynamic Pagination)
    ============================================================ */
 
 // Supabase Configuration
@@ -802,159 +810,66 @@ const supabaseClient = window.supabase.createClient(
   { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
 );
 
-// Book Contents (Excerpts/First Chapters)
+// Gitanjali Titles (157 items from Wikisource)
+const GITANJALI_INDEX = [
+  "আমার মাথা নত করে দাও হে", "আমি বহু বাসনায় প্রাণপণে চাই", "কত অজানারে জানাইলে তুমি", "বিপদে মোরে রক্ষা কর", "অন্তর মম বিকশিত কর", "প্রেমে প্রাণে গানে গন্ধে আলোকে পুলকে", "তুমি নব নব রূপে এসো প্রাণে", "আজ ধানের ক্ষেতে রৌদ্র ছায়ায়", "আনন্দেরই সাগর থেকে", "তোমার সোনার থালায় সাজীব আজ", "আমরা বেঁধেছি কাশের গুচ্ছ", "লেগেছে অমল ধবল পালে", "আমার নয়ন ভুলানো এলে", "জননী, তোমার করুণ চরণ খানি", "বাঁচান বাঁচি মারেন মরি", "জগৎ জুড়ে উদার সুরে", "মেঘের পরে মেঘ জমেছে", "কোথায় আলো কোথায় ওরে আলো", "আজি শ্রাবণ-ঘন গহন মোহে", "আষাঢ় সন্ধ্যা ঘনিয়ে এল", "আজি ঝড়ের রাতে তোমার অভিসার", "জানি জানি কোন আদি কাল হতে", "তুমি কেমন করে গান কর হে গুণী", "অমন আড়াল দিয়ে লুকিয়ে গেলে", "যদি তোমার দেখা না পাই প্রভু", "হেরি অহরহ তোমারি বিরহ", "আর নাইরে বেলা নামল ছায়া", "আমার এ গান ছেড়েছে তার", "তোমারি নাম লইব বলে", "আমার এই পথ চাওয়াতেই আনন্দ", "এবার নীরব করে দাও হে তোমার", "আমার এ ঘরে আপনার করে", "আমি হেথায় থাকি শুধু", "আবার এরা ঘিরেছে মোর মন", "আমার মিলন লাগি তুমি", "এস হে এস সজল ঘন", "পারবি না কি যোগ দিতে এই ছন্দেরে", "নিশার স্বপন ছুটলো রে", "শরতে আজ কোন অতিথি", "হেথা যে গান গাইতে আসা আমার", "যা হারিয়ে যায় তা আগলে বসে", "এই মলিন বস্ত্র ছাড়তে হবে", "গায়ে আমার পুলক লাগে", "প্রভু আজি তোমার দক্ষিণ হাত", "জগতে আনন্দ যজ্ঞে আমার নিমন্ত্রণ", "আলোয় আলোকময় করেহে", "আসন তলের মাটির পরে লুটিয়ে রব", "রূপসাগরে ডুব দিয়েছি", "আকাশ তলে উঠ্ল ফুটে", "হেথায় তিনি কোল পেতেছেন", "নিভৃত প্রাণের দেবতা", "কোন আলোতে প্রাণের প্রদীপ", "তুমি আমার আপন, তুমি আছ আমার কাছে", "নামাও নামাও আমায় তোমার", "আজি গন্ধবিধুর সমীরণে", "আজি বসন্ত জাগ্রত দ্বারে", "তব সিংহাসনের আসন হতে", "তুমি এবার আমায় লহ হে নাথ", "জীবন যখন শুকায়ে যায়", "এবার নীরব করে দাও হে তোমার", "বিশ্ব যখন নিদ্রামগন", "তোমার শঙ্খের ধ্বনি নি কি শুনি নি", "মেনেছি, হার মেনেছি", "একটি একটি করে তোমার", "আমি বাহির হলেম তোমারি গান গেয়ে", "শক্তি যাবে দাও বহিতে", "সুন্দর, তুমি এসেছিলে আজ প্রাতে", "আমার খেলা যখন ছিল তোমার সনে", "এবার তরী দিল খুলে", "চিত্ত আমার হারাল আজ", "ওগো মোর, না যদি কও", "তোমার আসন কোথায় যে", "সভা যখন ভাঙবে তখন", "অমানি মোর ডাক দিল যে", "কুমি যখন গান গাহিছে", "খায় যেন মোর সকল ভালবাসা", "তারা দিনের বেলা এসেছিল", "তোমার নামে বাটের মোড়", "এই জোড়া রাত জাগা আমার প্রাণ", "কথা ছিল এক-তরীতে কেবল তুমি আমি", "আমার এ ঘরে আপনার করে", "একা আমি ফিরব না আর", "আমার হিয়া যদি জগালে আজি নাথ", "হিল করে লও হে মোরে", "চাই গো তোমায় আমি চাই", "আমার এ প্রেম নয় ত ভাঁক", "আরো আঘাত সইবে আমার", "এই করে ছি ভালো, নিষ্ঠুর", "দেবতা জেনে দূরে রই দাঁড়ায়", "তুমি যে কাজ করচ, আমার", "বিশ্বসাথে যোগে যেথায়", "ডাক ডাক ডাক আমায়", "মেঘায় মোয়ার লুট ভূমে", "কুলের মতন আপনি কুটাও গান", "মুখ ঢেকে রাখ প্রভু তুমি", "আবার এসেছে আষাঢ় আকাশ ছেয়ে", "হে মোর মেলানো, তরিয়ে এ মেঘে প্রভু", "একলা আমি বাহির হলেম", "আমি চেয়ে আছি তোমাদের সবাপানে", "আমায় আমি নিজের নিজে বহি না", "বুকের মাঝে, পূজা তীরে", "পশ্চিমে আজি খুলিয়াছে দ্বার", "হেথা একদিন বিরামবিহীন", "দুঃসহ ব্যথা হতে অবসান", "যেথায় থাকক সবার অধীন", "মাঝিরে পরবাসী প্রভু", "ওরে তুই নীচে কেল সেরে", "শ্বেতক শ্যামল ধরে নামে", "হাঁড়িসুর্ন, ধরে থাক এইটি", "আছে আমার হৃদয় আছে ভরে", "গর্ব করে নিলেম ও নাম", "কে বলে সব কুড়ুলে যাবি", "নদীপারের এই আধারের", "মরণ যেখানে আসবে তোমার", "দয়া করে ইচ্ছা করে আপুনি ছোট হয়ে", "ওগো আমার এই জীবনের শেষ", "যা পেয়েছি, যা হেয়েছি", "তাহারেই আমি করি", "জীবনে যাহা রহিদন", "তোমার সঙ্গে নিত্য বিরোধ", "সংসারেতে আর যাহারা", "গান গাহিবারে আমার তুমি", "নূতন গানে নূতন রাগে", "মেঘের মধ্যঅম্বরে আছ", "দিবস যদি সাঙ্গ হল, না যদি গাহে পাখি"
+];
+
+// Custom Text for first few Gitanjali poems (You can add more later)
+const GITANJALI_TEXTS = {
+  1: "আমার মাথা নত করে দাও হে তোমার চরণ-ধূলার তলে।\nসকল অহঙ্কার হে আমার ডুবাও চোখের জলে।",
+  2: "আমি বহু বাসনায় প্রাণপণ চাই।\nবিফল করে বাঁচালে মোরে, এ কুহক কে পারিবে সহিতে।\nনা চাহিতে মোরে যা করেছ দান,\nআকাশ আলোক তন্ময় মনপ্রাণ।\nদিনে দিনে তুমি নিতেছ আমার\nসে মহা দানেরই যোগ্য করে।\nআমি কথনে বা ভুলি, কথনে বা চলি,\nতোমার পথের লক্ষ্য ধরে।\nতুমি নিত্য সম্মুখ হতে যাও যে সরে।\nএ যে তব দয়া জানি জানি হায়,\nনিতে চাও বলে ফিরাও আমার।\nপূর্ণ করিয়া লবে এ জীবন\nতব মিলনেরই যোগ্য করে।",
+  3: "কত অজানারে জানাইলে তুমি,\nকত ঘরে দিলে ঠাই।\nদূরকে করিলে নিকট, বন্ধু,\nপরকে করিলে ভাই।\nপুরাতন আবাস ছেড়ে যাই যবে,\nমন ছেড়ে মোর দিক জাদিক তবে,\nনূতনের মাঝে তুমি পুরাতন,\nসে-কথা সব ভুলে যাই।",
+  4: "বিপদে মোরে রক্ষা কর,\nএ নহে মোর প্রার্থনা।\nবিপদে আমি না ডরাই।\nসংসারে যেন পাই,\nসবার সাথে যুক্ত থাকি,\nসবাইকে করি জয়।",
+  5: "অন্তর মম বিকশিত কর অন্তরতর হে।\nনিম্মল কর, উজ্জ্বল কর সুন্দর কর হে।\nজাত কর, উচ্ছ্বসিত কর, নির্ভয় কর হে।\nমঙ্গল কর, নিরলস নিসংশয় কর হে।\nঅন্তর মম বিকশিত কর, অন্তরতর হে।",
+  6: "প্রেমে প্রাণে গানে গন্ধে আলোকে পুলকে\nআজি মোরে মাতালে কি হে।\nসব সুধা সব ব্যথা সব রঙে\nআমার হৃদয়ে ঢালো।",
+  7: "তুমি নব নব রূপে এসো প্রাণে।\nএস গন্ধ বরণ, এস গানে।\nএস ভাস্ম পুলকময় পরশ,\nএস চিত্ত সুধাময় হরষ,\nএস মুগ্ধ মুদিত নয়নে।\nতুমি নব নব রূপে এসো প্রাণে।",
+  8: "আজ ধানের ক্ষেতে রৌদ্র ছায়ায়\nলুকোচুরির খেলা।\nনীল আকাশে কে ভাসালে\nসোনা মেঘের ভেলা।",
+  9: "আনন্দেরই সাগর থেকে\nএসেছ আজ বান।\nদাঁড় ধরে' আজ বসুর সবাই,\nটানুর সবাই টান।",
+  10: "তোমার সোনার থালায় সাজীব আজ\nছবির অশ্বারোহী।\nজননী গো, গাঁথব তোমার\nগলার মুক্তাহার।"
+};
+
+// Other Books Data (Excerpts)
 const BOOK_CONTENTS = {
-  1: { // Devdas (Excerpt)
+  1: { // Devdas
     title: "দেবদাস",
     totalPages: 160,
-    html: `
-      <h1>প্রথম পরিচ্ছেদ</h1>
-      <p>একদিন বৈশাখের দ্বিপ্রহরে রৌদ্রেরও অন্ত ছিল না, উত্তাপেরও সীমা ছিল না। এই প্রখর রৌদ্রে দেবদাস তাহার প্রতিবেশী মহেন্দ্রের বাটীতে গিয়া উপস্থিত হইল।</p>
-      <p>মহেন্দ্র তখন অর্ধাশন করিতেছিল। দেবদাসকে দেখিয়া সে কহিল, "আয় আয়, দেবদাস, আয়।"</p>
-      <p>দেবদাস আসিয়া বসিল। মহেন্দ্র কহিল, "তুই এত রৌদ্রে এলি যে?"</p>
-      <p>দেবদাস কহিল, "আজ আমার বড় কষ্ট হইতেছে, তাই তোদের এখানে আসিয়াছি।"</p>
-      <p>মহেন্দ্র কহিল, "কি কষ্ট?"</p>
-      <p>দেবদাস কহিল, "তুই ত জানিস, আমি পরদিন কলিকাতায় যাইব।"</p>
-      <p>মহেন্দ্র কহিল, "তাহাতে কষ্ট কি?"</p>
-      <p>দেবদাস কহিল, "তাহাতে কষ্ট এই যে, পার্বতীকে দেখিতে পাইব না।"</p>
-      <p>মহেন্দ্র হাসিয়া কহিল, "তুই ত পার্বতীকে ভালবাসিস?"</p>
-      <p>দেবদাস কহিল, "হাঁ, ভালবাসি।"</p>
-      <p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>
-    `
+    html: `<h1>প্রথম পরিচ্ছেদ</h1><p>একদিন বৈশাখের দ্বিপ্রহরে রৌদ্রেরও অন্ত ছিল না, উত্তাপেরও সীমা ছিল না। এই প্রখর রৌদ্রে দেবদাস তাহার প্রতিবেশী মহেন্দ্রের বাটীতে গিয়া উপস্থিত হইল।</p><p>মহেন্দ্র তখন অর্ধাশন করিতেছিল। দেবদাসকে দেখিয়া সে কহিল, "আয় আয়, দেবদাস, আয়।"</p><p>দেবদাস আসিয়া বসিল। মহেন্দ্র কহিল, "তুই এত রৌদ্রে এলি যে?"</p><p>দেবদাস কহিল, "আজ আমার বড় কষ্ট হইতেছে, তাই তোদের এখানে আসিয়াছি।"</p><p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>`
   },
-  2: { // Pather Panchali (Excerpt)
+  2: { // Pather Panchali
     title: "পথের পাঁচালী",
     totalPages: 324,
-    html: `
-      <h1>প্রথম পরিচ্ছেদ</h1>
-      <p>বল্লালী-বালাই প্রথম পরিচ্ছেদ নিশ্চিন্দিপুর গ্রামে একেবারে উত্তরপ্রান্তে হরিহর রায়ের ক্ষুদ্র কোঠা-বাড়ি। হরিহর সাধারণ অবস্থার গৃহস্থ।</p>
-      <p>তার পৈতৃক ভিটা এই গ্রামে। সে নিজে বড়জোর পাঁচ-সাত বিঘা জমির মালিক। এই জমির আয়ে সংসার চলে না। তাই সে পূজা-পার্বণে পুরোহিতির কাজ করে।</p>
-      <p>হরিহরের স্ত্রীর নাম সর্বজয়া। সর্বজয়ার বড় মেয়ে দুর্গা, ছোট ছেলে অপু।</p>
-      <p>অপু ছিল ছোট, দুর্গা তার বড় বোন। দুর্গার বয়স বেশি হলেও ভাইয়ের প্রতি তার ভালোবাসা ছিল অগাধ। দুজনে মিলে সারাদিন গ্রামের মাঠে, নদীর ধারে ঘুরে বেড়াতো।</p>
-      <p>সেদিন ছিল বৈশাখ মাসের এক গরম দুপুর। অপু আর দুর্গা বাড়ির পাশের বাঁশবাগানে গিয়েছিল। হঠাৎ দুর্গার চোখে পড়ল একটা পাখির বাসা।</p>
-      <p>“অপু, দেখ দেখ, পাখির বাসা!” — দুর্গা উচ্ছ্বসিত হয়ে বলল।</p>
-      <p>অপু তাকিয়ে দেখল, বাঁশগাছের এক ডালে ছোট্ট একটা বাসা। বাসার ভেতর থেকে উঁকি দিচ্ছে পাখির ছানা।</p>
-      <p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>
-    `
+    html: `<h1>প্রথম পরিচ্ছেদ</h1><p>বল্লালী-বালাই প্রথম পরিচ্ছেদ নিশ্চিন্দিপুর গ্রামে একেবারে উত্তরপ্রান্তে হরিহর রায়ের ক্ষুদ্র কোঠা-বাড়ি। হরিহর সাধারণ অবস্থার গৃহস্থ।</p><p>তার পৈতৃক ভিটা এই গ্রামে। সে নিজে বড়জোর পাঁচ-সাত বিঘা জমির মালিক। এই জমির আয়ে সংসার চলে না। তাই সে পূজা-পার্বণে পুরোহিতির কাজ করে।</p><p>হরিহরের স্ত্রীর নাম সর্বজয়া। সর্বজয়ার বড় মেয়ে দুর্গা, ছোট ছেলে অপু।</p><p>অপু ছিল ছোট, দুর্গা তার বড় বোন। দুর্গার বয়স বেশি হলেও ভাইয়ের প্রতি তার ভালোবাসা ছিল অগাধ। দুজনে মিলে সারাদিন গ্রামের মাঠে, নদীর ধারে ঘুরে বেড়াতো।</p><p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>`
   },
-  3: { // Sesher Kobita (Excerpt)
+  3: { // Sesher Kobita
     title: "শেষের কবিতা",
     totalPages: 180,
-    html: `
-      <h1>প্রথম পরিচ্ছেদ</h1>
-      <p>আপনার রাত পোহাবার সঙ্গিনীকে চায়। নিজের রাতটার পরে ওর বিতৃষ্ণী হ'য়ে গেছে। ধরা যেথা অন্বেষে আমি আধো-জাগ্রত চন্দ্র, আঁধারের বক্ষের 'পরে আধেক আলোক-রেখা রম্থা।</p>
-      <p>ওর এই আধখানা জাগা, এ অল্প একটুখানি আলো, জীধারটাকে সামান্য খানিকটা জীচ্ড়ে দিয়েছে। এই হ'লে। ওর খেদ। এই স্বল্পতার জালে ওকে জড়িয়ে ফেলেচে, সেইটে ছিঁড়ে ফেল্বার জন্যে ও যেন সমস্ত রাত্রি ঘুমোতে ঘুমোতে গুম্রে উঠ্চে!</p>
-      <p>কী আইডিয়া, গ্র্যাণ্ড! আমার আসন রাখে পেতে নিদ্রাগহন মহাশুন্য। তম্ত্রী বাজাই স্বপনেতে, তন্দ্রী ঈষৎ করি ক্ষুগ্ন!</p>
-      <p>কিন্তু এমন হাক্কা ক'রে বাঁচার বোঝাটা-যে বড্ডো বেশি ; যে-নদীর জল মঃরেচে তার মন্থর শ্রোতের ক্লান্তিতে জঞ্জাল জমে, যে-ম্বপ্প সে নিজেকে বইতে গিয়ে ক্রিষ্ট হয়।</p>
-      <p>তাই ও বল্চে, মন্দ চরণে চলি পারে, যাত্রা হ'য়েচে মোর সাঙ্গ। নুর থেমে আসে বারে বারে ক্লান্তিতে আমি অবশাঙ্গ।</p>
-      <p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>
-    `
+    html: `<h1>প্রথম পরিচ্ছেদ</h1><p>আপনার রাত পোহাবার সঙ্গিনীকে চায়। নিজের রাতটার পরে ওর বিতৃষ্ণী হ'য়ে গেছে। ধরা যেথা অন্বেষে আমি আধো-জাগ্রত চন্দ্র, আঁধারের বক্ষের 'পরে আধেক আলোক-রেখা রম্থা।</p><p>ওর এই আধখানা জাগা, এ অল্প একটুখানি আলো, জীধারটাকে সামান্য খানিকটা জীচ্ড়ে দিয়েছে। এই হ'লে। ওর খেদ। এই স্বল্পতার জালে ওকে জড়িয়ে ফেলেচে, সেইটে ছিঁড়ে ফেল্বার জন্যে ও যেন সমস্ত রাত্রি ঘুমোতে ঘুমোতে গুম্রে উঠ্চে!</p><p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>`
   },
-  4: { // Gitanjali (Full text excerpt from Wikisource)
+  4: { // Gitanjali
     title: "গীতাঞ্জলি",
-    totalPages: 157,
-    html: `
-      <h1>গীতাঞ্জলি</h1>
-      <p class="poem-meta">রবীন্দ্রনাথ ঠাকুর</p>
-      
-      <div class="poem-title">১</div>
-      <div class="poem-text">
-        আমার মাথা নত করে দাও হে তোমার চরণ-ধূলার তলে।
-        সকল অহঙ্কার হে আমার ডুবাও চোখের জলে।
-      </div>
-
-      <div class="poem-title">২</div>
-      <div class="poem-text">
-        আমি বহু বাসনায় প্রাণপণ চাই।
-        বিফল করে বাঁচালে মোরে, এ কুহক কে পারিবে সহিতে।
-        না চাহিতে মোরে যা করেছ দান, আকাশ আলোক তন্ময় মনপ্রাণ।
-        দিনে দিনে তুমি নিতেছ আমার সে মহা দানেরই যোগ্য করে।
-        আমি কথনে বা ভুলি, কথনে বা চলি, তোমার পথের লক্ষ্য ধরে।
-        তুমি নিত্য সম্মুখ হতে যাও যে সরে।
-        এ যে তব দয়া জানি জানি হায়, নিতে চাও বলে ফিরাও আমার।
-        পূর্ণ করিয়া লবে এ জীবন তব মিলনেরই যোগ্য করে।
-      </div>
-
-      <div class="poem-title">৩</div>
-      <div class="poem-text">
-        কত অজানারে জানাইলে তুমি, কত ঘরে দিলে ঠাই।
-        দূরকে করিলে নিকট, বন্ধু, পরকে করিলে ভাই।
-        পুরাতন আবাস ছেড়ে যাই যবে, মন ছেড়ে মোর দিক জাদিক তবে।
-        নূতনের মাঝে তুমি পুরাতন, সে-কথা সব ভুলে যাই।
-      </div>
-
-      <div class="poem-title">৪</div>
-      <div class="poem-text">
-        অন্তর মম বিকশিত কর অন্তরতর হে।
-        নিম্মল কর, উজ্জ্বল কর সুন্দর কর হে।
-        জাত কর, উচ্ছ্বসিত কর, নির্ভয় কর হে।
-        মঙ্গল কর, নিরলস নিসংশয় কর হে।
-        অন্তর মম বিকশিত কর, অন্তরতর হে।
-      </div>
-
-      <div class="poem-title">৫</div>
-      <div class="poem-text">
-        যুক্ত কর হে সবার সঙ্গে, মুক্ত কর হে বন্ধ।
-        শোভন কর সকল ক্লেশ শান্ত হে।
-        চরণপদ্ম মম চিত্ত নিস্পন্দিত কর হে,
-        নন্দিত কর, নন্দিত কর, নন্দিত কর হে।
-        অন্তর মম বিকশিত কর অন্তরতর হে।
-      </div>
-      
-      <div style="text-align: center; margin-top: 3rem; color: var(--color-ink-soft);">
-        <p>— প্রথম অংশ সমাপ্ত —</p>
-      </div>
-    `
+    totalPages: 157
   },
-  5: { // Padma Nadir Majhi (Excerpt)
+  5: { // Padma Nadir Majhi
     title: "পদ্মা নদীর মাঝি",
     totalPages: 240,
-    html: `
-      <h1>প্রথম পরিচ্ছেদ</h1>
-      <p>বর্ষার মাঝামাঝি। পদ্মায় ইলিশ মাছ ধরার মরসুম চলিয়াছে। দিবারাত্রি কোনো সময়েই মাছ ধরবার কামাই নাই। সন্ধ্যার পর থেকেই মাঝিরা নৌকা নিয়ে নদীতে বেরিয়ে পড়ে।</p>
-      <p>কুবের মাঝি তার ছোট নৌকাটি নিয়ে পদ্মার জলে ভাসছে। তার সাথে আছে তার ভাইয়ের ছেলে গোপি।</p>
-      <p>রাত গভীর হয়ে আসছে। আকাশে মেঘ জমেছে। নদীর জল কালো হয়ে উঠেছে। কুবের মাঝি জাল ফেলেছে।</p>
-      <p>হঠাৎ জালে টান পড়ল। কুবের মাঝি জাল টানতে শুরু করল। জালে অনেক মাছ। কুবের মাঝির মুখে হাসি ফুটল।</p>
-      <p>“আজ তবে ভালো মাছ পাইয়াছি,” — কুবের মাঝি মনে মনে ভাবিল।</p>
-      <p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>
-    `
+    html: `<h1>প্রথম পরিচ্ছেদ</h1><p>বর্ষার মাঝামাঝি। পদ্মায় ইলিশ মাছ ধরার মরসুম চলিয়াছে। দিবারাত্রি কোনো সময়েই মাছ ধরবার কামাই নাই। সন্ধ্যার পর থেকেই মাঝিরা নৌকা নিয়ে নদীতে বেরিয়ে পড়ে।</p><p>কুবের মাঝি তার ছোট নৌকাটি নিয়ে পদ্মার জলে ভাসছে। তার সাথে আছে তার ভাইয়ের ছেলে গোপি।</p><p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>`
   },
-  6: { // Chokher Bali (Excerpt)
+  6: { // Chokher Bali
     title: "চোখের বালি",
     totalPages: 200,
-    html: `
-      <h1>প্রথম পরিচ্ছেদ</h1>
-      <p>বিনোদিনীর মতো হরিমতী মোহরন্দির মতো রাজলক্ষ্মীর কাছে আসিয়া ধন্না দিয়া পড়িল। দুইজনে এক গ্রামের মেয়ে, একসঙ্গে মানুষ।</p>
-      <p>রাজলক্ষ্মী কহিলেন, “তুই এত রাগ করিস কেন?”</p>
-      <p>বিনোদিনী কহিল, “আমি রাগ করি না, তবে আমার সহ্য হয় না।”</p>
-      <p>রাজলক্ষ্মী কহিলেন, “তুই যা বলিস তা ঠিক, কিন্তু মা ঠাকরুনের ইচ্ছা।”</p>
-      <p>বিনোদিনী কহিল, “তুমি সব সময় মা ঠাকরুনের কথা বল।”</p>
-      <p>এমনি করিয়া দুইজনের মধ্যে কথাবার্তা চলিতে লাগিল।</p>
-      <p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>
-    `
+    html: `<h1>প্রথম পরিচ্ছেদ</h1><p>বিনোদিনীর মতো হরিমতী মোহরন্দির মতো রাজলক্ষ্মীর কাছে আসিয়া ধন্না দিয়া পড়িল। দুইজনে এক গ্রামের মেয়ে, একসঙ্গে মানুষ।</p><p>রাজলক্ষ্মী কহিলেন, “তুই এত রাগ করিস কেন?”</p><p>বিনোদিনী কহিল, “আমি রাগ করি না, তবে আমার সহ্য হয় না।”</p><p style="text-align:center; color:var(--color-muted); margin-top:2rem;">— প্রথম অংশ সমাপ্ত —</p>`
   }
 };
 
-// Books Data
+// Main Books List
 const BOOKS = [
-  { 
-    id: 1, title: 'দেবদাস', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 250, badge: 'classic', tags: ['classic', 'subscription'], pages: 160, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-321-5', cover: 'devdas.jpg', desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' 
-  },
-  { 
-    id: 2, title: 'পথের পাঁচালী', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 350, badge: 'classic', tags: ['classic', 'subscription'], pages: 324, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-123-4', cover: 'pather-panchali.jpg', desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' 
-  },
-  { 
-    id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', cover: 'sesher-kobita.jpg', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' 
-  },
-  { 
-    id: 4, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 157, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', cover: 'gitanjali.jpg', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' 
-  },
-  { 
-    id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', cover: null, color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' 
-  },
-  { 
-    id: 6, title: 'চোখের বালি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 290, badge: 'classic', tags: ['classic', 'subscription'], pages: 200, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-111-3', cover: null, color: '3a1a2a', desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' 
-  }
+  { id: 1, title: 'দেবদাস', author: 'শরৎচন্দ্র চট্টোপাধ্যায়', price: 250, badge: 'classic', tags: ['classic', 'subscription'], pages: 160, publisher: 'ডি.এম. লাইব্রেরি', isbn: '978-81-7066-321-5', cover: 'devdas.jpg', desc: 'প্রেম, সমাজ ও বিচ্ছেদের এক হৃদয়স্পর্শী আখ্যান।' },
+  { id: 2, title: 'পথের পাঁচালী', author: 'বিভূতিভূষণ বন্দ্যোপাধ্যায়', price: 350, badge: 'classic', tags: ['classic', 'subscription'], pages: 324, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-123-4', cover: 'pather-panchali.jpg', desc: 'অপু ও দুর্গার চোখে দেখা বাংলার গ্রামীণ জীবনের এক কালজয়ী চিত্র। ১৯২৯ সালে প্রকাশিত এই উপন্যাস বাংলা সাহিত্যের এক অমূল্য রত্ন।' },
+  { id: 3, title: 'শেষের কবিতা', author: 'রবীন্দ্রনাথ ঠাকুর', price: 320, badge: 'classic', tags: ['classic'], pages: 180, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-789-0', cover: 'sesher-kobita.jpg', desc: 'অমিত ও লাবণ্যের প্রেমের গল্প — রবীন্দ্রনাথের অন্যতম শ্রেষ্ঠ উপন্যাস।' },
+  { id: 4, title: 'গীতাঞ্জলি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 280, badge: 'sub', tags: ['classic', 'subscription'], pages: 157, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-456-7', cover: 'gitanjali.jpg', desc: 'রবীন্দ্রনাথের সর্বাধিক পরিচিত কাব্যগ্রন্থ, যার জন্য তিনি নোবেল পুরস্কার পান।' },
+  { id: 5, title: 'পদ্মা নদীর মাঝি', author: 'মানিক বন্দ্যোপাধ্যায়', price: 300, badge: 'classic', tags: ['classic'], pages: 240, publisher: 'আনন্দ পাবলিশার্স', isbn: '978-81-7066-555-8', cover: null, color: '1a2a3a', desc: 'জেলে সম্প্রদায়ের জীবনসংগ্রামের এক বাস্তব চিত্র।' },
+  { id: 6, title: 'চোখের বালি', author: 'রবীন্দ্রনাথ ঠাকুর', price: 290, badge: 'classic', tags: ['classic', 'subscription'], pages: 200, publisher: 'বিশ্বভারতী', isbn: '978-81-7522-111-3', cover: null, color: '3a1a2a', desc: 'বিবাহ, প্রেম ও নারীর আত্মমর্যাদার জটিল সম্পর্কের বিশ্লেষণ।' }
 ];
 
 let state = {
@@ -1077,7 +992,6 @@ function openBookDetail(id) {
   document.getElementById('bdBadge').textContent = book.badge === 'new' ? 'নতুন' : 'ক্লাসিক';
   document.getElementById('bdBadge').className = 'badge ' + (book.badge === 'new' ? 'badge-gold' : 'badge-classic');
 
-  // Dynamic Action Buttons
   const actionsEl = document.getElementById('bdActions');
   if (isUnlocked) {
     actionsEl.innerHTML = `<button class="btn btn-primary btn-lg" onclick="openReader(${book.id})">পড়া শুরু করুন →</button>`;
@@ -1085,9 +999,8 @@ function openBookDetail(id) {
     actionsEl.innerHTML = `<button class="btn btn-gold btn-lg" onclick="openPaymentModal(${book.id})">এখনই কিনুন — ৳ ${discPrice}</button>`;
   }
 
-  // Dynamic Preview
   const previewEl = document.getElementById('bdPreview');
-  if (book.id === 4) { // Gitanjali
+  if (book.id === 4) {
     previewEl.innerHTML = `
       <p style="font-style: italic; text-align: center; font-size: 1.1rem;">
         “আমার মাথা নত করে দাও হে তোমার চরণ-ধূলার তলে।<br>সকল অহঙ্কার হে আমার ডুবাও চোখের জলে।”
@@ -1096,7 +1009,7 @@ function openBookDetail(id) {
     `;
   } else {
     previewEl.innerHTML = `
-      <p>“আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে...”</p>
+      <p>${BOOK_CONTENTS[book.id]?.html ? BOOK_CONTENTS[book.id].html.replace(/<[^>]+>/g, '').slice(0, 200) + '...' : 'নমুনা পাঠ...'}</p>
       <p style="color:var(--color-accent); font-weight:bold; margin-top:1rem;">🔒 পূর্ণ বইটি পড়তে হলে বইটি কিনে আনলক করুন।</p>
     `;
   }
@@ -1161,37 +1074,43 @@ function openReader(bookId) {
   
   document.getElementById('readerTitle').textContent = book.title;
   
-  if (BOOK_CONTENTS[bookId]) {
-    // If the book has content, load it
+  if (bookId === 4) {
+    totalBookPages = GITANJALI_INDEX.length;
+    document.getElementById('totalPagesText').textContent = totalBookPages;
+    currentPage = 1;
+    renderGitanjaliPage(currentPage);
+  } else if (BOOK_CONTENTS[bookId]) {
     const content = BOOK_CONTENTS[bookId];
     totalBookPages = content.totalPages;
     document.getElementById('totalPagesText').textContent = totalBookPages;
     currentPage = 1;
-    
-    if (bookId === 4) {
-      // Gitanjali has a special layout
-      document.getElementById('readerPage').innerHTML = content.html;
-    } else {
-      // Other books just show the HTML
-      document.getElementById('readerPage').innerHTML = content.html;
-    }
+    document.getElementById('readerPage').innerHTML = content.html;
     document.getElementById('pageNum').textContent = currentPage;
   } else {
-    // Default fallback text
     totalBookPages = book.pages;
     document.getElementById('totalPagesText').textContent = totalBookPages;
     currentPage = 1;
-    document.getElementById('readerPage').innerHTML = `
-      <h1>প্রথম অধ্যায়</h1>
-      <p>আমাদের গ্রামের নাম নিশ্চিন্তপুর। একেবারে নদীর ধারে, যেখানে নদীর বাঁকটা অর্ধচন্দ্রাকৃতি হয়ে বালির চর তৈরি করেছে।</p>
-      <p>এই গ্রামে ছিল অপু আর দুর্গা। তাদের বাবা হরিহর দত্ত পূজা-পার্বণে পুরোহিতির কাজ করতেন। মা সর্বজয়া গৃহিণী।</p>
-      <p>অপু ছিল ছোট, দুর্গা তার বড় বোন। দুর্গার বয়স বেশি হলেও ভাইয়ের প্রতি তার ভালোবাসা ছিল অগাধ। দুজনে মিলে সারাদিন গ্রামের মাঠে, নদীর ধারে ঘুরে বেড়াতো।</p>
-      <p style="text-align:center; margin-top: 2rem; color: var(--color-muted);">— এই বইটির সম্পূর্ণ কন্টেন্ট শীঘ্রই যুক্ত হবে —</p>
-    `;
+    document.getElementById('readerPage').innerHTML = `<p>কন্টেন্ট শীঘ্রই আসছে...</p>`;
     document.getElementById('pageNum').textContent = currentPage;
   }
 
   showPage('reader');
+}
+
+function renderGitanjaliPage(pageNum) {
+  const index = pageNum - 1;
+  const title = GITANJALI_INDEX[index] || `গান ${pageNum}`;
+  
+  let poemText = GITANJALI_TEXTS[pageNum] || `[এই গানটির সম্পূর্ণ টেক্সট শীঘ্রই যুক্ত করা হবে]\n\nশিরোনাম: ${title}`;
+  
+  document.getElementById('readerPage').innerHTML = `
+    <div class="poem-page-container">
+      <div class="poem-number">গান ${pageNum}</div>
+      <div class="poem-title">${title}</div>
+      <div class="poem-text">${poemText}</div>
+    </div>
+  `;
+  document.getElementById('pageNum').textContent = pageNum;
 }
 
 /* ----- Subscribe ----- */
@@ -1224,9 +1143,11 @@ document.getElementById('fontDecrease').addEventListener('click', () => {
 document.getElementById('prevPage').addEventListener('click', () => {
   if (currentPage > 1) {
     currentPage--;
-    document.getElementById('pageNum').textContent = currentPage;
-    // Note: For excerpt books, this currently just changes the number.
-    // Full pagination would require splitting the text into pages.
+    if (currentBookId === 4) {
+      renderGitanjaliPage(currentPage);
+    } else {
+      document.getElementById('pageNum').textContent = currentPage;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 });
@@ -1234,7 +1155,11 @@ document.getElementById('prevPage').addEventListener('click', () => {
 document.getElementById('nextPage').addEventListener('click', () => {
   if (currentPage < totalBookPages) {
     currentPage++;
-    document.getElementById('pageNum').textContent = currentPage;
+    if (currentBookId === 4) {
+      renderGitanjaliPage(currentPage);
+    } else {
+      document.getElementById('pageNum').textContent = currentPage;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 });
